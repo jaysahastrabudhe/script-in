@@ -1,5 +1,14 @@
 {
+  "name": "script-in",
+  "version": "1.0.0",
+  "description": "script.in — Freelance web developer portfolio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
   "dependencies": {
+    "express": "^4.18.2",
     "resend": "^3.5.0"
   }
 }
