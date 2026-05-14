@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>script.in — Freelance Web Development</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080808;
+      --bg2: #0f0f0f;
+      --bg3: #161616;
+      --surface: #1a1a1a;
+      --border: #2a2a2a;
+      --border-bright: #3a3a3a;
+      --text: #f0ebe0;
+      --text-dim: #8a8070;
+      --text-muted: #4a4540;
+      --accent: #e8c547;
+      --accent2: #5cf4a0;
+      --accent-dim: rgba(232, 197, 71, 0.15);
+      --red: #ff5f57;
+      --mono: 'JetBrains Mono', monospace;
+      --serif: 'DM Serif Display', serif;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CUSTOM CURSOR */
+    .cursor {
+      position: fixed;
+      width: 8px; height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s, background 0.2s;
+      mix-blend-mode: difference;
+    }
+    .cursor-ring {
+      position: fixed;
+      width: 32px; height: 32px;
+      border: 1px solid rgba(232,197,71,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: all 0.12s ease;
+    }
+    body:has(a:hover) .cursor, body:has(button:hover) .cursor { width: 16px; height: 16px; }
+    body:has(a:hover) .cursor-ring, body:has(button:hover) .cursor-ring { width: 48px; height: 48px; border-color: rgba(232,197,71,0.8); }
+
+    /* NOISE TEXTURE OVERLAY */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9990;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid transparent;
+      transition: all 0.4s;
+      backdrop-filter: blur(0px);
+    }
+    nav.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(8,8,8,0.85);
+      backdrop-filter: blur(16px);
+    }
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 10px 20px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: none;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .nav-cta:hover { background: var(--text); }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 1px;
+      background: var(--text);
+      transition: all 0.3s;
+    }
+
+    /* SECTIONS */
+    section { position: relative; }
+
+    /* HERO */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 48px 80px;
+      overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(232,197,71,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232,197,71,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-glow {
+      position: absolute;
+      top: 20%; left: 10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(232,197,71,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .hero-label::before {
+      content: '';
+      width: 32px; height: 1px;
+      background: var(--accent);
+    }
+    .hero-headline {
+      font-family: var(--serif);
+      font-size: clamp(52px, 7vw, 96px);
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .hero-headline .line2 {
+      color: var(--text-dim);
+      font-style: italic;
+    }
+    .hero-headline .highlight {
+      color: var(--accent);
+      position: relative;
+    }
+    .hero-sub {
+      font-family: var(--sans);
+      font-size: 18px;
+      color: var(--text-dim);
+      max-width: 520px;
+      margin: 28px 0 48px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .btn-primary {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 14px 28px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: none;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { background: var(--text); transform: translateY(-1px); }
+    .btn-ghost {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-dim);
+      background: none;
+      border: 1px solid var(--border-bright);
+      padding: 14px 28px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: none;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-stats {
+      position: absolute;
+      right: 0; bottom: 0;
+      display: flex;
+      gap: 48px;
+      padding: 32px 0;
+    }
+    .hero-stat { text-align: right; }
+    .hero-stat .num {
+      font-family: var(--serif);
+      font-size: 42px;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-stat .label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* TICKER */
+    .ticker-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 0;
+      overflow: hidden;
+      background: var(--bg2);
+    }
+    .ticker {
+      display: flex;
+      gap: 0;
+      animation: ticker 30s linear infinite;
+      width: max-content;
+    }
+    .ticker-item {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0 40px;
+      white-space: nowrap;
+    }
+    .ticker-item .dot {
+      color: var(--accent);
+      margin-right: 40px;
+    }
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* SERVICES */
+    #services {
+      padding: 120px 48px;
+      background: var(--bg2);
+    }
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 64px;
+    }
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .section-title em { color: var(--accent); font-style: italic; }
+    .section-desc {
+      font-size: 15px;
+      color: var(--text-dim);
+      max-width: 320px;
+      line-height: 1.7;
+      text-align: right;
+    }
+
+    /* PACKAGE CARD */
+    .package-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+    }
+    .package-card {
+      background: var(--bg);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .package-card.featured {
+      background: var(--bg3);
+    }
+    .package-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: transparent;
+      transition: background 0.3s;
+    }
+    .package-card.featured::before {
+      background: var(--accent);
+    }
+    .package-card:hover::before {
+      background: var(--accent);
+    }
+    .pkg-badge {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--accent);
+      padding: 4px 10px;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+    .pkg-name {
+      font-family: var(--serif);
+      font-size: 28px;
+      margin-bottom: 8px;
+      line-height: 1.1;
+    }
+    .pkg-price {
+      font-family: var(--mono);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .pkg-price-note {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 32px;
+    }
+    .pkg-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 36px;
+    }
+    .pkg-features li {
+      font-size: 13px;
+      color: var(--text-dim);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      line-height: 1.4;
+    }
+    .pkg-features li::before {
+      content: '→';
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .pkg-features li.dim::before { color: var(--text-muted); }
+    .pkg-features li.dim { color: var(--text-muted); text-decoration: line-through; }
+    .pkg-cta {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 12px 24px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: none;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.2s;
+      width: 100%;
+      text-align: center;
+    }
+    .pkg-cta.outline {
+      background: none;
+      border: 1px solid var(--border-bright);
+      color: var(--text-dim);
+    }
+    .pkg-cta.outline:hover { border-color: var(--accent); color: var(--accent); }
+    .pkg-cta:not(.outline):hover { background: var(--text); }
+
+    /* TERMS STRIP */
+    .terms-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      margin-top: 2px;
+    }
+    .term-item {
+      background: var(--bg2);
+      padding: 28px 32px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+    .term-icon {
+      font-family: var(--mono);
+      font-size: 20px;
+      color: var(--accent);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .term-title {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .term-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* PORTFOLIO / WORK */
+    #work {
+      padding: 120px 48px;
+    }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: var(--border);
+    }
+    .work-card {
+      background: var(--bg2);
+      overflow: hidden;
+      position: relative;
+      cursor: none;
+    }
+    .work-card:hover .work-thumb { transform: scale(1.04); }
+    .work-thumb-wrap {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      background: var(--bg3);
+      position: relative;
+    }
+    .work-thumb {
+      width: 100%; height: 100%;
+      transition: transform 0.6s ease;
+    }
+    .work-browser {
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .browser-bar {
+      background: var(--surface);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .browser-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+    .browser-dot:nth-child(1) { background: #ff5f57; }
+    .browser-dot:nth-child(2) { background: #ffbd2e; }
+    .browser-dot:nth-child(3) { background: #28ca42; }
+    .browser-url {
+      margin-left: 12px;
+      background: var(--bg3);
+      border-radius: 4px;
+      padding: 4px 12px;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+    .browser-content {
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* SITE 1 - Defence Academy */
+    .site-defence {
+      background: linear-gradient(135deg, #0a1628 0%, #0d2040 50%, #0a1628 100%);
+      width: 100%; height: 100%;
+      padding: 20px 24px;
+      position: relative;
+    }
+    .site-defence::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 20px,
+        rgba(255,215,0,0.02) 20px,
+        rgba(255,215,0,0.02) 21px
+      );
+    }
+    .def-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; position: relative; }
+    .def-logo { font-family: var(--mono); font-size: 10px; color: #ffd700; font-weight: 700; letter-spacing: 0.1em; }
+    .def-nav-links { display: flex; gap: 12px; }
+    .def-nav-links span { font-size: 8px; color: rgba(255,255,255,0.5); font-family: var(--mono); letter-spacing: 0.05em; }
+    .def-hero { text-align: center; padding: 16px 0; position: relative; }
+    .def-badge { display: inline-block; background: rgba(255,215,0,0.15); border: 1px solid rgba(255,215,0,0.3); color: #ffd700; font-size: 7px; font-family: var(--mono); padding: 3px 8px; letter-spacing: 0.1em; margin-bottom: 10px; text-transform: uppercase; }
+    .def-h1 { font-family: var(--serif); font-size: 16px; color: #fff; line-height: 1.2; margin-bottom: 6px; }
+    .def-h1 span { color: #ffd700; }
+    .def-sub { font-size: 7px; color: rgba(255,255,255,0.5); margin-bottom: 12px; font-family: var(--mono); }
+    .def-btn { display: inline-block; background: #ffd700; color: #0a1628; font-size: 7px; font-family: var(--mono); padding: 5px 14px; font-weight: 700; letter-spacing: 0.08em; margin: 0 4px; }
+    .def-btn.outline { background: none; border: 1px solid rgba(255,215,0,0.5); color: #ffd700; }
+    .def-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 16px; }
+    .def-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,215,0,0.1); padding: 8px; }
+    .def-card-icon { font-size: 10px; margin-bottom: 4px; }
+    .def-card-title { font-size: 7px; color: #ffd700; font-family: var(--mono); font-weight: 700; margin-bottom: 2px; letter-spacing: 0.05em; }
+    .def-card-text { font-size: 6px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+    /* SITE 2 - Jawandrop */
+    .site-jawandrop {
+      background: #fdf8f3;
+      width: 100%; height: 100%;
+      padding: 16px 20px;
+    }
+    .jaw-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .jaw-logo { font-family: var(--serif); font-size: 12px; color: #1a1a1a; font-style: italic; }
+    .jaw-logo span { color: #c9a24e; }
+    .jaw-nav-links { display: flex; gap: 10px; }
+    .jaw-nav-links span { font-size: 7px; color: #888; font-family: var(--sans); }
+    .jaw-hero { text-align: center; padding: 10px 0 12px; }
+    .jaw-tag { font-size: 7px; color: #c9a24e; font-family: var(--mono); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+    .jaw-h1 { font-family: var(--serif); font-size: 18px; color: #1a1a1a; line-height: 1.1; margin-bottom: 6px; }
+    .jaw-h1 em { color: #c9a24e; font-style: italic; }
+    .jaw-sub { font-size: 7px; color: #888; margin-bottom: 10px; max-width: 160px; margin-left: auto; margin-right: auto; line-height: 1.5; }
+    .jaw-btn { display: inline-block; background: #1a1a1a; color: #fdf8f3; font-size: 6px; font-family: var(--mono); padding: 5px 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .jaw-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 12px; }
+    .jaw-item { background: #f5ede3; aspect-ratio: 3/4; position: relative; overflow: hidden; }
+    .jaw-item-img { width: 100%; height: 70%; object-fit: cover; background: linear-gradient(135deg, #e8d5c0, #d4b896); }
+    .jaw-item-info { padding: 4px 5px; }
+    .jaw-item-name { font-size: 6px; color: #1a1a1a; font-family: var(--sans); font-weight: 500; }
+    .jaw-item-price { font-size: 6px; color: #c9a24e; font-family: var(--mono); }
+    .jaw-dot { width: 100%; height: 100%; background: linear-gradient(160deg, #d4c5b0 0%, #c9b89a 100%); display: flex; align-items: center; justify-content: center; }
+    .jaw-dot span { font-size: 14px; opacity: 0.4; }
+
+    /* SAMPLE PAGE 3 - Restaurant */
+    .site-restaurant {
+      background: #0e0a08;
+      width: 100%; height: 100%;
+      padding: 16px 20px;
+    }
+    .res-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .res-logo { font-family: var(--serif); font-size: 12px; color: #e8c547; font-style: italic; }
+    .res-hero { position: relative; background: linear-gradient(to right, rgba(14,10,8,0.9), rgba(14,10,8,0.5)), url(''); background-size: cover; padding: 20px 16px; margin-bottom: 12px; border: 1px solid rgba(232,197,71,0.1); }
+    .res-tag { font-size: 7px; color: #e8c547; font-family: var(--mono); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 6px; }
+    .res-h1 { font-family: var(--serif); font-size: 16px; color: #f0e8d8; line-height: 1.1; margin-bottom: 6px; }
+    .res-sub { font-size: 6px; color: rgba(240,232,216,0.5); margin-bottom: 8px; }
+    .res-btn { display: inline-block; border: 1px solid #e8c547; color: #e8c547; font-size: 6px; font-family: var(--mono); padding: 4px 10px; letter-spacing: 0.1em; margin-right: 6px; }
+    .res-btn.fill { background: #e8c547; color: #0e0a08; }
+    .res-menu { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; }
+    .res-item { background: rgba(232,197,71,0.05); border: 1px solid rgba(232,197,71,0.08); padding: 7px 8px; display: flex; justify-content: space-between; align-items: flex-start; }
+    .res-item-name { font-size: 7px; color: #f0e8d8; font-family: var(--mono); font-weight: 500; }
+    .res-item-desc { font-size: 5px; color: rgba(240,232,216,0.4); margin-top: 2px; line-height: 1.3; }
+    .res-item-price { font-size: 8px; color: #e8c547; font-family: var(--mono); flex-shrink: 0; margin-left: 8px; }
+
+    /* SAMPLE PAGE 4 - Coaching */
+    .site-coaching {
+      background: #f9f7ff;
+      width: 100%; height: 100%;
+      padding: 16px 20px;
+    }
+    .coa-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .coa-logo { font-family: var(--mono); font-size: 10px; color: #4f46e5; font-weight: 700; }
+    .coa-hero { background: linear-gradient(135deg, #4f46e5, #7c3aed); padding: 20px 16px; margin-bottom: 10px; }
+    .coa-tag { font-size: 6px; color: rgba(255,255,255,0.6); font-family: var(--mono); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 5px; }
+    .coa-h1 { font-family: var(--serif); font-size: 15px; color: #fff; line-height: 1.1; margin-bottom: 5px; }
+    .coa-sub { font-size: 6px; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+    .coa-btn { display: inline-block; background: #fff; color: #4f46e5; font-size: 6px; font-family: var(--mono); padding: 4px 10px; font-weight: 700; letter-spacing: 0.06em; }
+    .coa-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+    .coa-card { background: #fff; border: 1px solid #e8e3ff; padding: 8px; }
+    .coa-card-num { font-family: var(--mono); font-size: 14px; font-weight: 700; color: #4f46e5; opacity: 0.3; }
+    .coa-card-title { font-size: 7px; color: #1a1a1a; font-family: var(--sans); font-weight: 600; margin: 3px 0; }
+    .coa-card-text { font-size: 5px; color: #888; line-height: 1.4; }
+
+    .work-info {
+      padding: 28px 32px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+    .work-category {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .work-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      line-height: 1.1;
+    }
+    .work-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .work-tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 3px 8px;
+      letter-spacing: 0.06em;
+    }
+    .work-link {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.2s;
+      white-space: nowrap;
+      margin-top: 4px;
+    }
+    .work-link:hover { color: var(--accent); }
+    .work-link::after { content: '↗'; }
+
+    /* PROCESS */
+    #process {
+      padding: 120px 48px;
+      background: var(--bg2);
+    }
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border);
+      margin-top: 64px;
+    }
+    .process-step {
+      background: var(--bg);
+      padding: 40px 32px;
+      position: relative;
+    }
+    .process-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+    .process-icon {
+      font-size: 28px;
+      margin-bottom: 16px;
+      display: block;
+    }
+    .process-title {
+      font-family: var(--serif);
+      font-size: 22px;
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .process-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+    .process-step::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.4s ease;
+    }
+    .process-step:hover::after { width: 100%; }
+
+    /* AI BADGE */
+    .ai-banner {
+      background: var(--bg3);
+      border: 1px solid var(--border-bright);
+      border-left: 3px solid var(--accent2);
+      padding: 32px 40px;
+      margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .ai-banner-icon {
+      font-size: 36px;
+      flex-shrink: 0;
+    }
+    .ai-banner-title {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .ai-banner-text {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      max-width: 640px;
+    }
+    .ai-chips {
+      margin-left: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .ai-chip {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--accent2);
+      border: 1px solid rgba(92,244,160,0.2);
+      background: rgba(92,244,160,0.05);
+      padding: 5px 12px;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+    }
+
+    /* SAMPLE PAGES SECTION */
+    #samples {
+      padding: 120px 48px;
+    }
+    .samples-intro {
+      max-width: 600px;
+      margin-bottom: 64px;
+    }
+    .samples-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .sample-card {
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      overflow: hidden;
+      transition: border-color 0.3s;
+      cursor: none;
+    }
+    .sample-card:hover { border-color: var(--accent); }
+    .sample-preview {
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+      background: var(--bg3);
+    }
+    .sample-preview iframe {
+      width: 200%; height: 200%;
+      transform: scale(0.5) translate(-50%, -50%);
+      transform-origin: top left;
+      border: none;
+      pointer-events: none;
+    }
+    .sample-label {
+      padding: 20px 24px;
+    }
+    .sample-type {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .sample-name {
+      font-family: var(--serif);
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
+    .sample-desc {
+      font-size: 12px;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* CONTACT / FORMS */
+    #contact {
+      padding: 120px 48px;
+      background: var(--bg2);
+    }
+    .forms-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      background: var(--border);
+      margin-top: 64px;
+    }
+    .form-panel {
+      background: var(--bg);
+      padding: 48px 44px;
+    }
+    .form-panel.alt {
+      background: var(--bg3);
+    }
+    .form-panel-tag {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .form-panel-title {
+      font-family: var(--serif);
+      font-size: 32px;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .form-panel-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .form-label .req { color: var(--accent); }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    .form-panel.alt .form-input,
+    .form-panel.alt .form-select,
+    .form-panel.alt .form-textarea {
+      background: var(--bg2);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--accent);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: var(--text-muted); }
+    .form-select { cursor: none; }
+    .form-select option { background: var(--bg3); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-submit {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--bg);
+      background: var(--accent);
+      border: none;
+      padding: 14px 32px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: none;
+      width: 100%;
+      margin-top: 8px;
+      transition: all 0.2s;
+    }
+    .form-submit:hover { background: var(--text); }
+    .form-submit.outline {
+      background: none;
+      border: 1px solid var(--border-bright);
+      color: var(--text-dim);
+    }
+    .form-submit.outline:hover { border-color: var(--accent); color: var(--accent); }
+    .form-note {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+    .form-note strong { color: var(--accent); }
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+      cursor: none;
+    }
+    .radio-label input[type="radio"] {
+      width: 14px; height: 14px;
+      accent-color: var(--accent);
+      cursor: none;
+    }
+    .checkbox-group { display: flex; flex-direction: column; gap: 8px; }
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-dim);
+      cursor: none;
+    }
+    .checkbox-label input[type="checkbox"] {
+      width: 14px; height: 14px;
+      accent-color: var(--accent);
+      cursor: none;
+    }
+
+    /* SUCCESS MESSAGE */
+    .form-success {
+      display: none;
+      background: rgba(92,244,160,0.06);
+      border: 1px solid rgba(92,244,160,0.2);
+      padding: 20px 24px;
+      margin-top: 16px;
+    }
+    .form-success .ok {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.06em;
+    }
+    .form-success p {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 64px 48px 40px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand .logo {
+      font-family: var(--mono);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      display: block;
+      margin-bottom: 12px;
+    }
+    .footer-brand .logo span { color: var(--accent); }
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+      max-width: 240px;
+    }
+    .footer-col-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--accent); }
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+    }
+    .footer-copy {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+    }
+    .footer-copy span { color: var(--accent); }
+    .footer-socials {
+      display: flex;
+      gap: 16px;
+    }
+    .footer-socials a {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: color 0.2s;
+    }
+    .footer-socials a:hover { color: var(--accent); }
+
+    /* SCROLL ANIMATIONS */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* MOBILE NAV DRAWER */
+    .mobile-drawer {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      z-index: 99;
+      padding: 80px 32px 32px;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .mobile-drawer.open { display: flex; }
+    .mobile-drawer a {
+      font-family: var(--serif);
+      font-size: 36px;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 20px;
+      transition: color 0.2s;
+    }
+    .mobile-drawer a:hover { color: var(--accent); }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      #hero { padding: 100px 24px 60px; }
+      .hero-stats { position: static; margin-top: 48px; justify-content: flex-start; }
+      #services, #work, #process, #samples, #contact { padding: 80px 24px; }
+      .package-grid { grid-template-columns: 1fr; }
+      .terms-strip { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .work-grid { grid-template-columns: 1fr; }
+      .forms-split { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .samples-grid { grid-template-columns: 1fr; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+      .section-desc { text-align: left; max-width: 100%; }
+      .ai-banner { flex-direction: column; gap: 16px; }
+      .ai-chips { margin-left: 0; flex-direction: row; flex-wrap: wrap; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .footer-top { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: 1fr; }
+      .hero-stats { gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <!-- MOBILE DRAWER -->
+  <div class="mobile-drawer" id="mobileDrawer">
+    <a href="#services" onclick="closeDrawer()">Services</a>
+    <a href="#work" onclick="closeDrawer()">Work</a>
+    <a href="#process" onclick="closeDrawer()">Process</a>
+    <a href="#samples" onclick="closeDrawer()">Samples</a>
+    <a href="#contact" onclick="closeDrawer()">Contact</a>
+  </div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a href="#" class="nav-logo">script<span>.in</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#samples">Samples</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get a Quote</a>
+    <button class="hamburger" id="hamburger" onclick="toggleDrawer()">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+      <div class="hero-label">Freelance Web Development · India</div>
+      <h1 class="hero-headline">
+        Websites that<br/>
+        <span class="line2">actually</span><br/>
+        <span class="highlight">convert.</span>
+      </h1>
+      <p class="hero-sub">
+        Handcrafted, AI-powered websites for local businesses, coaches, academies &amp; brands — delivered fast, priced fairly.
+      </p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-primary">Start Your Project</a>
+        <a href="#work" class="btn-ghost">View Work</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="num">₹5K</div>
+          <div class="label">Starting Price</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">7–10</div>
+          <div class="label">Days Delivery</div>
+        </div>
+        <div class="hero-stat">
+          <div class="num">50%</div>
+          <div class="label">Advance Only</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker" id="ticker">
+      <span class="ticker-item"><span class="dot">✦</span> AI-Driven Development</span>
+      <span class="ticker-item"><span class="dot">✦</span> Mobile-First Design</span>
+      <span class="ticker-item"><span class="dot">✦</span> Fast Turnaround</span>
+      <span class="ticker-item"><span class="dot">✦</span> SEO Optimised</span>
+      <span class="ticker-item"><span class="dot">✦</span> WhatsApp Integration</span>
+      <span class="ticker-item"><span class="dot">✦</span> Google Maps Ready</span>
+      <span class="ticker-item"><span class="dot">✦</span> 50% Advance, Balance on Delivery</span>
+      <span class="ticker-item"><span class="dot">✦</span> Free Revisions</span>
+      <span class="ticker-item"><span class="dot">✦</span> AI-Driven Development</span>
+      <span class="ticker-item"><span class="dot">✦</span> Mobile-First Design</span>
+      <span class="ticker-item"><span class="dot">✦</span> Fast Turnaround</span>
+      <span class="ticker-item"><span class="dot">✦</span> SEO Optimised</span>
+      <span class="ticker-item"><span class="dot">✦</span> WhatsApp Integration</span>
+      <span class="ticker-item"><span class="dot">✦</span> Google Maps Ready</span>
+      <span class="ticker-item"><span class="dot">✦</span> 50% Advance, Balance on Delivery</span>
+      <span class="ticker-item"><span class="dot">✦</span> Free Revisions</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">/ Pricing &amp; Packages</div>
+        <h2 class="section-title">Simple pricing.<br/><em>No surprises.</em></h2>
+      </div>
+      <p class="section-desc">
+        Domain and hosting costs are not included. You pay the provider directly.
+      </p>
+    </div>
+
+    <div class="package-grid reveal">
+      <!-- STARTER -->
+      <div class="package-card featured">
+        <span class="pkg-badge">Most Popular</span>
+        <h3 class="pkg-name">Multipage Website</h3>
+        <div class="pkg-price">₹5,000</div>
+        <div class="pkg-price-note">excl. domain &amp; hosting · ~7–10 day delivery</div>
+        <ul class="pkg-features">
+          <li>Up to 5 custom pages (Home, About, Services, Gallery, Contact)</li>
+          <li>Mobile-responsive, pixel-perfect design</li>
+          <li>Contact form with WhatsApp button</li>
+          <li>Google Maps integration</li>
+          <li>Basic on-page SEO (meta, OG tags, sitemap)</li>
+          <li>Social media links</li>
+          <li>2 rounds of revisions included</li>
+          <li>Handoff to your hosting (cPanel / Vercel / Netlify)</li>
+        </ul>
+        <a href="#contact" class="pkg-cta">Order This Package</a>
+      </div>
+
+      <!-- STARTER LITE -->
+      <div class="package-card">
+        <h3 class="pkg-name">Landing Page</h3>
+        <div class="pkg-price">₹2,500</div>
+        <div class="pkg-price-note">excl. domain &amp; hosting · ~3–5 days</div>
+        <ul class="pkg-features">
+          <li>Single-page scrollable website</li>
+          <li>Mobile-responsive design</li>
+          <li>WhatsApp call-to-action button</li>
+          <li>1 round of revisions included</li>
+          <li class="dim">Multiple pages</li>
+          <li class="dim">Blog or CMS</li>
+        </ul>
+        <a href="#contact" class="pkg-cta outline">Start Project</a>
+      </div>
+
+      <!-- CUSTOM -->
+      <div class="package-card">
+        <h3 class="pkg-name">Custom / E-commerce</h3>
+        <div class="pkg-price">Custom</div>
+        <div class="pkg-price-note">quote after brief · timeline varies</div>
+        <ul class="pkg-features">
+          <li>E-commerce with Razorpay / Stripe</li>
+          <li>Blog / CMS (Sanity, WordPress)</li>
+          <li>Booking or appointment system</li>
+          <li>Admin dashboard</li>
+          <li>Custom integrations &amp; API work</li>
+          <li>Ongoing maintenance retainer</li>
+        </ul>
+        <a href="#custom-quote" class="pkg-cta outline">Get Custom Quote</a>
+      </div>
+    </div>
+
+    <!-- TERMS -->
+    <div class="terms-strip reveal">
+      <div class="term-item">
+        <div class="term-icon">◑</div>
+        <div>
+          <div class="term-title">50% Advance Payment</div>
+          <div class="term-desc">Work begins only after 50% advance is received. Remaining 50% is due on completion before final handoff.</div>
+        </div>
+      </div>
+      <div class="term-item">
+        <div class="term-icon">⚡</div>
+        <div>
+          <div class="term-title">AI-Driven Development</div>
+          <div class="term-desc">Workflows augmented with AI tools (Claude, Cursor, v0) — you get faster delivery without sacrificing quality.</div>
+        </div>
+      </div>
+      <div class="term-item">
+        <div class="term-icon">✦</div>
+        <div>
+          <div class="term-title">What's Not Included</div>
+          <div class="term-desc">Domain registration and hosting fees are paid directly by you to the provider (GoDaddy, Hostinger, Vercel, etc.).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK / PORTFOLIO -->
+  <section id="work">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">/ Client Work</div>
+        <h2 class="section-title">Built &amp; deployed<br/><em>in the real world.</em></h2>
+      </div>
+      <p class="section-desc">
+        Live sites across education, fashion, hospitality and coaching verticals.
+      </p>
+    </div>
+
+    <div class="work-grid reveal">
+
+      <!-- JAY DEFENCE ACADEMY -->
+      <div class="work-card">
+        <div class="work-thumb-wrap">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-url">jaydefenceacademy.com</div>
+              </div>
+              <div class="browser-content">
+                <div class="site-defence">
+                  <div class="def-nav">
+                    <div class="def-logo">⚔ JAY DEFENCE</div>
+                    <div class="def-nav-links">
+                      <span>About</span><span>Courses</span><span>Gallery</span><span>Contact</span>
+                    </div>
+                  </div>
+                  <div class="def-hero">
+                    <div class="def-badge">✦ Est. 2015 · Pune</div>
+                    <div class="def-h1">Join India's Most<br/><span>Trusted Defence</span><br/>Academy</div>
+                    <div class="def-sub">NDA · CDS · AFCAT · Army GD · SSB Preparation</div>
+                    <a class="def-btn">Enroll Now</a>
+                    <a class="def-btn outline">View Courses</a>
+                  </div>
+                  <div class="def-cards">
+                    <div class="def-card">
+                      <div class="def-card-icon">🎖</div>
+                      <div class="def-card-title">Expert Faculty</div>
+                      <div class="def-card-text">Retired officers with 20+ years experience</div>
+                    </div>
+                    <div class="def-card">
+                      <div class="def-card-icon">🏆</div>
+                      <div class="def-card-title">500+ Selected</div>
+                      <div class="def-card-text">Students placed in armed forces every year</div>
+                    </div>
+                    <div class="def-card">
+                      <div class="def-card-icon">📋</div>
+                      <div class="def-card-title">All Exams</div>
+                      <div class="def-card-text">NDA, CDS, AFCAT, Army GD covered</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info">
+          <div>
+            <div class="work-category">Defence · Education</div>
+            <div class="work-title">Jay Defence Academy</div>
+            <div class="work-tags">
+              <span class="work-tag">Multipage</span>
+              <span class="work-tag">Lead Gen</span>
+              <span class="work-tag">Forms</span>
+              <span class="work-tag">SEO</span>
+            </div>
+          </div>
+          <a href="https://jaydefenceacademy.com" target="_blank" class="work-link">Visit site</a>
+        </div>
+      </div>
+
+      <!-- JAWANDROP -->
+      <div class="work-card">
+        <div class="work-thumb-wrap">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-dot"></div>
+                <div class="browser-url">jawandrop.in</div>
+              </div>
+              <div class="browser-content">
+                <div class="site-jawandrop">
+                  <div class="jaw-nav">
+                    <div class="jaw-logo">Jawan<span>Drop</span></div>
+                    <div class="jaw-nav-links">
+                      <span>Shop</span><span>About</span><span>Gallery</span><span>Contact</span>
+                    </div>
+                  </div>
+                  <div class="jaw-hero">
+                    <div class="jaw-tag">✦ Premium Drop Shipping</div>
+                    <div class="jaw-h1">Wear the <em>Spirit</em><br/>of Patriotism</div>
+                    <div class="jaw-sub">Authentic military-inspired fashion delivered to your doorstep across India</div>
+                    <a class="jaw-btn">Shop Collection</a>
+                  </div>
+                  <div class="jaw-items">
+                    <div class="jaw-item">
+                      <div class="jaw-dot"><span>👕</span></div>
+                      <div class="jaw-item-info">
+                        <div class="jaw-item-name">Army Oversized Tee</div>
+                        <div class="jaw-item-price">₹599</div>
+                      </div>
+                    </div>
+                    <div class="jaw-item">
+                      <div class="jaw-dot"><span>🧢</span></div>
+                      <div class="jaw-item-info">
+                        <div class="jaw-item-name">Tactical Cap</div>
+                        <div class="jaw-item-price">₹349</div>
+                      </div>
+                    </div>
+                    <div class="jaw-item">
+                      <div class="jaw-dot"><span>🎒</span></div>
+                      <div class="jaw-item-info">
+                        <div class="jaw-item-name">Recon Backpack</div>
+                        <div class="jaw-item-price">₹1,299</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info">
+          <div>
+            <div class="work-category">Fashion · E-commerce</div>
+            <div class="work-title">JawanDrop</div>
+            <div class="work-tags">
+              <span class="work-tag">Catalogue</span>
+              <span class="work-tag">Razorpay</span>
+              <span class="work-tag">WhatsApp</span>
+              <span class="work-tag">Mobile-first</span>
+            </div>
+          </div>
+          <a href="https://jawandrop.in" target="_blank" class="work-link">Visit site</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SAMPLE PAGES for visitors -->
+  <section id="samples" style="padding:120px 48px;">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">/ Industry Samples</div>
+        <h2 class="section-title">Every industry,<br/><em>a distinct voice.</em></h2>
+      </div>
+      <p class="section-desc">10 live-quality mini-sites — each with its own palette and personality. Pick your industry, see your site.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);" class="reveal">
+
+      <!-- ═══════════════════════════════════════
+           1. CONSTRUCTION — BuildCore
+           Dark charcoal + safety orange
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">buildcore.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#111;width:100%;height:100%;padding:12px 14px;font-family:sans-serif;overflow:hidden;">
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid rgba(249,115,22,0.2);padding-bottom:8px;">
+                    <div style="font-size:10px;font-weight:900;color:#f97316;letter-spacing:0.1em;text-transform:uppercase;">BUILD<span style="color:#fff;">CORE</span></div>
+                    <div style="display:flex;gap:8px;">
+                      <span style="font-size:6px;color:rgba(255,255,255,0.4);">Projects</span>
+                      <span style="font-size:6px;color:rgba(255,255,255,0.4);">Services</span>
+                      <span style="font-size:6px;color:rgba(255,255,255,0.4);">Contact</span>
+                    </div>
+                  </div>
+                  <!-- Hero -->
+                  <div style="background:linear-gradient(135deg,#1a1a1a,#0d0d0d);border-left:3px solid #f97316;padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;">
+                    <div style="position:absolute;right:-8px;bottom:-8px;width:50px;height:50px;background:rgba(249,115,22,0.08);border-radius:50%;"></div>
+                    <div style="font-size:6px;color:#f97316;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">Est. 2009 · Pune · Maharashtra</div>
+                    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:4px;font-family:Georgia,serif;">We Build What<br/><span style="color:#f97316;">Others Dream.</span></div>
+                    <div style="font-size:6px;color:rgba(255,255,255,0.45);margin-bottom:8px;">Residential · Commercial · Industrial Construction</div>
+                    <div style="display:flex;gap:6px;">
+                      <span style="background:#f97316;color:#000;font-size:6px;font-weight:700;padding:4px 10px;letter-spacing:0.06em;">GET QUOTE</span>
+                      <span style="border:1px solid rgba(249,115,22,0.4);color:#f97316;font-size:6px;padding:4px 8px;">Our Projects</span>
+                    </div>
+                  </div>
+                  <!-- Services -->
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;">
+                    <div style="background:#1a1a1a;border-top:2px solid #f97316;padding:6px;">
+                      <div style="font-size:10px;margin-bottom:3px;">🏗</div>
+                      <div style="font-size:7px;color:#f97316;font-weight:700;margin-bottom:2px;">Residential</div>
+                      <div style="font-size:5px;color:rgba(255,255,255,0.35);line-height:1.4;">Villas, row houses, flats — turnkey delivery</div>
+                    </div>
+                    <div style="background:#1a1a1a;border-top:2px solid rgba(249,115,22,0.3);padding:6px;">
+                      <div style="font-size:10px;margin-bottom:3px;">🏢</div>
+                      <div style="font-size:7px;color:#fff;font-weight:700;margin-bottom:2px;">Commercial</div>
+                      <div style="font-size:5px;color:rgba(255,255,255,0.35);line-height:1.4;">Offices, retail, warehouses on time</div>
+                    </div>
+                    <div style="background:#1a1a1a;border-top:2px solid rgba(249,115,22,0.3);padding:6px;">
+                      <div style="font-size:10px;margin-bottom:3px;">🔨</div>
+                      <div style="font-size:7px;color:#fff;font-weight:700;margin-bottom:2px;">Renovation</div>
+                      <div style="font-size:5px;color:rgba(255,255,255,0.35);line-height:1.4;">Transform existing spaces beautifully</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Construction</div>
+            <div class="work-title" style="font-size:16px;">BuildCore Construction</div>
+            <div class="work-tags">
+              <span class="work-tag">Industrial</span><span class="work-tag">Orange + Black</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           2. ADVERTISING AGENCY — Voltage Creative
+           Black + hot pink + electric yellow
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">voltagecreative.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#060606;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;position:relative;">
+                  <!-- animated bg blobs -->
+                  <div style="position:absolute;width:80px;height:80px;background:radial-gradient(circle,rgba(247,37,85,0.2),transparent);top:-10px;right:-10px;border-radius:50%;"></div>
+                  <div style="position:absolute;width:60px;height:60px;background:radial-gradient(circle,rgba(248,231,43,0.12),transparent);bottom:20px;left:10px;border-radius:50%;"></div>
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                    <div style="font-size:11px;font-weight:900;letter-spacing:-0.02em;">
+                      <span style="color:#f72555;">VOLT</span><span style="color:#f8e72b;">AGE</span>
+                    </div>
+                    <div style="display:flex;gap:8px;align-items:center;">
+                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Work</span>
+                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Services</span>
+                      <span style="background:#f72555;color:#fff;font-size:6px;padding:3px 7px;font-weight:700;">Hire Us</span>
+                    </div>
+                  </div>
+                  <!-- Giant headline -->
+                  <div style="margin-bottom:8px;">
+                    <div style="font-size:6px;color:#f8e72b;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">Creative Agency · India</div>
+                    <div style="font-size:16px;font-weight:900;color:#fff;line-height:0.95;letter-spacing:-0.03em;font-family:Georgia,serif;">
+                      WE MAKE<br/><span style="color:#f72555;font-style:italic;">BRANDS</span><br/>SCREAM.
+                    </div>
+                  </div>
+                  <!-- Campaign chips -->
+                  <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
+                    <span style="background:#f72555;color:#fff;font-size:5px;padding:3px 7px;font-weight:700;letter-spacing:0.06em;">SOCIAL MEDIA</span>
+                    <span style="background:#f8e72b;color:#060606;font-size:5px;padding:3px 7px;font-weight:700;letter-spacing:0.06em;">BRAND IDENTITY</span>
+                    <span style="border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:5px;padding:3px 7px;">PAID ADS</span>
+                  </div>
+                  <!-- Campaign thumbnails -->
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+                    <div style="background:linear-gradient(135deg,#f72555,#7c1d44);height:36px;display:flex;align-items:center;justify-content:center;font-size:6px;color:rgba(255,255,255,0.7);font-weight:700;">ZOMATO</div>
+                    <div style="background:linear-gradient(135deg,#f8e72b,#d4a017);height:36px;display:flex;align-items:center;justify-content:center;font-size:6px;color:#000;font-weight:700;">STARTUP X</div>
+                    <div style="background:linear-gradient(135deg,#2563eb,#1e3a8a);height:36px;display:flex;align-items:center;justify-content:center;font-size:6px;color:rgba(255,255,255,0.7);font-weight:700;">FINTECH CO</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Advertising Agency</div>
+            <div class="work-title" style="font-size:16px;">Voltage Creative</div>
+            <div class="work-tags">
+              <span class="work-tag">Maximalist</span><span class="work-tag">Pink + Yellow</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           3. FMCG — Zest Beverages
+           Deep forest green + chartreuse + white
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">zestdrink.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#0a1a0a;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;position:relative;">
+                  <div style="position:absolute;right:16px;top:28px;width:44px;height:80px;background:linear-gradient(160deg,#a3e635,#4ade80);border-radius:20px;opacity:0.9;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(163,230,53,0.3);">
+                    <div style="font-size:5px;color:#0a1a0a;font-weight:900;text-align:center;line-height:1.3;">ZEST<br/>250<br/>ML</div>
+                  </div>
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <div style="font-size:12px;font-weight:900;color:#a3e635;letter-spacing:-0.02em;font-family:Georgia,serif;font-style:italic;">zest.</div>
+                    <div style="display:flex;gap:6px;">
+                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Products</span>
+                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Where to Buy</span>
+                    </div>
+                  </div>
+                  <!-- Hero text -->
+                  <div style="max-width:62%;margin-bottom:8px;">
+                    <div style="font-size:6px;color:#a3e635;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">✦ Real Fruit · No Sugar</div>
+                    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.0;letter-spacing:-0.03em;font-family:Georgia,serif;">Drink<br/><span style="color:#a3e635;">Different.</span></div>
+                    <div style="font-size:6px;color:rgba(255,255,255,0.4);margin:4px 0 8px;">Cold-pressed juices for people who give a damn about what they drink.</div>
+                    <span style="background:#a3e635;color:#0a1a0a;font-size:6px;font-weight:700;padding:4px 10px;letter-spacing:0.06em;">SHOP NOW</span>
+                  </div>
+                  <!-- Variant chips -->
+                  <div style="display:flex;gap:3px;flex-wrap:wrap;">
+                    <span style="background:rgba(163,230,53,0.15);border:1px solid rgba(163,230,53,0.3);color:#a3e635;font-size:5px;padding:3px 7px;">🍋 Lemon Ginger</span>
+                    <span style="background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.25);color:#fb923c;font-size:5px;padding:3px 7px;">🥭 Mango Burst</span>
+                    <span style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:#f472b6;font-size:5px;padding:3px 7px;">🍓 Berry Mix</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">FMCG / Beverages</div>
+            <div class="work-title" style="font-size:16px;">Zest Drink Co.</div>
+            <div class="work-tags">
+              <span class="work-tag">Product-led</span><span class="work-tag">Green + Black</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           4. REAL ESTATE — Prestige Living
+           Deep navy + champagne gold + cream
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">prestigeliving.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#0c1930;width:100%;height:100%;padding:10px 12px;font-family:serif;overflow:hidden;">
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid rgba(212,168,75,0.2);padding-bottom:7px;">
+                    <div style="font-size:9px;font-weight:400;color:#d4a84b;letter-spacing:0.18em;text-transform:uppercase;font-family:Georgia,serif;">PRESTIGE <span style="color:rgba(245,240,232,0.6);">LIVING</span></div>
+                    <div style="display:flex;gap:8px;">
+                      <span style="font-size:6px;color:rgba(245,240,232,0.4);letter-spacing:0.06em;">Buy</span>
+                      <span style="font-size:6px;color:rgba(245,240,232,0.4);">Rent</span>
+                      <span style="font-size:6px;color:rgba(245,240,232,0.4);">Projects</span>
+                      <span style="background:#d4a84b;color:#0c1930;font-size:5px;padding:3px 7px;font-weight:700;letter-spacing:0.06em;">CONTACT</span>
+                    </div>
+                  </div>
+                  <!-- Hero -->
+                  <div style="margin-bottom:8px;">
+                    <div style="font-size:6px;color:rgba(212,168,75,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;">Premium Properties · Pune</div>
+                    <div style="font-size:15px;color:#f5f0e8;line-height:1.0;margin-bottom:5px;font-style:italic;">Find Your<br/><span style="color:#d4a84b;">Forever Home.</span></div>
+                    <div style="font-size:6px;color:rgba(245,240,232,0.4);margin-bottom:8px;">Handpicked villas, penthouses &amp; flats in Pune's finest localities</div>
+                    <!-- Search bar -->
+                    <div style="background:rgba(212,168,75,0.08);border:1px solid rgba(212,168,75,0.2);padding:5px 8px;display:flex;align-items:center;gap:6px;">
+                      <span style="font-size:6px;color:rgba(245,240,232,0.3);">🔍 Search by location, BHK...</span>
+                      <span style="background:#d4a84b;color:#0c1930;font-size:5px;padding:3px 7px;margin-left:auto;font-weight:700;letter-spacing:0.05em;">SEARCH</span>
+                    </div>
+                  </div>
+                  <!-- Listings -->
+                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px;">
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,75,0.12);padding:5px 7px;">
+                      <div style="background:linear-gradient(135deg,#1a2a4a,#0e1f3a);height:28px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;">
+                        <span style="font-size:7px;opacity:0.3;">🏠</span>
+                      </div>
+                      <div style="font-size:6px;color:#f5f0e8;font-weight:600;margin-bottom:1px;">3 BHK Villa · Baner</div>
+                      <div style="font-size:7px;color:#d4a84b;font-weight:700;">₹1.2 Cr</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,75,0.12);padding:5px 7px;">
+                      <div style="background:linear-gradient(135deg,#1a2a4a,#0e1f3a);height:28px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;">
+                        <span style="font-size:7px;opacity:0.3;">🏢</span>
+                      </div>
+                      <div style="font-size:6px;color:#f5f0e8;font-weight:600;margin-bottom:1px;">2 BHK Penthouse · Kalyani</div>
+                      <div style="font-size:7px;color:#d4a84b;font-weight:700;">₹85 L</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Real Estate</div>
+            <div class="work-title" style="font-size:16px;">Prestige Living</div>
+            <div class="work-tags">
+              <span class="work-tag">Luxury</span><span class="work-tag">Navy + Gold</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           5. HEALTHCARE — ClearMed Clinic
+           White + sky blue + mint — clinical clean
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">clearmedclinic.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#f8fafc;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;">
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #e2e8f0;padding:5px 10px;margin-bottom:8px;border-radius:4px;">
+                    <div style="font-size:9px;font-weight:800;color:#0369a1;">Clear<span style="color:#059669;">Med</span></div>
+                    <div style="display:flex;gap:7px;align-items:center;">
+                      <span style="font-size:6px;color:#64748b;">Specialities</span>
+                      <span style="font-size:6px;color:#64748b;">Doctors</span>
+                      <span style="background:#0369a1;color:#fff;font-size:5px;padding:3px 8px;border-radius:2px;font-weight:700;">Book Appt</span>
+                    </div>
+                  </div>
+                  <!-- Hero -->
+                  <div style="background:linear-gradient(135deg,#eff6ff,#ecfdf5);border:1px solid #bfdbfe;padding:10px 12px;margin-bottom:7px;border-radius:3px;position:relative;">
+                    <div style="position:absolute;right:8px;top:8px;width:32px;height:32px;background:rgba(3,105,161,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;">🩺</div>
+                    <div style="font-size:6px;color:#059669;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:4px;">✓ NABH Certified · Est. 2011</div>
+                    <div style="font-size:13px;font-weight:800;color:#0f172a;line-height:1.1;margin-bottom:4px;">Your Health,<br/>Our <span style="color:#0369a1;">Priority.</span></div>
+                    <div style="font-size:6px;color:#64748b;margin-bottom:7px;line-height:1.4;">Advanced diagnostics &amp; compassionate care in Pune</div>
+                    <div style="display:flex;gap:5px;">
+                      <span style="background:#0369a1;color:#fff;font-size:6px;padding:4px 9px;font-weight:700;letter-spacing:0.04em;">Book Now</span>
+                      <span style="border:1px solid #bfdbfe;color:#0369a1;font-size:6px;padding:4px 7px;">Emergency: 104</span>
+                    </div>
+                  </div>
+                  <!-- Specialties -->
+                  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
+                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
+                      <div style="font-size:10px;margin-bottom:2px;">❤️</div>
+                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Cardiology</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
+                      <div style="font-size:10px;margin-bottom:2px;">🦷</div>
+                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Dental</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
+                      <div style="font-size:10px;margin-bottom:2px;">👁</div>
+                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Eye Care</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
+                      <div style="font-size:10px;margin-bottom:2px;">🧠</div>
+                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Neuro</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Healthcare / Clinic</div>
+            <div class="work-title" style="font-size:16px;">ClearMed Clinic</div>
+            <div class="work-tags">
+              <span class="work-tag">Clinical Clean</span><span class="work-tag">Blue + White</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           6. LAW FIRM — Khatri & Associates
+           Dark mahogany + gold + aged cream
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">khatrilaw.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#120b04;width:100%;height:100%;padding:10px 12px;font-family:Georgia,serif;overflow:hidden;">
+                  <!-- Top bar -->
+                  <div style="border-bottom:1px solid rgba(201,164,78,0.25);padding-bottom:6px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+                    <div>
+                      <div style="font-size:9px;color:#c9a44e;letter-spacing:0.2em;text-transform:uppercase;font-family:Georgia,serif;">KHATRI <span style="color:rgba(245,240,230,0.5)">&amp; ASSOCIATES</span></div>
+                      <div style="font-size:5px;color:rgba(245,240,230,0.3);letter-spacing:0.15em;text-transform:uppercase;margin-top:1px;">Advocates &amp; Legal Consultants · Est. 1994</div>
+                    </div>
+                    <span style="background:#c9a44e;color:#120b04;font-size:5px;padding:3px 8px;font-weight:700;letter-spacing:0.06em;font-family:sans-serif;">CONSULTATION</span>
+                  </div>
+                  <!-- Hero -->
+                  <div style="padding:8px 0;margin-bottom:8px;border-bottom:1px solid rgba(201,164,78,0.1);">
+                    <div style="font-size:6px;color:rgba(201,164,78,0.6);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;font-family:sans-serif;">Thirty Years of Excellence</div>
+                    <div style="font-size:15px;color:#f5f0e6;line-height:1.05;font-style:italic;margin-bottom:5px;">Justice.<br/><span style="color:#c9a44e;">Integrity.</span><br/>Excellence.</div>
+                    <div style="font-size:6px;color:rgba(245,240,230,0.35);line-height:1.5;font-family:sans-serif;max-width:80%;">Corporate litigation, property law, criminal defence and family matters — handled with the gravitas they deserve.</div>
+                  </div>
+                  <!-- Practice areas -->
+                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;">
+                    <div style="border-left:2px solid #c9a44e;padding:4px 6px;">
+                      <div style="font-size:6px;color:#c9a44e;font-weight:700;margin-bottom:1px;font-family:sans-serif;">Corporate Law</div>
+                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">M&amp;A, contracts, compliance</div>
+                    </div>
+                    <div style="border-left:2px solid rgba(201,164,78,0.3);padding:4px 6px;">
+                      <div style="font-size:6px;color:rgba(245,240,230,0.7);font-weight:700;margin-bottom:1px;font-family:sans-serif;">Property Law</div>
+                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">Disputes, titles, registrations</div>
+                    </div>
+                    <div style="border-left:2px solid rgba(201,164,78,0.3);padding:4px 6px;">
+                      <div style="font-size:6px;color:rgba(245,240,230,0.7);font-weight:700;margin-bottom:1px;font-family:sans-serif;">Criminal Defence</div>
+                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">Sessions, HC, SC appearances</div>
+                    </div>
+                    <div style="border-left:2px solid rgba(201,164,78,0.3);padding:4px 6px;">
+                      <div style="font-size:6px;color:rgba(245,240,230,0.7);font-weight:700;margin-bottom:1px;font-family:sans-serif;">Family Matters</div>
+                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">Divorce, custody, succession</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Law Firm</div>
+            <div class="work-title" style="font-size:16px;">Khatri &amp; Associates</div>
+            <div class="work-tags">
+              <span class="work-tag">Prestigious</span><span class="work-tag">Mahogany + Gold</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           7. GYM / FITNESS — IronFuel
+           Pure black + electric red + stark white
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">ironfuel.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#030303;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;position:relative;">
+                  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ef4444,transparent);"></div>
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <div style="font-size:12px;font-weight:900;color:#fff;letter-spacing:-0.03em;text-transform:uppercase;font-family:Impact,sans-serif;">IRON<span style="color:#ef4444;">FUEL</span></div>
+                    <div style="display:flex;gap:6px;align-items:center;">
+                      <span style="font-size:6px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Plans</span>
+                      <span style="font-size:6px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Classes</span>
+                      <span style="background:#ef4444;color:#fff;font-size:6px;padding:3px 8px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;">JOIN</span>
+                    </div>
+                  </div>
+                  <!-- Hero -->
+                  <div style="margin-bottom:8px;">
+                    <div style="font-size:6px;color:#ef4444;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:3px;font-weight:700;">6 AM – 11 PM · Pune</div>
+                    <div style="font-size:18px;font-weight:900;color:#fff;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase;margin-bottom:5px;font-family:Impact,sans-serif;">NO<br/><span style="color:#ef4444;">EXCUSES.</span><br/>JUST</div>
+                    <div style="font-size:18px;font-weight:900;color:#fff;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase;font-family:Impact,sans-serif;">RESULTS.</div>
+                  </div>
+                  <!-- Membership tiers -->
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:8px;">
+                    <div style="background:#111;border-top:2px solid rgba(239,68,68,0.3);padding:5px;text-align:center;">
+                      <div style="font-size:7px;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:1px;">Basic</div>
+                      <div style="font-size:9px;font-weight:900;color:#ef4444;">₹799<span style="font-size:5px;color:rgba(255,255,255,0.3);font-weight:400;">/mo</span></div>
+                    </div>
+                    <div style="background:#1a0000;border-top:2px solid #ef4444;padding:5px;text-align:center;">
+                      <div style="font-size:7px;font-weight:900;color:#ef4444;text-transform:uppercase;margin-bottom:1px;">PRO ★</div>
+                      <div style="font-size:9px;font-weight:900;color:#fff;">₹1,299<span style="font-size:5px;color:rgba(255,255,255,0.3);font-weight:400;">/mo</span></div>
+                    </div>
+                    <div style="background:#111;border-top:2px solid rgba(239,68,68,0.3);padding:5px;text-align:center;">
+                      <div style="font-size:7px;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:1px;">Elite</div>
+                      <div style="font-size:9px;font-weight:900;color:#ef4444;">₹1,999<span style="font-size:5px;color:rgba(255,255,255,0.3);font-weight:400;">/mo</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Gym / Fitness</div>
+            <div class="work-title" style="font-size:16px;">IronFuel Gym</div>
+            <div class="work-tags">
+              <span class="work-tag">High-Energy</span><span class="work-tag">Red + Black</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           8. SALON / BEAUTY — Petal Studio
+           Blush + rose gold + deep plum
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">petalstudio.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#fdf6f1;width:100%;height:100%;padding:10px 12px;font-family:Georgia,serif;overflow:hidden;">
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(196,116,138,0.15);padding-bottom:7px;margin-bottom:8px;">
+                    <div style="font-size:11px;color:#2d1620;font-style:italic;font-weight:700;">Petal <span style="color:#c4748a;">Studio</span></div>
+                    <div style="display:flex;gap:7px;align-items:center;">
+                      <span style="font-size:6px;color:#9c6b78;font-family:sans-serif;">Services</span>
+                      <span style="font-size:6px;color:#9c6b78;font-family:sans-serif;">Gallery</span>
+                      <span style="background:#c4748a;color:#fff;font-size:5px;padding:3px 8px;font-family:sans-serif;letter-spacing:0.05em;">Book Now</span>
+                    </div>
+                  </div>
+                  <!-- Hero -->
+                  <div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;">
+                    <div style="flex:1;">
+                      <div style="font-size:6px;color:#c4748a;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;font-family:sans-serif;">✦ Premium Beauty · Pune</div>
+                      <div style="font-size:14px;color:#2d1620;line-height:1.05;margin-bottom:4px;font-style:italic;">Glow is<br/>Not a Secret.</div>
+                      <div style="font-size:6px;color:#9c6b78;margin-bottom:7px;line-height:1.4;font-family:sans-serif;">Luxury hair, skin &amp; nail treatments in a space designed for you.</div>
+                      <span style="background:#2d1620;color:#fdf6f1;font-size:6px;padding:4px 10px;font-family:sans-serif;letter-spacing:0.06em;">Book Appointment</span>
+                    </div>
+                    <!-- Decorative circle -->
+                    <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f8d7d9,#e8a0b0);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(196,116,138,0.2);">🌸</div>
+                  </div>
+                  <!-- Services -->
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+                    <div style="background:#fff;border:1px solid rgba(196,116,138,0.15);padding:5px;text-align:center;">
+                      <div style="font-size:9px;margin-bottom:2px;">💇‍♀️</div>
+                      <div style="font-size:6px;color:#2d1620;font-family:sans-serif;font-weight:700;">Hair</div>
+                      <div style="font-size:5px;color:#9c6b78;font-family:sans-serif;">from ₹499</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid rgba(196,116,138,0.2);padding:5px;text-align:center;border-top:2px solid #c4748a;">
+                      <div style="font-size:9px;margin-bottom:2px;">✨</div>
+                      <div style="font-size:6px;color:#c4748a;font-family:sans-serif;font-weight:700;">Skin</div>
+                      <div style="font-size:5px;color:#9c6b78;font-family:sans-serif;">from ₹799</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid rgba(196,116,138,0.15);padding:5px;text-align:center;">
+                      <div style="font-size:9px;margin-bottom:2px;">💅</div>
+                      <div style="font-size:6px;color:#2d1620;font-family:sans-serif;font-weight:700;">Nails</div>
+                      <div style="font-size:5px;color:#9c6b78;font-family:sans-serif;">from ₹349</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Salon / Beauty</div>
+            <div class="work-title" style="font-size:16px;">Petal Studio</div>
+            <div class="work-tags">
+              <span class="work-tag">Feminine Luxury</span><span class="work-tag">Blush + Plum</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           9. RESTAURANT / FINE DINING — Casa Bella
+           Deep black + warm amber + cream
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">casabella.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#0c0906;width:100%;height:100%;padding:10px 12px;font-family:Georgia,serif;overflow:hidden;">
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <div style="font-size:10px;color:#e8c04a;font-style:italic;">Casa <span style="color:#f5ecd8;">Bella</span></div>
+                    <div style="display:flex;gap:7px;">
+                      <span style="font-size:6px;color:rgba(245,236,216,0.4);font-family:sans-serif;">Menu</span>
+                      <span style="font-size:6px;color:rgba(245,236,216,0.4);font-family:sans-serif;">Reserve</span>
+                      <span style="font-size:6px;color:rgba(245,236,216,0.4);font-family:sans-serif;">Contact</span>
+                    </div>
+                  </div>
+                  <!-- Hero -->
+                  <div style="background:linear-gradient(to right,rgba(12,9,6,0.95),rgba(12,9,6,0.7)),repeating-linear-gradient(45deg,rgba(232,192,74,0.03) 0px,rgba(232,192,74,0.03) 1px,transparent 1px,transparent 20px);border:1px solid rgba(232,192,74,0.1);padding:10px 12px;margin-bottom:7px;">
+                    <div style="font-size:5px;color:rgba(232,192,74,0.6);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;font-family:sans-serif;">✦ Fine Dining · Koregaon Park · Pune</div>
+                    <div style="font-size:15px;color:#f5ecd8;line-height:1.0;margin-bottom:5px;font-style:italic;">Where Every Meal<br/>is a <span style="color:#e8c04a;">Memory.</span></div>
+                    <div style="font-size:6px;color:rgba(245,236,216,0.4);margin-bottom:7px;font-family:sans-serif;line-height:1.4;">Authentic Italian cuisine curated by Chef Marco Rossi</div>
+                    <div style="display:flex;gap:5px;">
+                      <span style="background:#e8c04a;color:#0c0906;font-size:6px;padding:4px 10px;font-weight:700;font-family:sans-serif;">Reserve Table</span>
+                      <span style="border:1px solid rgba(232,192,74,0.3);color:#e8c04a;font-size:6px;padding:4px 8px;font-family:sans-serif;">View Menu</span>
+                    </div>
+                  </div>
+                  <!-- Menu items -->
+                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;">
+                    <div style="background:rgba(232,192,74,0.04);border:1px solid rgba(232,192,74,0.08);padding:5px 7px;display:flex;justify-content:space-between;">
+                      <div><div style="font-size:6px;color:#f5ecd8;font-weight:600;font-family:sans-serif;">Truffle Risotto</div><div style="font-size:5px;color:rgba(245,236,216,0.35);font-family:sans-serif;margin-top:1px;">Arborio, black truffle</div></div>
+                      <div style="font-size:7px;color:#e8c04a;font-family:sans-serif;font-weight:700;">₹780</div>
+                    </div>
+                    <div style="background:rgba(232,192,74,0.04);border:1px solid rgba(232,192,74,0.08);padding:5px 7px;display:flex;justify-content:space-between;">
+                      <div><div style="font-size:6px;color:#f5ecd8;font-weight:600;font-family:sans-serif;">Burrata Salad</div><div style="font-size:5px;color:rgba(245,236,216,0.35);font-family:sans-serif;margin-top:1px;">Heirloom tomatoes</div></div>
+                      <div style="font-size:7px;color:#e8c04a;font-family:sans-serif;font-weight:700;">₹520</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Restaurant / Dining</div>
+            <div class="work-title" style="font-size:16px;">Casa Bella Ristorante</div>
+            <div class="work-tags">
+              <span class="work-tag">Dark Editorial</span><span class="work-tag">Amber + Black</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════
+           10. EDUCATION / COACHING — Mindset Academy
+           Deep violet + electric lime + white
+           ═══════════════════════════════════════ -->
+      <div class="work-card">
+        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
+          <div class="work-thumb">
+            <div class="work-browser">
+              <div class="browser-bar">
+                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+                <div class="browser-url">mindsetacademy.in</div>
+              </div>
+              <div class="browser-content" style="overflow:hidden;">
+                <div style="background:#f9f7ff;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;">
+                  <!-- Nav -->
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+                    <div style="font-size:10px;font-weight:800;color:#4f46e5;letter-spacing:-0.02em;">mindset<span style="color:#7c3aed;">.in</span></div>
+                    <div style="display:flex;gap:7px;align-items:center;">
+                      <span style="font-size:6px;color:#64748b;">Courses</span>
+                      <span style="font-size:6px;color:#64748b;">About</span>
+                      <span style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-size:6px;padding:3px 8px;border-radius:2px;font-weight:700;">Enroll</span>
+                    </div>
+                  </div>
+                  <!-- Hero banner -->
+                  <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:10px 12px;margin-bottom:7px;position:relative;overflow:hidden;">
+                    <div style="position:absolute;right:-10px;top:-10px;width:50px;height:50px;background:rgba(255,255,255,0.06);border-radius:50%;"></div>
+                    <div style="font-size:5px;color:rgba(255,255,255,0.6);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">✦ Online Coaching · India</div>
+                    <div style="font-size:14px;font-weight:800;color:#fff;line-height:1.05;margin-bottom:4px;font-family:Georgia,serif;">Transform Your<br/>Career in 90 Days</div>
+                    <div style="font-size:6px;color:rgba(255,255,255,0.6);margin-bottom:7px;">UPSC · CAT · Placement interviews — with India's best</div>
+                    <span style="background:#fff;color:#4f46e5;font-size:6px;padding:4px 10px;font-weight:800;">Enroll Now — ₹4,999</span>
+                  </div>
+                  <!-- Feature cards -->
+                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #4f46e5;padding:5px;">
+                      <div style="font-size:11px;font-weight:800;color:#4f46e5;opacity:0.25;">01</div>
+                      <div style="font-size:6px;color:#1e1b4b;font-weight:700;margin-bottom:1px;">Live Classes</div>
+                      <div style="font-size:5px;color:#94a3b8;line-height:1.3;">3× weekly with top mentors</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #7c3aed;padding:5px;">
+                      <div style="font-size:11px;font-weight:800;color:#7c3aed;opacity:0.25;">02</div>
+                      <div style="font-size:6px;color:#1e1b4b;font-weight:700;margin-bottom:1px;">Mock Tests</div>
+                      <div style="font-size:5px;color:#94a3b8;line-height:1.3;">50+ full-length tests</div>
+                    </div>
+                    <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #a78bfa;padding:5px;">
+                      <div style="font-size:11px;font-weight:800;color:#a78bfa;opacity:0.25;">03</div>
+                      <div style="font-size:6px;color:#1e1b4b;font-weight:700;margin-bottom:1px;">Community</div>
+                      <div style="font-size:5px;color:#94a3b8;line-height:1.3;">2,000+ active learners</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="work-info" style="padding:18px 20px;">
+          <div>
+            <div class="work-category">Education / Coaching</div>
+            <div class="work-title" style="font-size:16px;">Mindset Academy</div>
+            <div class="work-tags">
+              <span class="work-tag">Editorial</span><span class="work-tag">Violet + White</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Industry CTA strip -->
+    <div style="margin-top:2px;background:var(--bg3);border:1px solid var(--border);padding:28px 36px;display:flex;align-items:center;justify-content:space-between;gap:24px;" class="reveal">
+      <div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:6px;">Don't see your industry?</div>
+        <div style="font-family:var(--serif);font-size:22px;line-height:1.1;">Every business deserves a site that <em>fits.</em></div>
+      </div>
+      <a href="#contact" class="btn-primary" style="white-space:nowrap;">Get a Custom Sample →</a>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">/ How It Works</div>
+        <h2 class="section-title">From brief to<br/><em>live in days.</em></h2>
+      </div>
+      <p class="section-desc">
+        A lean, transparent process — no endless calls, no bloated timelines.
+      </p>
+    </div>
+
+    <div class="process-grid reveal">
+      <div class="process-step">
+        <div class="process-num">01</div>
+        <span class="process-icon">📋</span>
+        <div class="process-title">Brief & Quote</div>
+        <p class="process-desc">Fill the contact form. Get a clear scope, price, and timeline back within 24 hours — no vague estimates.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">02</div>
+        <span class="process-icon">◑</span>
+        <div class="process-title">50% Advance</div>
+        <p class="process-desc">Pay 50% via UPI, bank transfer or Razorpay. Work starts immediately. No advance = no start.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">03</div>
+        <span class="process-icon">⚡</span>
+        <div class="process-title">Build & Review</div>
+        <p class="process-desc">AI-augmented development means your site is designed and coded in 7–10 days. You review, request revisions.</p>
+      </div>
+      <div class="process-step">
+        <div class="process-num">04</div>
+        <span class="process-icon">🚀</span>
+        <div class="process-title">Pay & Launch</div>
+        <p class="process-desc">Final 50% on approval. Site files handed off to your hosting. You own everything — no lock-in.</p>
+      </div>
+    </div>
+
+    <div class="ai-banner reveal">
+      <div class="ai-banner-icon">🤖</div>
+      <div>
+        <div class="ai-banner-title">AI-Driven Development</div>
+        <p class="ai-banner-text">
+          Every project here is built using AI-assisted workflows — Claude, Cursor, and v0 help design, code review, and iterate at 3× the speed of traditional development. You get a premium result in less time, at a lower price. You're not paying for slow.
+        </p>
+      </div>
+      <div class="ai-chips">
+        <div class="ai-chip">Claude AI</div>
+        <div class="ai-chip">Cursor IDE</div>
+        <div class="ai-chip">v0 by Vercel</div>
+        <div class="ai-chip">Figma AI</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORMS -->
+  <section id="contact">
+    <div class="section-header">
+      <div>
+        <div class="section-tag">/ Get In Touch</div>
+        <h2 class="section-title">Ready to start?<br/><em>Let's talk.</em></h2>
+      </div>
+      <p class="section-desc">
+        Two forms below — pick the one that fits your project size.
+      </p>
+    </div>
+
+    <div class="forms-split" id="custom-quote">
+
+      <!-- STANDARD ORDER FORM -->
+      <div class="form-panel">
+        <div class="form-panel-tag">/ Standard Project</div>
+        <h3 class="form-panel-title">Place Your Order</h3>
+        <p class="form-panel-desc">For the ₹5,000 multipage website or ₹2,500 landing page. Answer a few quick questions so we hit the ground running.</p>
+
+        <form id="orderForm" onsubmit="handleSubmit(event,'orderSuccess')">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Your Name <span class="req">*</span></label>
+              <input type="text" class="form-input" placeholder="Rahul Sharma" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">WhatsApp Number <span class="req">*</span></label>
+              <input type="tel" class="form-input" placeholder="+91 98765 43210" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email Address <span class="req">*</span></label>
+            <input type="email" class="form-input" placeholder="you@domain.com" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">What does your business do? <span class="req">*</span></label>
+            <input type="text" class="form-input" placeholder="e.g. Defence coaching academy in Pune" required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Package you want <span class="req">*</span></label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Select a package</option>
+              <option>Multipage Website — ₹5,000</option>
+              <option>Landing Page — ₹2,500</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Pages you need <span class="req">*</span></label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" /> Home</label>
+              <label class="checkbox-label"><input type="checkbox" /> About Us</label>
+              <label class="checkbox-label"><input type="checkbox" /> Services / Courses</label>
+              <label class="checkbox-label"><input type="checkbox" /> Gallery / Portfolio</label>
+              <label class="checkbox-label"><input type="checkbox" /> Contact / Location</label>
+              <label class="checkbox-label"><input type="checkbox" /> Testimonials / Reviews</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Do you have a logo? <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="logo" value="yes" required /> Yes, I'll share the file</label>
+              <label class="radio-label"><input type="radio" name="logo" value="no" /> No, need basic logo design (+₹500)</label>
+              <label class="radio-label"><input type="radio" name="logo" value="text" /> Text/wordmark is fine</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Do you have a domain? <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="domain" value="yes" required /> Yes, I own one</label>
+              <label class="radio-label"><input type="radio" name="domain" value="no" /> No, need help choosing one</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Any reference sites you like?</label>
+            <input type="text" class="form-input" placeholder="e.g. competitor.com or anything you admire" />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Anything else to know?</label>
+            <textarea class="form-textarea" placeholder="Special requirements, deadlines, brand colours, etc."></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">Submit Order Request →</button>
+
+          <div class="form-note">
+            <strong>50% advance</strong> is required to begin. You'll receive a payment link within 24 hours of submitting this form.
+          </div>
+
+          <div class="form-success" id="orderSuccess">
+            <div class="ok">✓ Message received</div>
+            <p>I'll review your brief and reply within 24 hours with a confirmation and payment link. Check WhatsApp too!</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- CUSTOM QUOTE FORM -->
+      <div class="form-panel alt">
+        <div class="form-panel-tag">/ E-commerce or Large Project</div>
+        <h3 class="form-panel-title">Custom Quote</h3>
+        <p class="form-panel-desc">For e-commerce stores, booking systems, CMS sites, or anything beyond a standard 5-page brochure site. Prices start at ₹15,000.</p>
+
+        <form id="quoteForm" onsubmit="handleSubmit(event,'quoteSuccess')">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Full Name <span class="req">*</span></label>
+              <input type="text" class="form-input" placeholder="Priya Verma" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">WhatsApp <span class="req">*</span></label>
+              <input type="tel" class="form-input" placeholder="+91 98765 43210" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Business / Company Name <span class="req">*</span></label>
+            <input type="text" class="form-input" placeholder="Priya's Boutique Pvt. Ltd." required />
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Project Type <span class="req">*</span></label>
+            <select class="form-select" required>
+              <option value="" disabled selected>What are you building?</option>
+              <option>E-commerce Store (product listings, cart, payments)</option>
+              <option>Booking / Appointment System</option>
+              <option>Blog or Content Site with CMS</option>
+              <option>Directory or Listing Site</option>
+              <option>Membership / Subscription Site</option>
+              <option>Custom Web App / Dashboard</option>
+              <option>Complete Rebrand / Redesign</option>
+              <option>Other (describe below)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Estimated number of products / pages</label>
+            <select class="form-select">
+              <option value="" disabled selected>Select range</option>
+              <option>Under 20</option>
+              <option>20 – 100</option>
+              <option>100 – 500</option>
+              <option>500+</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Payment Gateway needed?</label>
+            <div class="radio-group">
+              <label class="radio-label"><input type="radio" name="payment" value="razorpay" /> Razorpay (India)</label>
+              <label class="radio-label"><input type="radio" name="payment" value="stripe" /> Stripe (International)</label>
+              <label class="radio-label"><input type="radio" name="payment" value="both" /> Both</label>
+              <label class="radio-label"><input type="radio" name="payment" value="no" /> No payment needed</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Features required</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label"><input type="checkbox" /> Admin panel / CMS</label>
+              <label class="checkbox-label"><input type="checkbox" /> User login / accounts</label>
+              <label class="checkbox-label"><input type="checkbox" /> WhatsApp / email notifications</label>
+              <label class="checkbox-label"><input type="checkbox" /> Inventory management</label>
+              <label class="checkbox-label"><input type="checkbox" /> Blog / articles section</label>
+              <label class="checkbox-label"><input type="checkbox" /> Multi-language support</label>
+              <label class="checkbox-label"><input type="checkbox" /> Google Analytics integration</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Budget range</label>
+            <select class="form-select">
+              <option value="" disabled selected>Select budget</option>
+              <option>₹15,000 – ₹30,000</option>
+              <option>₹30,000 – ₹60,000</option>
+              <option>₹60,000 – ₹1,00,000</option>
+              <option>₹1,00,000+</option>
+              <option>Flexible / tell me what it costs</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Timeline</label>
+            <select class="form-select">
+              <option value="" disabled selected>When do you need it?</option>
+              <option>ASAP (within 2 weeks)</option>
+              <option>Within a month</option>
+              <option>1–3 months</option>
+              <option>Flexible</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Describe your project <span class="req">*</span></label>
+            <textarea class="form-textarea" style="min-height:120px;" placeholder="Tell me what you're building, who it's for, what problems it solves. The more detail, the better the quote." required></textarea>
+          </div>
+
+          <button type="submit" class="form-submit">Request Custom Quote →</button>
+
+          <div class="form-note">
+            Custom quotes are sent within 48 hours. <strong>50% advance</strong> applies to all projects. Minimum project size for this form is ₹15,000.
+          </div>
+
+          <div class="form-success" id="quoteSuccess">
+            <div class="ok">✓ Quote request received</div>
+            <p>I'll analyse your requirements and send a detailed quote within 48 hours on WhatsApp and email.</p>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo">script<span>.in</span></a>
+        <p>Freelance web development for Indian businesses. Fast, affordable, and built to convert.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#services">Services &amp; Pricing</a></li>
+          <li><a href="#work">Client Work</a></li>
+          <li><a href="#process">How It Works</a></li>
+          <li><a href="#samples">Sample Pages</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Packages</div>
+        <ul class="footer-links">
+          <li><a href="#contact">Landing Page — ₹2,500</a></li>
+          <li><a href="#contact">Multipage Site — ₹5,000</a></li>
+          <li><a href="#custom-quote">Custom / E-commerce</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <ul class="footer-links">
+          <li><a href="mailto:hello@script.in">hello@script.in</a></li>
+          <li><a href="https://wa.me/919876543210" target="_blank">WhatsApp</a></li>
+          <li><a href="https://instagram.com/script.in" target="_blank">Instagram</a></li>
+          <li><a href="https://linkedin.com" target="_blank">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">
+        © 2025 <span>script.in</span> · Freelance Web Development · India
+      </div>
+      <div class="footer-socials">
+        <a href="https://wa.me/919876543210" target="_blank">WhatsApp</a>
+        <a href="https://instagram.com" target="_blank">Instagram</a>
+        <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // CURSOR
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+    function animRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animRing);
+    }
+    animRing();
+
+    // NAV SCROLL
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // MOBILE NAV
+    const drawer = document.getElementById('mobileDrawer');
+    function toggleDrawer() { drawer.classList.toggle('open'); }
+    function closeDrawer() { drawer.classList.remove('open'); }
+
+    // SCROLL REVEAL
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), 80);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => obs.observe(el));
+
+    // FORM SUBMIT
+    function handleSubmit(e, successId) {
+      e.preventDefault();
+      const form = e.target;
+      const success = document.getElementById(successId);
+      form.querySelector('button[type="submit"]').textContent = 'Sent ✓';
+      form.querySelector('button[type="submit"]').style.background = 'var(--accent2)';
+      form.querySelector('button[type="submit"]').style.color = 'var(--bg)';
+      success.style.display = 'block';
+      success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // HERO TYPEWRITER
+    const highlight = document.querySelector('.hero-headline .highlight');
+    const words = ['convert.', 'inspire.', 'perform.', 'sell.'];
+    let wi = 0, ci = 0, deleting = false;
+    function typeWriter() {
+      const word = words[wi];
+      if (!deleting) {
+        highlight.textContent = word.substring(0, ci + 1);
+        ci++;
+        if (ci === word.length) { deleting = true; setTimeout(typeWriter, 2000); return; }
+      } else {
+        highlight.textContent = word.substring(0, ci - 1);
+        ci--;
+        if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+      }
+      setTimeout(typeWriter, deleting ? 60 : 110);
+    }
+    setTimeout(typeWriter, 1200);
+
+    // Duplicate ticker for seamless loop
+    const ticker = document.getElementById('ticker');
+    // Already duplicated in HTML
+  </script>
+</body>
+</html>
