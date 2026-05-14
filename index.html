@@ -1510,649 +1510,187 @@
         <div class="section-tag">/ Industry Samples</div>
         <h2 class="section-title">Every industry,<br/><em>a distinct voice.</em></h2>
       </div>
-      <p class="section-desc">10 live-quality mini-sites — each with its own palette and personality. Pick your industry, see your site.</p>
+      <p class="section-desc">10 fully built sample sites — click any card to open a real, complete website. Your industry is in here.</p>
     </div>
 
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;background:var(--border);" class="reveal">
+    <style>
+      .industry-samples-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 2px;
+        background: var(--border);
+      }
+      .ind-card {
+        background: var(--bg2);
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        overflow: hidden;
+        transition: background 0.25s;
+        position: relative;
+      }
+      .ind-card:hover { background: var(--bg3); }
+      .ind-card:hover .ind-view { opacity: 1; transform: translateY(0); }
+      .ind-preview {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        position: relative;
+        background: var(--bg3);
+      }
+      .ind-preview iframe {
+        position: absolute;
+        top: 0; left: 0;
+        width: 200%; height: 200%;
+        transform: scale(0.5);
+        transform-origin: top left;
+        pointer-events: none;
+        border: none;
+      }
+      .ind-meta {
+        padding: 14px 16px 16px;
+        border-top: 1px solid var(--border);
+        flex: 1;
+      }
+      .ind-cat {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--accent);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        margin-bottom: 3px;
+      }
+      .ind-name {
+        font-family: var(--serif);
+        font-size: 17px;
+        color: var(--text);
+        line-height: 1.1;
+        margin-bottom: 3px;
+      }
+      .ind-style {
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--text-muted);
+        letter-spacing: 0.04em;
+      }
+      .ind-view {
+        display: inline-block;
+        font-family: var(--mono);
+        font-size: 9px;
+        color: var(--accent);
+        letter-spacing: 0.06em;
+        margin-top: 8px;
+        opacity: 0;
+        transform: translateY(5px);
+        transition: all 0.2s;
+      }
+      @media (max-width: 1280px) { .industry-samples-grid { grid-template-columns: repeat(4, 1fr); } }
+      @media (max-width: 960px)  { .industry-samples-grid { grid-template-columns: repeat(3, 1fr); } }
+      @media (max-width: 640px)  { .industry-samples-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
 
-      <!-- ═══════════════════════════════════════
-           1. CONSTRUCTION — BuildCore
-           Dark charcoal + safety orange
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">buildcore.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#111;width:100%;height:100%;padding:12px 14px;font-family:sans-serif;overflow:hidden;">
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;border-bottom:1px solid rgba(249,115,22,0.2);padding-bottom:8px;">
-                    <div style="font-size:10px;font-weight:900;color:#f97316;letter-spacing:0.1em;text-transform:uppercase;">BUILD<span style="color:#fff;">CORE</span></div>
-                    <div style="display:flex;gap:8px;">
-                      <span style="font-size:6px;color:rgba(255,255,255,0.4);">Projects</span>
-                      <span style="font-size:6px;color:rgba(255,255,255,0.4);">Services</span>
-                      <span style="font-size:6px;color:rgba(255,255,255,0.4);">Contact</span>
-                    </div>
-                  </div>
-                  <!-- Hero -->
-                  <div style="background:linear-gradient(135deg,#1a1a1a,#0d0d0d);border-left:3px solid #f97316;padding:10px 12px;margin-bottom:8px;position:relative;overflow:hidden;">
-                    <div style="position:absolute;right:-8px;bottom:-8px;width:50px;height:50px;background:rgba(249,115,22,0.08);border-radius:50%;"></div>
-                    <div style="font-size:6px;color:#f97316;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">Est. 2009 · Pune · Maharashtra</div>
-                    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:4px;font-family:Georgia,serif;">We Build What<br/><span style="color:#f97316;">Others Dream.</span></div>
-                    <div style="font-size:6px;color:rgba(255,255,255,0.45);margin-bottom:8px;">Residential · Commercial · Industrial Construction</div>
-                    <div style="display:flex;gap:6px;">
-                      <span style="background:#f97316;color:#000;font-size:6px;font-weight:700;padding:4px 10px;letter-spacing:0.06em;">GET QUOTE</span>
-                      <span style="border:1px solid rgba(249,115,22,0.4);color:#f97316;font-size:6px;padding:4px 8px;">Our Projects</span>
-                    </div>
-                  </div>
-                  <!-- Services -->
-                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;">
-                    <div style="background:#1a1a1a;border-top:2px solid #f97316;padding:6px;">
-                      <div style="font-size:10px;margin-bottom:3px;">🏗</div>
-                      <div style="font-size:7px;color:#f97316;font-weight:700;margin-bottom:2px;">Residential</div>
-                      <div style="font-size:5px;color:rgba(255,255,255,0.35);line-height:1.4;">Villas, row houses, flats — turnkey delivery</div>
-                    </div>
-                    <div style="background:#1a1a1a;border-top:2px solid rgba(249,115,22,0.3);padding:6px;">
-                      <div style="font-size:10px;margin-bottom:3px;">🏢</div>
-                      <div style="font-size:7px;color:#fff;font-weight:700;margin-bottom:2px;">Commercial</div>
-                      <div style="font-size:5px;color:rgba(255,255,255,0.35);line-height:1.4;">Offices, retail, warehouses on time</div>
-                    </div>
-                    <div style="background:#1a1a1a;border-top:2px solid rgba(249,115,22,0.3);padding:6px;">
-                      <div style="font-size:10px;margin-bottom:3px;">🔨</div>
-                      <div style="font-size:7px;color:#fff;font-weight:700;margin-bottom:2px;">Renovation</div>
-                      <div style="font-size:5px;color:rgba(255,255,255,0.35);line-height:1.4;">Transform existing spaces beautifully</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Construction</div>
-            <div class="work-title" style="font-size:16px;">BuildCore Construction</div>
-            <div class="work-tags">
-              <span class="work-tag">Industrial</span><span class="work-tag">Orange + Black</span>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="industry-samples-grid reveal">
 
-      <!-- ═══════════════════════════════════════
-           2. ADVERTISING AGENCY — Voltage Creative
-           Black + hot pink + electric yellow
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">voltagecreative.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#060606;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;position:relative;">
-                  <!-- animated bg blobs -->
-                  <div style="position:absolute;width:80px;height:80px;background:radial-gradient(circle,rgba(247,37,85,0.2),transparent);top:-10px;right:-10px;border-radius:50%;"></div>
-                  <div style="position:absolute;width:60px;height:60px;background:radial-gradient(circle,rgba(248,231,43,0.12),transparent);bottom:20px;left:10px;border-radius:50%;"></div>
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-                    <div style="font-size:11px;font-weight:900;letter-spacing:-0.02em;">
-                      <span style="color:#f72555;">VOLT</span><span style="color:#f8e72b;">AGE</span>
-                    </div>
-                    <div style="display:flex;gap:8px;align-items:center;">
-                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Work</span>
-                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Services</span>
-                      <span style="background:#f72555;color:#fff;font-size:6px;padding:3px 7px;font-weight:700;">Hire Us</span>
-                    </div>
-                  </div>
-                  <!-- Giant headline -->
-                  <div style="margin-bottom:8px;">
-                    <div style="font-size:6px;color:#f8e72b;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;">Creative Agency · India</div>
-                    <div style="font-size:16px;font-weight:900;color:#fff;line-height:0.95;letter-spacing:-0.03em;font-family:Georgia,serif;">
-                      WE MAKE<br/><span style="color:#f72555;font-style:italic;">BRANDS</span><br/>SCREAM.
-                    </div>
-                  </div>
-                  <!-- Campaign chips -->
-                  <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px;">
-                    <span style="background:#f72555;color:#fff;font-size:5px;padding:3px 7px;font-weight:700;letter-spacing:0.06em;">SOCIAL MEDIA</span>
-                    <span style="background:#f8e72b;color:#060606;font-size:5px;padding:3px 7px;font-weight:700;letter-spacing:0.06em;">BRAND IDENTITY</span>
-                    <span style="border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.5);font-size:5px;padding:3px 7px;">PAID ADS</span>
-                  </div>
-                  <!-- Campaign thumbnails -->
-                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
-                    <div style="background:linear-gradient(135deg,#f72555,#7c1d44);height:36px;display:flex;align-items:center;justify-content:center;font-size:6px;color:rgba(255,255,255,0.7);font-weight:700;">ZOMATO</div>
-                    <div style="background:linear-gradient(135deg,#f8e72b,#d4a017);height:36px;display:flex;align-items:center;justify-content:center;font-size:6px;color:#000;font-weight:700;">STARTUP X</div>
-                    <div style="background:linear-gradient(135deg,#2563eb,#1e3a8a);height:36px;display:flex;align-items:center;justify-content:center;font-size:6px;color:rgba(255,255,255,0.7);font-weight:700;">FINTECH CO</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Advertising Agency</div>
-            <div class="work-title" style="font-size:16px;">Voltage Creative</div>
-            <div class="work-tags">
-              <span class="work-tag">Maximalist</span><span class="work-tag">Pink + Yellow</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- iframe cards — real pages, not thumbnails -->
 
-      <!-- ═══════════════════════════════════════
-           3. FMCG — Zest Beverages
-           Deep forest green + chartreuse + white
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">zestdrink.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#0a1a0a;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;position:relative;">
-                  <div style="position:absolute;right:16px;top:28px;width:44px;height:80px;background:linear-gradient(160deg,#a3e635,#4ade80);border-radius:20px;opacity:0.9;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(163,230,53,0.3);">
-                    <div style="font-size:5px;color:#0a1a0a;font-weight:900;text-align:center;line-height:1.3;">ZEST<br/>250<br/>ML</div>
-                  </div>
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                    <div style="font-size:12px;font-weight:900;color:#a3e635;letter-spacing:-0.02em;font-family:Georgia,serif;font-style:italic;">zest.</div>
-                    <div style="display:flex;gap:6px;">
-                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Products</span>
-                      <span style="font-size:6px;color:rgba(255,255,255,0.35);">Where to Buy</span>
-                    </div>
-                  </div>
-                  <!-- Hero text -->
-                  <div style="max-width:62%;margin-bottom:8px;">
-                    <div style="font-size:6px;color:#a3e635;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">✦ Real Fruit · No Sugar</div>
-                    <div style="font-size:14px;font-weight:900;color:#fff;line-height:1.0;letter-spacing:-0.03em;font-family:Georgia,serif;">Drink<br/><span style="color:#a3e635;">Different.</span></div>
-                    <div style="font-size:6px;color:rgba(255,255,255,0.4);margin:4px 0 8px;">Cold-pressed juices for people who give a damn about what they drink.</div>
-                    <span style="background:#a3e635;color:#0a1a0a;font-size:6px;font-weight:700;padding:4px 10px;letter-spacing:0.06em;">SHOP NOW</span>
-                  </div>
-                  <!-- Variant chips -->
-                  <div style="display:flex;gap:3px;flex-wrap:wrap;">
-                    <span style="background:rgba(163,230,53,0.15);border:1px solid rgba(163,230,53,0.3);color:#a3e635;font-size:5px;padding:3px 7px;">🍋 Lemon Ginger</span>
-                    <span style="background:rgba(251,146,60,0.1);border:1px solid rgba(251,146,60,0.25);color:#fb923c;font-size:5px;padding:3px 7px;">🥭 Mango Burst</span>
-                    <span style="background:rgba(244,114,182,0.1);border:1px solid rgba(244,114,182,0.25);color:#f472b6;font-size:5px;padding:3px 7px;">🍓 Berry Mix</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/construction.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/construction.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Construction</div>
+          <div class="ind-name">BuildCore</div>
+          <div class="ind-style">Industrial · Orange + Black</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">FMCG / Beverages</div>
-            <div class="work-title" style="font-size:16px;">Zest Drink Co.</div>
-            <div class="work-tags">
-              <span class="work-tag">Product-led</span><span class="work-tag">Green + Black</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           4. REAL ESTATE — Prestige Living
-           Deep navy + champagne gold + cream
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">prestigeliving.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#0c1930;width:100%;height:100%;padding:10px 12px;font-family:serif;overflow:hidden;">
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;border-bottom:1px solid rgba(212,168,75,0.2);padding-bottom:7px;">
-                    <div style="font-size:9px;font-weight:400;color:#d4a84b;letter-spacing:0.18em;text-transform:uppercase;font-family:Georgia,serif;">PRESTIGE <span style="color:rgba(245,240,232,0.6);">LIVING</span></div>
-                    <div style="display:flex;gap:8px;">
-                      <span style="font-size:6px;color:rgba(245,240,232,0.4);letter-spacing:0.06em;">Buy</span>
-                      <span style="font-size:6px;color:rgba(245,240,232,0.4);">Rent</span>
-                      <span style="font-size:6px;color:rgba(245,240,232,0.4);">Projects</span>
-                      <span style="background:#d4a84b;color:#0c1930;font-size:5px;padding:3px 7px;font-weight:700;letter-spacing:0.06em;">CONTACT</span>
-                    </div>
-                  </div>
-                  <!-- Hero -->
-                  <div style="margin-bottom:8px;">
-                    <div style="font-size:6px;color:rgba(212,168,75,0.7);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;">Premium Properties · Pune</div>
-                    <div style="font-size:15px;color:#f5f0e8;line-height:1.0;margin-bottom:5px;font-style:italic;">Find Your<br/><span style="color:#d4a84b;">Forever Home.</span></div>
-                    <div style="font-size:6px;color:rgba(245,240,232,0.4);margin-bottom:8px;">Handpicked villas, penthouses &amp; flats in Pune's finest localities</div>
-                    <!-- Search bar -->
-                    <div style="background:rgba(212,168,75,0.08);border:1px solid rgba(212,168,75,0.2);padding:5px 8px;display:flex;align-items:center;gap:6px;">
-                      <span style="font-size:6px;color:rgba(245,240,232,0.3);">🔍 Search by location, BHK...</span>
-                      <span style="background:#d4a84b;color:#0c1930;font-size:5px;padding:3px 7px;margin-left:auto;font-weight:700;letter-spacing:0.05em;">SEARCH</span>
-                    </div>
-                  </div>
-                  <!-- Listings -->
-                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:4px;">
-                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,75,0.12);padding:5px 7px;">
-                      <div style="background:linear-gradient(135deg,#1a2a4a,#0e1f3a);height:28px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;">
-                        <span style="font-size:7px;opacity:0.3;">🏠</span>
-                      </div>
-                      <div style="font-size:6px;color:#f5f0e8;font-weight:600;margin-bottom:1px;">3 BHK Villa · Baner</div>
-                      <div style="font-size:7px;color:#d4a84b;font-weight:700;">₹1.2 Cr</div>
-                    </div>
-                    <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(212,168,75,0.12);padding:5px 7px;">
-                      <div style="background:linear-gradient(135deg,#1a2a4a,#0e1f3a);height:28px;margin-bottom:4px;display:flex;align-items:center;justify-content:center;">
-                        <span style="font-size:7px;opacity:0.3;">🏢</span>
-                      </div>
-                      <div style="font-size:6px;color:#f5f0e8;font-weight:600;margin-bottom:1px;">2 BHK Penthouse · Kalyani</div>
-                      <div style="font-size:7px;color:#d4a84b;font-weight:700;">₹85 L</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/advertising.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/advertising.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Advertising Agency</div>
+          <div class="ind-name">Voltage Creative</div>
+          <div class="ind-style">Maximalist · Pink + Yellow</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Real Estate</div>
-            <div class="work-title" style="font-size:16px;">Prestige Living</div>
-            <div class="work-tags">
-              <span class="work-tag">Luxury</span><span class="work-tag">Navy + Gold</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           5. HEALTHCARE — ClearMed Clinic
-           White + sky blue + mint — clinical clean
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">clearmedclinic.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#f8fafc;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;">
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #e2e8f0;padding:5px 10px;margin-bottom:8px;border-radius:4px;">
-                    <div style="font-size:9px;font-weight:800;color:#0369a1;">Clear<span style="color:#059669;">Med</span></div>
-                    <div style="display:flex;gap:7px;align-items:center;">
-                      <span style="font-size:6px;color:#64748b;">Specialities</span>
-                      <span style="font-size:6px;color:#64748b;">Doctors</span>
-                      <span style="background:#0369a1;color:#fff;font-size:5px;padding:3px 8px;border-radius:2px;font-weight:700;">Book Appt</span>
-                    </div>
-                  </div>
-                  <!-- Hero -->
-                  <div style="background:linear-gradient(135deg,#eff6ff,#ecfdf5);border:1px solid #bfdbfe;padding:10px 12px;margin-bottom:7px;border-radius:3px;position:relative;">
-                    <div style="position:absolute;right:8px;top:8px;width:32px;height:32px;background:rgba(3,105,161,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;">🩺</div>
-                    <div style="font-size:6px;color:#059669;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:4px;">✓ NABH Certified · Est. 2011</div>
-                    <div style="font-size:13px;font-weight:800;color:#0f172a;line-height:1.1;margin-bottom:4px;">Your Health,<br/>Our <span style="color:#0369a1;">Priority.</span></div>
-                    <div style="font-size:6px;color:#64748b;margin-bottom:7px;line-height:1.4;">Advanced diagnostics &amp; compassionate care in Pune</div>
-                    <div style="display:flex;gap:5px;">
-                      <span style="background:#0369a1;color:#fff;font-size:6px;padding:4px 9px;font-weight:700;letter-spacing:0.04em;">Book Now</span>
-                      <span style="border:1px solid #bfdbfe;color:#0369a1;font-size:6px;padding:4px 7px;">Emergency: 104</span>
-                    </div>
-                  </div>
-                  <!-- Specialties -->
-                  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;">
-                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
-                      <div style="font-size:10px;margin-bottom:2px;">❤️</div>
-                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Cardiology</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
-                      <div style="font-size:10px;margin-bottom:2px;">🦷</div>
-                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Dental</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
-                      <div style="font-size:10px;margin-bottom:2px;">👁</div>
-                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Eye Care</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;padding:5px;text-align:center;border-radius:2px;">
-                      <div style="font-size:10px;margin-bottom:2px;">🧠</div>
-                      <div style="font-size:5px;color:#0369a1;font-weight:700;">Neuro</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/fmcg.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/fmcg.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">FMCG / Beverages</div>
+          <div class="ind-name">Zest Juices</div>
+          <div class="ind-style">Clean · Green + White</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Healthcare / Clinic</div>
-            <div class="work-title" style="font-size:16px;">ClearMed Clinic</div>
-            <div class="work-tags">
-              <span class="work-tag">Clinical Clean</span><span class="work-tag">Blue + White</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           6. LAW FIRM — Khatri & Associates
-           Dark mahogany + gold + aged cream
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">khatrilaw.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#120b04;width:100%;height:100%;padding:10px 12px;font-family:Georgia,serif;overflow:hidden;">
-                  <!-- Top bar -->
-                  <div style="border-bottom:1px solid rgba(201,164,78,0.25);padding-bottom:6px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
-                    <div>
-                      <div style="font-size:9px;color:#c9a44e;letter-spacing:0.2em;text-transform:uppercase;font-family:Georgia,serif;">KHATRI <span style="color:rgba(245,240,230,0.5)">&amp; ASSOCIATES</span></div>
-                      <div style="font-size:5px;color:rgba(245,240,230,0.3);letter-spacing:0.15em;text-transform:uppercase;margin-top:1px;">Advocates &amp; Legal Consultants · Est. 1994</div>
-                    </div>
-                    <span style="background:#c9a44e;color:#120b04;font-size:5px;padding:3px 8px;font-weight:700;letter-spacing:0.06em;font-family:sans-serif;">CONSULTATION</span>
-                  </div>
-                  <!-- Hero -->
-                  <div style="padding:8px 0;margin-bottom:8px;border-bottom:1px solid rgba(201,164,78,0.1);">
-                    <div style="font-size:6px;color:rgba(201,164,78,0.6);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:5px;font-family:sans-serif;">Thirty Years of Excellence</div>
-                    <div style="font-size:15px;color:#f5f0e6;line-height:1.05;font-style:italic;margin-bottom:5px;">Justice.<br/><span style="color:#c9a44e;">Integrity.</span><br/>Excellence.</div>
-                    <div style="font-size:6px;color:rgba(245,240,230,0.35);line-height:1.5;font-family:sans-serif;max-width:80%;">Corporate litigation, property law, criminal defence and family matters — handled with the gravitas they deserve.</div>
-                  </div>
-                  <!-- Practice areas -->
-                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;">
-                    <div style="border-left:2px solid #c9a44e;padding:4px 6px;">
-                      <div style="font-size:6px;color:#c9a44e;font-weight:700;margin-bottom:1px;font-family:sans-serif;">Corporate Law</div>
-                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">M&amp;A, contracts, compliance</div>
-                    </div>
-                    <div style="border-left:2px solid rgba(201,164,78,0.3);padding:4px 6px;">
-                      <div style="font-size:6px;color:rgba(245,240,230,0.7);font-weight:700;margin-bottom:1px;font-family:sans-serif;">Property Law</div>
-                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">Disputes, titles, registrations</div>
-                    </div>
-                    <div style="border-left:2px solid rgba(201,164,78,0.3);padding:4px 6px;">
-                      <div style="font-size:6px;color:rgba(245,240,230,0.7);font-weight:700;margin-bottom:1px;font-family:sans-serif;">Criminal Defence</div>
-                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">Sessions, HC, SC appearances</div>
-                    </div>
-                    <div style="border-left:2px solid rgba(201,164,78,0.3);padding:4px 6px;">
-                      <div style="font-size:6px;color:rgba(245,240,230,0.7);font-weight:700;margin-bottom:1px;font-family:sans-serif;">Family Matters</div>
-                      <div style="font-size:5px;color:rgba(245,240,230,0.3);font-family:sans-serif;">Divorce, custody, succession</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/realestate.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/realestate.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Real Estate</div>
+          <div class="ind-name">Prestige Properties</div>
+          <div class="ind-style">Luxury · Navy + Gold</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Law Firm</div>
-            <div class="work-title" style="font-size:16px;">Khatri &amp; Associates</div>
-            <div class="work-tags">
-              <span class="work-tag">Prestigious</span><span class="work-tag">Mahogany + Gold</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           7. GYM / FITNESS — IronFuel
-           Pure black + electric red + stark white
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">ironfuel.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#030303;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;position:relative;">
-                  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ef4444,transparent);"></div>
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                    <div style="font-size:12px;font-weight:900;color:#fff;letter-spacing:-0.03em;text-transform:uppercase;font-family:Impact,sans-serif;">IRON<span style="color:#ef4444;">FUEL</span></div>
-                    <div style="display:flex;gap:6px;align-items:center;">
-                      <span style="font-size:6px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Plans</span>
-                      <span style="font-size:6px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:0.08em;">Classes</span>
-                      <span style="background:#ef4444;color:#fff;font-size:6px;padding:3px 8px;font-weight:900;letter-spacing:0.06em;text-transform:uppercase;">JOIN</span>
-                    </div>
-                  </div>
-                  <!-- Hero -->
-                  <div style="margin-bottom:8px;">
-                    <div style="font-size:6px;color:#ef4444;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:3px;font-weight:700;">6 AM – 11 PM · Pune</div>
-                    <div style="font-size:18px;font-weight:900;color:#fff;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase;margin-bottom:5px;font-family:Impact,sans-serif;">NO<br/><span style="color:#ef4444;">EXCUSES.</span><br/>JUST</div>
-                    <div style="font-size:18px;font-weight:900;color:#fff;line-height:0.9;letter-spacing:-0.04em;text-transform:uppercase;font-family:Impact,sans-serif;">RESULTS.</div>
-                  </div>
-                  <!-- Membership tiers -->
-                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;margin-top:8px;">
-                    <div style="background:#111;border-top:2px solid rgba(239,68,68,0.3);padding:5px;text-align:center;">
-                      <div style="font-size:7px;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:1px;">Basic</div>
-                      <div style="font-size:9px;font-weight:900;color:#ef4444;">₹799<span style="font-size:5px;color:rgba(255,255,255,0.3);font-weight:400;">/mo</span></div>
-                    </div>
-                    <div style="background:#1a0000;border-top:2px solid #ef4444;padding:5px;text-align:center;">
-                      <div style="font-size:7px;font-weight:900;color:#ef4444;text-transform:uppercase;margin-bottom:1px;">PRO ★</div>
-                      <div style="font-size:9px;font-weight:900;color:#fff;">₹1,299<span style="font-size:5px;color:rgba(255,255,255,0.3);font-weight:400;">/mo</span></div>
-                    </div>
-                    <div style="background:#111;border-top:2px solid rgba(239,68,68,0.3);padding:5px;text-align:center;">
-                      <div style="font-size:7px;font-weight:900;color:#fff;text-transform:uppercase;margin-bottom:1px;">Elite</div>
-                      <div style="font-size:9px;font-weight:900;color:#ef4444;">₹1,999<span style="font-size:5px;color:rgba(255,255,255,0.3);font-weight:400;">/mo</span></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/healthcare.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/healthcare.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Healthcare</div>
+          <div class="ind-name">ClearMed Clinic</div>
+          <div class="ind-style">Clinical · Blue + White</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Gym / Fitness</div>
-            <div class="work-title" style="font-size:16px;">IronFuel Gym</div>
-            <div class="work-tags">
-              <span class="work-tag">High-Energy</span><span class="work-tag">Red + Black</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           8. SALON / BEAUTY — Petal Studio
-           Blush + rose gold + deep plum
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">petalstudio.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#fdf6f1;width:100%;height:100%;padding:10px 12px;font-family:Georgia,serif;overflow:hidden;">
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(196,116,138,0.15);padding-bottom:7px;margin-bottom:8px;">
-                    <div style="font-size:11px;color:#2d1620;font-style:italic;font-weight:700;">Petal <span style="color:#c4748a;">Studio</span></div>
-                    <div style="display:flex;gap:7px;align-items:center;">
-                      <span style="font-size:6px;color:#9c6b78;font-family:sans-serif;">Services</span>
-                      <span style="font-size:6px;color:#9c6b78;font-family:sans-serif;">Gallery</span>
-                      <span style="background:#c4748a;color:#fff;font-size:5px;padding:3px 8px;font-family:sans-serif;letter-spacing:0.05em;">Book Now</span>
-                    </div>
-                  </div>
-                  <!-- Hero -->
-                  <div style="display:flex;gap:8px;margin-bottom:8px;align-items:flex-start;">
-                    <div style="flex:1;">
-                      <div style="font-size:6px;color:#c4748a;letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;font-family:sans-serif;">✦ Premium Beauty · Pune</div>
-                      <div style="font-size:14px;color:#2d1620;line-height:1.05;margin-bottom:4px;font-style:italic;">Glow is<br/>Not a Secret.</div>
-                      <div style="font-size:6px;color:#9c6b78;margin-bottom:7px;line-height:1.4;font-family:sans-serif;">Luxury hair, skin &amp; nail treatments in a space designed for you.</div>
-                      <span style="background:#2d1620;color:#fdf6f1;font-size:6px;padding:4px 10px;font-family:sans-serif;letter-spacing:0.06em;">Book Appointment</span>
-                    </div>
-                    <!-- Decorative circle -->
-                    <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#f8d7d9,#e8a0b0);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(196,116,138,0.2);">🌸</div>
-                  </div>
-                  <!-- Services -->
-                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
-                    <div style="background:#fff;border:1px solid rgba(196,116,138,0.15);padding:5px;text-align:center;">
-                      <div style="font-size:9px;margin-bottom:2px;">💇‍♀️</div>
-                      <div style="font-size:6px;color:#2d1620;font-family:sans-serif;font-weight:700;">Hair</div>
-                      <div style="font-size:5px;color:#9c6b78;font-family:sans-serif;">from ₹499</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid rgba(196,116,138,0.2);padding:5px;text-align:center;border-top:2px solid #c4748a;">
-                      <div style="font-size:9px;margin-bottom:2px;">✨</div>
-                      <div style="font-size:6px;color:#c4748a;font-family:sans-serif;font-weight:700;">Skin</div>
-                      <div style="font-size:5px;color:#9c6b78;font-family:sans-serif;">from ₹799</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid rgba(196,116,138,0.15);padding:5px;text-align:center;">
-                      <div style="font-size:9px;margin-bottom:2px;">💅</div>
-                      <div style="font-size:6px;color:#2d1620;font-family:sans-serif;font-weight:700;">Nails</div>
-                      <div style="font-size:5px;color:#9c6b78;font-family:sans-serif;">from ₹349</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/law.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/law.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Law Firm</div>
+          <div class="ind-name">Khatri &amp; Associates</div>
+          <div class="ind-style">Prestigious · Mahogany + Gold</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Salon / Beauty</div>
-            <div class="work-title" style="font-size:16px;">Petal Studio</div>
-            <div class="work-tags">
-              <span class="work-tag">Feminine Luxury</span><span class="work-tag">Blush + Plum</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           9. RESTAURANT / FINE DINING — Casa Bella
-           Deep black + warm amber + cream
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">casabella.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#0c0906;width:100%;height:100%;padding:10px 12px;font-family:Georgia,serif;overflow:hidden;">
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                    <div style="font-size:10px;color:#e8c04a;font-style:italic;">Casa <span style="color:#f5ecd8;">Bella</span></div>
-                    <div style="display:flex;gap:7px;">
-                      <span style="font-size:6px;color:rgba(245,236,216,0.4);font-family:sans-serif;">Menu</span>
-                      <span style="font-size:6px;color:rgba(245,236,216,0.4);font-family:sans-serif;">Reserve</span>
-                      <span style="font-size:6px;color:rgba(245,236,216,0.4);font-family:sans-serif;">Contact</span>
-                    </div>
-                  </div>
-                  <!-- Hero -->
-                  <div style="background:linear-gradient(to right,rgba(12,9,6,0.95),rgba(12,9,6,0.7)),repeating-linear-gradient(45deg,rgba(232,192,74,0.03) 0px,rgba(232,192,74,0.03) 1px,transparent 1px,transparent 20px);border:1px solid rgba(232,192,74,0.1);padding:10px 12px;margin-bottom:7px;">
-                    <div style="font-size:5px;color:rgba(232,192,74,0.6);letter-spacing:0.2em;text-transform:uppercase;margin-bottom:4px;font-family:sans-serif;">✦ Fine Dining · Koregaon Park · Pune</div>
-                    <div style="font-size:15px;color:#f5ecd8;line-height:1.0;margin-bottom:5px;font-style:italic;">Where Every Meal<br/>is a <span style="color:#e8c04a;">Memory.</span></div>
-                    <div style="font-size:6px;color:rgba(245,236,216,0.4);margin-bottom:7px;font-family:sans-serif;line-height:1.4;">Authentic Italian cuisine curated by Chef Marco Rossi</div>
-                    <div style="display:flex;gap:5px;">
-                      <span style="background:#e8c04a;color:#0c0906;font-size:6px;padding:4px 10px;font-weight:700;font-family:sans-serif;">Reserve Table</span>
-                      <span style="border:1px solid rgba(232,192,74,0.3);color:#e8c04a;font-size:6px;padding:4px 8px;font-family:sans-serif;">View Menu</span>
-                    </div>
-                  </div>
-                  <!-- Menu items -->
-                  <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:3px;">
-                    <div style="background:rgba(232,192,74,0.04);border:1px solid rgba(232,192,74,0.08);padding:5px 7px;display:flex;justify-content:space-between;">
-                      <div><div style="font-size:6px;color:#f5ecd8;font-weight:600;font-family:sans-serif;">Truffle Risotto</div><div style="font-size:5px;color:rgba(245,236,216,0.35);font-family:sans-serif;margin-top:1px;">Arborio, black truffle</div></div>
-                      <div style="font-size:7px;color:#e8c04a;font-family:sans-serif;font-weight:700;">₹780</div>
-                    </div>
-                    <div style="background:rgba(232,192,74,0.04);border:1px solid rgba(232,192,74,0.08);padding:5px 7px;display:flex;justify-content:space-between;">
-                      <div><div style="font-size:6px;color:#f5ecd8;font-weight:600;font-family:sans-serif;">Burrata Salad</div><div style="font-size:5px;color:rgba(245,236,216,0.35);font-family:sans-serif;margin-top:1px;">Heirloom tomatoes</div></div>
-                      <div style="font-size:7px;color:#e8c04a;font-family:sans-serif;font-weight:700;">₹520</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/gym.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/gym.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Gym / Fitness</div>
+          <div class="ind-name">IronFuel Gym</div>
+          <div class="ind-style">High-Energy · Red + Black</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Restaurant / Dining</div>
-            <div class="work-title" style="font-size:16px;">Casa Bella Ristorante</div>
-            <div class="work-tags">
-              <span class="work-tag">Dark Editorial</span><span class="work-tag">Amber + Black</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      </a>
 
-      <!-- ═══════════════════════════════════════
-           10. EDUCATION / COACHING — Mindset Academy
-           Deep violet + electric lime + white
-           ═══════════════════════════════════════ -->
-      <div class="work-card">
-        <div class="work-thumb-wrap" style="aspect-ratio:4/3;">
-          <div class="work-thumb">
-            <div class="work-browser">
-              <div class="browser-bar">
-                <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
-                <div class="browser-url">mindsetacademy.in</div>
-              </div>
-              <div class="browser-content" style="overflow:hidden;">
-                <div style="background:#f9f7ff;width:100%;height:100%;padding:10px 12px;font-family:sans-serif;overflow:hidden;">
-                  <!-- Nav -->
-                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-                    <div style="font-size:10px;font-weight:800;color:#4f46e5;letter-spacing:-0.02em;">mindset<span style="color:#7c3aed;">.in</span></div>
-                    <div style="display:flex;gap:7px;align-items:center;">
-                      <span style="font-size:6px;color:#64748b;">Courses</span>
-                      <span style="font-size:6px;color:#64748b;">About</span>
-                      <span style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;font-size:6px;padding:3px 8px;border-radius:2px;font-weight:700;">Enroll</span>
-                    </div>
-                  </div>
-                  <!-- Hero banner -->
-                  <div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:10px 12px;margin-bottom:7px;position:relative;overflow:hidden;">
-                    <div style="position:absolute;right:-10px;top:-10px;width:50px;height:50px;background:rgba(255,255,255,0.06);border-radius:50%;"></div>
-                    <div style="font-size:5px;color:rgba(255,255,255,0.6);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:4px;">✦ Online Coaching · India</div>
-                    <div style="font-size:14px;font-weight:800;color:#fff;line-height:1.05;margin-bottom:4px;font-family:Georgia,serif;">Transform Your<br/>Career in 90 Days</div>
-                    <div style="font-size:6px;color:rgba(255,255,255,0.6);margin-bottom:7px;">UPSC · CAT · Placement interviews — with India's best</div>
-                    <span style="background:#fff;color:#4f46e5;font-size:6px;padding:4px 10px;font-weight:800;">Enroll Now — ₹4,999</span>
-                  </div>
-                  <!-- Feature cards -->
-                  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:3px;">
-                    <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #4f46e5;padding:5px;">
-                      <div style="font-size:11px;font-weight:800;color:#4f46e5;opacity:0.25;">01</div>
-                      <div style="font-size:6px;color:#1e1b4b;font-weight:700;margin-bottom:1px;">Live Classes</div>
-                      <div style="font-size:5px;color:#94a3b8;line-height:1.3;">3× weekly with top mentors</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #7c3aed;padding:5px;">
-                      <div style="font-size:11px;font-weight:800;color:#7c3aed;opacity:0.25;">02</div>
-                      <div style="font-size:6px;color:#1e1b4b;font-weight:700;margin-bottom:1px;">Mock Tests</div>
-                      <div style="font-size:5px;color:#94a3b8;line-height:1.3;">50+ full-length tests</div>
-                    </div>
-                    <div style="background:#fff;border:1px solid #e2e8f0;border-top:2px solid #a78bfa;padding:5px;">
-                      <div style="font-size:11px;font-weight:800;color:#a78bfa;opacity:0.25;">03</div>
-                      <div style="font-size:6px;color:#1e1b4b;font-weight:700;margin-bottom:1px;">Community</div>
-                      <div style="font-size:5px;color:#94a3b8;line-height:1.3;">2,000+ active learners</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+      <a href="/samples/salon.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/salon.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Salon / Beauty</div>
+          <div class="ind-name">Petal Studio</div>
+          <div class="ind-style">Feminine Luxury · Blush + Plum</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-        <div class="work-info" style="padding:18px 20px;">
-          <div>
-            <div class="work-category">Education / Coaching</div>
-            <div class="work-title" style="font-size:16px;">Mindset Academy</div>
-            <div class="work-tags">
-              <span class="work-tag">Editorial</span><span class="work-tag">Violet + White</span>
-            </div>
-          </div>
+      </a>
+
+      <a href="/samples/restaurant.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/restaurant.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Restaurant / Dining</div>
+          <div class="ind-name">Casa Bella</div>
+          <div class="ind-style">Dark Editorial · Amber + Black</div>
+          <div class="ind-view">View Full Site →</div>
         </div>
-      </div>
+      </a>
+
+      <a href="/samples/coaching.html" target="_blank" class="ind-card">
+        <div class="ind-preview"><iframe src="/samples/coaching.html" loading="lazy" scrolling="no" tabindex="-1"></iframe></div>
+        <div class="ind-meta">
+          <div class="ind-cat">Education / Coaching</div>
+          <div class="ind-name">Mindset Academy</div>
+          <div class="ind-style">Modern · Indigo + White</div>
+          <div class="ind-view">View Full Site →</div>
+        </div>
+      </a>
 
     </div>
 
@@ -2242,31 +1780,31 @@
         <h3 class="form-panel-title">Place Your Order</h3>
         <p class="form-panel-desc">For the ₹5,000 multipage website or ₹2,500 landing page. Answer a few quick questions so we hit the ground running.</p>
 
-        <form id="orderForm" onsubmit="handleSubmit(event,'orderSuccess')">
+        <form id="orderForm" onsubmit="handleSubmit(event,'contact','orderSuccess')">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Your Name <span class="req">*</span></label>
-              <input type="text" class="form-input" placeholder="Rahul Sharma" required />
+              <input type="text" name="name" class="form-input" placeholder="Rahul Sharma" required />
             </div>
             <div class="form-group">
               <label class="form-label">WhatsApp Number <span class="req">*</span></label>
-              <input type="tel" class="form-input" placeholder="+91 98765 43210" required />
+              <input type="tel" name="whatsapp" class="form-input" placeholder="+91 98765 43210" required />
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Email Address <span class="req">*</span></label>
-            <input type="email" class="form-input" placeholder="you@domain.com" required />
+            <input type="email" name="email" class="form-input" placeholder="you@domain.com" required />
           </div>
 
           <div class="form-group">
             <label class="form-label">What does your business do? <span class="req">*</span></label>
-            <input type="text" class="form-input" placeholder="e.g. Defence coaching academy in Pune" required />
+            <input type="text" name="business" class="form-input" placeholder="e.g. Defence coaching academy in Pune" required />
           </div>
 
           <div class="form-group">
             <label class="form-label">Package you want <span class="req">*</span></label>
-            <select class="form-select" required>
+            <select name="package" class="form-select" required>
               <option value="" disabled selected>Select a package</option>
               <option>Multipage Website — ₹5,000</option>
               <option>Landing Page — ₹2,500</option>
@@ -2276,12 +1814,12 @@
           <div class="form-group">
             <label class="form-label">Pages you need <span class="req">*</span></label>
             <div class="checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" /> Home</label>
-              <label class="checkbox-label"><input type="checkbox" /> About Us</label>
-              <label class="checkbox-label"><input type="checkbox" /> Services / Courses</label>
-              <label class="checkbox-label"><input type="checkbox" /> Gallery / Portfolio</label>
-              <label class="checkbox-label"><input type="checkbox" /> Contact / Location</label>
-              <label class="checkbox-label"><input type="checkbox" /> Testimonials / Reviews</label>
+              <label class="checkbox-label"><input type="checkbox" name="pages" value="Home" /> Home</label>
+              <label class="checkbox-label"><input type="checkbox" name="pages" value="About Us" /> About Us</label>
+              <label class="checkbox-label"><input type="checkbox" name="pages" value="Services / Courses" /> Services / Courses</label>
+              <label class="checkbox-label"><input type="checkbox" name="pages" value="Gallery / Portfolio" /> Gallery / Portfolio</label>
+              <label class="checkbox-label"><input type="checkbox" name="pages" value="Contact / Location" /> Contact / Location</label>
+              <label class="checkbox-label"><input type="checkbox" name="pages" value="Testimonials / Reviews" /> Testimonials / Reviews</label>
             </div>
           </div>
 
@@ -2304,12 +1842,12 @@
 
           <div class="form-group">
             <label class="form-label">Any reference sites you like?</label>
-            <input type="text" class="form-input" placeholder="e.g. competitor.com or anything you admire" />
+            <input type="text" name="reference" class="form-input" placeholder="e.g. competitor.com or anything you admire" />
           </div>
 
           <div class="form-group">
             <label class="form-label">Anything else to know?</label>
-            <textarea class="form-textarea" placeholder="Special requirements, deadlines, brand colours, etc."></textarea>
+            <textarea name="notes" class="form-textarea" placeholder="Special requirements, deadlines, brand colours, etc."></textarea>
           </div>
 
           <button type="submit" class="form-submit">Submit Order Request →</button>
@@ -2331,26 +1869,26 @@
         <h3 class="form-panel-title">Custom Quote</h3>
         <p class="form-panel-desc">For e-commerce stores, booking systems, CMS sites, or anything beyond a standard 5-page brochure site. Prices start at ₹15,000.</p>
 
-        <form id="quoteForm" onsubmit="handleSubmit(event,'quoteSuccess')">
+        <form id="quoteForm" onsubmit="handleSubmit(event,'quote','quoteSuccess')">
           <div class="form-row">
             <div class="form-group">
               <label class="form-label">Full Name <span class="req">*</span></label>
-              <input type="text" class="form-input" placeholder="Priya Verma" required />
+              <input type="text" name="name" class="form-input" placeholder="Priya Verma" required />
             </div>
             <div class="form-group">
               <label class="form-label">WhatsApp <span class="req">*</span></label>
-              <input type="tel" class="form-input" placeholder="+91 98765 43210" required />
+              <input type="tel" name="whatsapp" class="form-input" placeholder="+91 98765 43210" required />
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Business / Company Name <span class="req">*</span></label>
-            <input type="text" class="form-input" placeholder="Priya's Boutique Pvt. Ltd." required />
+            <input type="text" name="company" class="form-input" placeholder="Priya's Boutique Pvt. Ltd." required />
           </div>
 
           <div class="form-group">
             <label class="form-label">Project Type <span class="req">*</span></label>
-            <select class="form-select" required>
+            <select name="projectType" class="form-select" required>
               <option value="" disabled selected>What are you building?</option>
               <option>E-commerce Store (product listings, cart, payments)</option>
               <option>Booking / Appointment System</option>
@@ -2365,7 +1903,7 @@
 
           <div class="form-group">
             <label class="form-label">Estimated number of products / pages</label>
-            <select class="form-select">
+            <select name="productCount" class="form-select">
               <option value="" disabled selected>Select range</option>
               <option>Under 20</option>
               <option>20 – 100</option>
@@ -2388,19 +1926,19 @@
           <div class="form-group">
             <label class="form-label">Features required</label>
             <div class="checkbox-group">
-              <label class="checkbox-label"><input type="checkbox" /> Admin panel / CMS</label>
-              <label class="checkbox-label"><input type="checkbox" /> User login / accounts</label>
-              <label class="checkbox-label"><input type="checkbox" /> WhatsApp / email notifications</label>
-              <label class="checkbox-label"><input type="checkbox" /> Inventory management</label>
-              <label class="checkbox-label"><input type="checkbox" /> Blog / articles section</label>
-              <label class="checkbox-label"><input type="checkbox" /> Multi-language support</label>
-              <label class="checkbox-label"><input type="checkbox" /> Google Analytics integration</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="Admin panel / CMS" /> Admin panel / CMS</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="User login / accounts" /> User login / accounts</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="WhatsApp / email notifications" /> WhatsApp / email notifications</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="Inventory management" /> Inventory management</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="Blog / articles section" /> Blog / articles section</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="Multi-language support" /> Multi-language support</label>
+              <label class="checkbox-label"><input type="checkbox" name="features" value="Google Analytics integration" /> Google Analytics integration</label>
             </div>
           </div>
 
           <div class="form-group">
             <label class="form-label">Budget range</label>
-            <select class="form-select">
+            <select name="budget" class="form-select">
               <option value="" disabled selected>Select budget</option>
               <option>₹15,000 – ₹30,000</option>
               <option>₹30,000 – ₹60,000</option>
@@ -2412,7 +1950,7 @@
 
           <div class="form-group">
             <label class="form-label">Timeline</label>
-            <select class="form-select">
+            <select name="timeline" class="form-select">
               <option value="" disabled selected>When do you need it?</option>
               <option>ASAP (within 2 weeks)</option>
               <option>Within a month</option>
@@ -2423,7 +1961,7 @@
 
           <div class="form-group">
             <label class="form-label">Describe your project <span class="req">*</span></label>
-            <textarea class="form-textarea" style="min-height:120px;" placeholder="Tell me what you're building, who it's for, what problems it solves. The more detail, the better the quote." required></textarea>
+            <textarea name="description" class="form-textarea" style="min-height:120px;" placeholder="Tell me what you're building, who it's for, what problems it solves. The more detail, the better the quote." required></textarea>
           </div>
 
           <button type="submit" class="form-submit">Request Custom Quote →</button>
@@ -2525,16 +2063,42 @@
     }, { threshold: 0.08 });
     reveals.forEach(el => obs.observe(el));
 
-    // FORM SUBMIT
-    function handleSubmit(e, successId) {
+    // FORM SUBMIT — posts to /api/contact or /api/quote via Resend
+    async function handleSubmit(e, endpoint, successId) {
       e.preventDefault();
       const form = e.target;
+      const btn = form.querySelector('button[type="submit"]');
       const success = document.getElementById(successId);
-      form.querySelector('button[type="submit"]').textContent = 'Sent ✓';
-      form.querySelector('button[type="submit"]').style.background = 'var(--accent2)';
-      form.querySelector('button[type="submit"]').style.color = 'var(--bg)';
-      success.style.display = 'block';
-      success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      btn.textContent = 'Sending…';
+      btn.disabled = true;
+
+      // Collect all fields; checkboxes → array
+      const data = {};
+      new FormData(form).forEach((val, key) => {
+        if (data[key] !== undefined) {
+          data[key] = [].concat(data[key], val);
+        } else {
+          data[key] = val;
+        }
+      });
+
+      try {
+        const res = await fetch('/api/' + endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!res.ok) throw new Error('server');
+        btn.textContent = 'Sent ✓';
+        btn.style.background = 'var(--accent2)';
+        btn.style.color = 'var(--bg)';
+        success.style.display = 'block';
+        success.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } catch {
+        btn.textContent = 'Error — WhatsApp us instead';
+        btn.style.background = '#ef4444';
+        btn.disabled = false;
+      }
     }
 
     // HERO TYPEWRITER

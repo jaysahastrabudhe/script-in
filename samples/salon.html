@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petal Studio — Beauty is a Ritual, Not a Rush.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #fdf6f1;
+      --surface: #fff;
+      --surface-dark: #2d1620;
+      --text: #2d1620;
+      --text-dim: #9c6b78;
+      --accent: #c4748a;
+      --accent2: #e8b4bc;
+      --accent3: #a05068;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      cursor: default;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      background: var(--accent);
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .top-bar p {
+      font-family: 'Jost', sans-serif;
+      font-size: 10.5px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #fff;
+      text-align: center;
+    }
+    .top-bar span {
+      opacity: 0.6;
+      margin: 0 14px;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 38px;
+      left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid rgba(196,116,138,0.15);
+      z-index: 100;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      padding: 0 48px;
+      transition: top 0.3s;
+    }
+    .nav-inner {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo .petal-word { color: var(--surface-dark); }
+    .logo .studio-word { color: var(--accent); font-weight: 400; }
+    .logo .petal-icon { font-size: 20px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 38px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--surface-dark) !important;
+      color: #fff !important;
+      padding: 10px 24px;
+      font-size: 11px !important;
+      letter-spacing: 0.14em !important;
+      font-weight: 500 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent3) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--text); }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 108px;
+      left: 0; right: 0;
+      background: var(--bg);
+      border-bottom: 1px solid rgba(196,116,138,0.15);
+      padding: 24px 40px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── PAGE START ── */
+    .page-start { margin-top: 108px; }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.75s ease, transform 0.75s ease;
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 96px 48px; }
+    .section-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      font-weight: 400;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(34px, 5vw, 54px);
+      font-weight: 400;
+      line-height: 1.1;
+      margin-bottom: 52px;
+      color: var(--text);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 48px 60px;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 60% at 75% 50%, rgba(232,180,188,0.2) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      flex: 1;
+      max-width: 600px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-eyebrow {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      line-height: 1.0;
+      margin-bottom: 32px;
+    }
+    .hero-headline .line-rose {
+      font-size: clamp(52px, 8vw, 90px);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--accent);
+      display: block;
+    }
+    .hero-headline .line-dark {
+      font-size: clamp(52px, 8vw, 90px);
+      font-weight: 500;
+      color: var(--surface-dark);
+      display: block;
+    }
+    .hero-sub {
+      font-size: 14px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      line-height: 1.8;
+      margin-bottom: 40px;
+      max-width: 440px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-plum {
+      background: var(--surface-dark);
+      color: #fff;
+      padding: 14px 36px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-plum:hover { background: var(--accent3); transform: translateY(-1px); }
+    .btn-rose-outline {
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 14px 36px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .btn-rose-outline:hover { background: var(--accent); color: #fff; }
+
+    /* CSS floral visual */
+    .hero-visual {
+      flex: 0 0 360px;
+      height: 440px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .floral-wrap {
+      position: relative;
+      width: 300px;
+      height: 300px;
+    }
+    .floral-glow {
+      position: absolute;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(232,180,188,0.45) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(24px);
+    }
+    .petal-base {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%; left: 50%;
+    }
+    /* Large outer petals */
+    .p1 { width:80px; height:130px; background: rgba(232,180,188,0.5); transform: translate(-50%,-50%) rotate(0deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .p2 { width:80px; height:130px; background: rgba(196,116,138,0.4); transform: translate(-50%,-50%) rotate(51deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .p3 { width:80px; height:130px; background: rgba(232,180,188,0.5); transform: translate(-50%,-50%) rotate(102deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .p4 { width:80px; height:130px; background: rgba(196,116,138,0.45); transform: translate(-50%,-50%) rotate(153deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .p5 { width:80px; height:130px; background: rgba(232,180,188,0.5); transform: translate(-50%,-50%) rotate(204deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .p6 { width:80px; height:130px; background: rgba(196,116,138,0.4); transform: translate(-50%,-50%) rotate(255deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .p7 { width:80px; height:130px; background: rgba(232,180,188,0.45); transform: translate(-50%,-50%) rotate(306deg) translateY(-60px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    /* Inner petals */
+    .pi1 { width:50px; height:80px; background: rgba(160,80,104,0.5); transform: translate(-50%,-50%) rotate(25deg) translateY(-34px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .pi2 { width:50px; height:80px; background: rgba(160,80,104,0.5); transform: translate(-50%,-50%) rotate(76deg) translateY(-34px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .pi3 { width:50px; height:80px; background: rgba(160,80,104,0.5); transform: translate(-50%,-50%) rotate(127deg) translateY(-34px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .pi4 { width:50px; height:80px; background: rgba(160,80,104,0.5); transform: translate(-50%,-50%) rotate(178deg) translateY(-34px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .pi5 { width:50px; height:80px; background: rgba(160,80,104,0.5); transform: translate(-50%,-50%) rotate(229deg) translateY(-34px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    .pi6 { width:50px; height:80px; background: rgba(160,80,104,0.5); transform: translate(-50%,-50%) rotate(280deg) translateY(-34px); border-radius: 50% 50% 50% 50%/60% 60% 40% 40%; }
+    /* Center */
+    .floral-center {
+      position: absolute;
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #e8b4bc 0%, #c4748a 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 20px rgba(196,116,138,0.6);
+      z-index: 2;
+    }
+    /* Decorative dots */
+    .floral-dot {
+      position: absolute;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .floral-dot-1 { width:8px; height:8px; top:14px; left:14px; opacity:0.4; }
+    .floral-dot-2 { width:5px; height:5px; bottom:22px; right:10px; opacity:0.3; }
+    .floral-dot-3 { width:12px; height:12px; bottom:10px; left:30px; opacity:0.2; background: var(--accent2); }
+    .floral-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(196,116,138,0.2);
+      top: 50%; left: 50%;
+    }
+    .floral-ring-1 { width: 280px; height: 280px; transform: translate(-50%,-50%); }
+    .floral-ring-2 { width: 340px; height: 340px; transform: translate(-50%,-50%); opacity: 0.5; }
+
+    /* ── SERVICES ── */
+    .services-section { background: var(--bg); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .service-card {
+      background: var(--surface);
+      border: 1px solid rgba(196,116,138,0.12);
+      padding: 40px 32px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(196,116,138,0.12);
+    }
+    .service-icon {
+      font-size: 34px;
+      margin-bottom: 20px;
+      display: block;
+    }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: var(--surface-dark);
+      margin-bottom: 20px;
+      letter-spacing: 0.02em;
+    }
+    .service-list {
+      list-style: none;
+      margin-bottom: 24px;
+    }
+    .service-list li {
+      font-size: 13px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      padding: 7px 0;
+      border-bottom: 1px solid rgba(196,116,138,0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .service-list li::before {
+      content: '✦';
+      font-size: 8px;
+      color: var(--accent2);
+    }
+    .service-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      color: var(--accent3);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── EXPERIENCE ── */
+    .experience-section {
+      background: var(--surface-dark);
+      padding: 96px 48px;
+    }
+    .experience-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .experience-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-style: italic;
+      font-weight: 300;
+      color: var(--accent2);
+      line-height: 1.4;
+    }
+    .experience-quote::before {
+      content: '"';
+      display: block;
+      font-size: 80px;
+      color: var(--accent);
+      opacity: 0.3;
+      line-height: 0.6;
+      margin-bottom: 20px;
+    }
+    .experience-points {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    .exp-point {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .exp-marker {
+      color: var(--accent);
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .exp-title {
+      font-family: 'Jost', sans-serif;
+      font-size: 14px;
+      font-weight: 400;
+      color: #fff;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+    .exp-desc {
+      font-size: 12.5px;
+      color: rgba(232,180,188,0.6);
+      line-height: 1.6;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── STYLISTS ── */
+    .stylists-section { background: var(--bg); }
+    .stylists-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .stylist-card {
+      background: var(--surface);
+      border: 1px solid rgba(196,116,138,0.1);
+      padding: 40px 28px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .stylist-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(196,116,138,0.1);
+      border-color: var(--accent2);
+    }
+    .stylist-avatar {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 500;
+      color: #fff;
+      font-style: italic;
+    }
+    .stylist-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--surface-dark);
+      margin-bottom: 4px;
+    }
+    .stylist-role {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .stylist-years {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+    }
+    .stylist-technique {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-style: italic;
+      color: var(--accent3);
+      margin-bottom: 22px;
+    }
+    .stylist-btn {
+      display: inline-block;
+      border: 1px solid rgba(196,116,138,0.3);
+      color: var(--accent3);
+      padding: 9px 24px;
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, background 0.2s, color 0.2s;
+    }
+    .stylist-btn:hover { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* ── GALLERY ── */
+    .gallery-section {
+      background: var(--surface-dark);
+      padding: 96px 48px;
+    }
+    .gallery-section .section-title { color: var(--accent2); }
+    .gallery-grid {
+      columns: 4;
+      column-gap: 14px;
+    }
+    .gallery-item {
+      break-inside: avoid;
+      margin-bottom: 14px;
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+    .gallery-tile {
+      width: 100%;
+      display: block;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+    }
+    .gallery-tile .tile-art {
+      width: 100%;
+      transition: transform 0.4s;
+    }
+    .gallery-item:hover .tile-art { transform: scale(1.03); }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(45,22,32,0.75);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-align: center;
+    }
+    /* Gallery tile arts */
+    .g1 { height: 200px; background: linear-gradient(145deg, #e8b4bc 0%, #c4748a 50%, #a05068 100%); }
+    .g2 { height: 160px; background: linear-gradient(145deg, #2d1620 0%, #6b2d42 50%, #c4748a 100%); }
+    .g3 { height: 220px; background: linear-gradient(160deg, #fdf6f1 0%, #e8b4bc 60%, #c4748a 100%); }
+    .g4 { height: 180px; background: linear-gradient(130deg, #a05068 0%, #e8b4bc 70%, #fff 100%); }
+    .g5 { height: 240px; background: linear-gradient(150deg, #6b1f33 0%, #c4748a 60%, #e8b4bc 100%); }
+    .g6 { height: 170px; background: linear-gradient(135deg, #fdf6f1 0%, #a05068 100%); }
+    .g7 { height: 200px; background: linear-gradient(160deg, #2d1620 0%, #e8b4bc 100%); }
+    .g8 { height: 230px; background: linear-gradient(140deg, #c4748a 0%, #fdf6f1 50%, #a05068 100%); }
+
+    /* ── GIFT CARDS ── */
+    .gift-section {
+      background: var(--accent);
+      padding: 80px 48px;
+      text-align: center;
+    }
+    .gift-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 400;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .gift-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.8);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+    .gift-amounts {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .gift-chip {
+      border: 1px solid rgba(255,255,255,0.5);
+      color: #fff;
+      padding: 11px 28px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+    .gift-chip:hover, .gift-chip.active { background: rgba(255,255,255,0.2); border-color: #fff; }
+    .gift-cta {
+      display: inline-block;
+      background: var(--surface-dark);
+      color: #fff;
+      padding: 15px 44px;
+      font-family: 'Jost', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 400;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .gift-cta:hover { background: #1a0b10; }
+
+    /* ── BOOKING CTA ── */
+    .booking-section {
+      background: var(--surface-dark);
+      text-align: center;
+      padding: 100px 48px;
+    }
+    .booking-label {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      opacity: 0.7;
+      margin-bottom: 20px;
+    }
+    .booking-heading {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 6vw, 70px);
+      font-style: italic;
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .booking-sub {
+      font-size: 13px;
+      color: var(--accent2);
+      opacity: 0.7;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 44px;
+    }
+    .booking-btn {
+      display: inline-block;
+      background: var(--bg);
+      color: var(--surface-dark);
+      padding: 18px 56px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .booking-btn:hover { background: var(--accent2); color: var(--surface-dark); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #1e0e18;
+      border-top: 1px solid rgba(196,116,138,0.1);
+      padding: 64px 48px 36px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.8fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 52px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 500;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .footer-tagline {
+      font-size: 12.5px;
+      color: rgba(232,180,188,0.45);
+      line-height: 1.9;
+      letter-spacing: 0.04em;
+    }
+    .footer-col h4 {
+      font-family: 'Jost', sans-serif;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent2);
+      opacity: 0.7;
+      margin-bottom: 18px;
+    }
+    .footer-col a, .footer-col p {
+      font-size: 13px;
+      color: rgba(232,180,188,0.4);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+      transition: color 0.2s;
+      line-height: 1.5;
+    }
+    .footer-col a:hover { color: var(--accent2); }
+    .footer-bottom {
+      border-top: 1px solid rgba(196,116,138,0.1);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p {
+      font-size: 11px;
+      color: rgba(232,180,188,0.2);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section, .experience-section, .gallery-section, .gift-section, .booking-section { padding: 60px 20px; }
+      .hero { padding: 60px 20px 50px; flex-direction: column; }
+      .hero-visual { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .experience-inner { grid-template-columns: 1fr; gap: 40px; }
+      .stylists-grid { grid-template-columns: 1fr; }
+      .gallery-grid { columns: 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .gallery-grid { columns: 1; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <p>Complimentary Consultation with Every First Visit<span>·</span>Book Online</p>
+</div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="petal-icon">🌸</span>
+      <span class="petal-word">PETAL</span>&nbsp;<span class="studio-word">STUDIO</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#stylists">Stylists</a></li>
+      <li><a href="#booking">Book</a></li>
+      <li><a href="#booking" class="nav-cta">Book Now</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services">Services</a>
+  <a href="#gallery">Gallery</a>
+  <a href="#stylists">Stylists</a>
+  <a href="#booking" style="color:var(--accent);">Book Now →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero page-start" id="home">
+  <div class="hero-content reveal">
+    <div class="hero-eyebrow">Hair, Skin &amp; Nails · Koregaon Park, Pune</div>
+    <div class="hero-headline">
+      <span class="line-rose">Beauty is</span>
+      <span class="line-dark">a Ritual,</span>
+      <span class="line-dark" style="color:var(--accent); font-style:italic; font-weight:300;">Not a Rush.</span>
+    </div>
+    <p class="hero-sub">Premium hair, skin &amp; nail services in Koregaon Park, Pune. Walk in or book online.</p>
+    <div class="hero-ctas">
+      <a href="#booking" class="btn-plum">Book Appointment</a>
+      <a href="#services" class="btn-rose-outline">Explore Services</a>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="floral-wrap">
+      <div class="floral-glow"></div>
+      <div class="floral-ring floral-ring-1"></div>
+      <div class="floral-ring floral-ring-2"></div>
+      <div class="petal-base p1"></div>
+      <div class="petal-base p2"></div>
+      <div class="petal-base p3"></div>
+      <div class="petal-base p4"></div>
+      <div class="petal-base p5"></div>
+      <div class="petal-base p6"></div>
+      <div class="petal-base p7"></div>
+      <div class="petal-base pi1"></div>
+      <div class="petal-base pi2"></div>
+      <div class="petal-base pi3"></div>
+      <div class="petal-base pi4"></div>
+      <div class="petal-base pi5"></div>
+      <div class="petal-base pi6"></div>
+      <div class="floral-center"></div>
+      <div class="floral-dot floral-dot-1"></div>
+      <div class="floral-dot floral-dot-2"></div>
+      <div class="floral-dot floral-dot-3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services-section" id="services">
+  <div class="section-label reveal">/ Our Services</div>
+  <div class="section-title reveal">Crafted with Care.</div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">✂️</span>
+      <div class="service-name">Hair</div>
+      <ul class="service-list">
+        <li>Haircut &amp; Styling</li>
+        <li>Color &amp; Highlights</li>
+        <li>Keratin Treatment</li>
+        <li>Hair Spa &amp; Repair</li>
+      </ul>
+      <div class="service-price">Starting ₹599</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.12s">
+      <span class="service-icon">✨</span>
+      <div class="service-name">Skin</div>
+      <ul class="service-list">
+        <li>Signature Facials</li>
+        <li>Deep Pore Cleanup</li>
+        <li>Full Body Waxing</li>
+        <li>Eyebrow Threading</li>
+      </ul>
+      <div class="service-price">Starting ₹399</div>
+    </div>
+    <div class="service-card reveal" style="transition-delay:0.24s">
+      <span class="service-icon">💅</span>
+      <div class="service-name">Nails</div>
+      <ul class="service-list">
+        <li>Manicure &amp; Pedicure</li>
+        <li>Nail Art &amp; Design</li>
+        <li>Gel Extensions</li>
+        <li>Nail Spa Treatments</li>
+      </ul>
+      <div class="service-price">Starting ₹349</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section class="experience-section" id="experience">
+  <div class="experience-inner">
+    <div class="reveal">
+      <div class="experience-quote">An hour at Petal is an hour that belongs entirely to you.</div>
+    </div>
+    <div class="experience-points reveal" style="transition-delay:0.15s">
+      <div class="exp-point">
+        <span class="exp-marker">✦</span>
+        <div>
+          <div class="exp-title">Private Styling Pods</div>
+          <div class="exp-desc">Your own space. No interruptions, no hustle. Just you and your stylist.</div>
+        </div>
+      </div>
+      <div class="exp-point">
+        <span class="exp-marker">✦</span>
+        <div>
+          <div class="exp-title">Premium Products Only</div>
+          <div class="exp-desc">BBLUNT, L'Oréal Professionnel, and Dermalogica — nothing less.</div>
+        </div>
+      </div>
+      <div class="exp-point">
+        <span class="exp-marker">✦</span>
+        <div>
+          <div class="exp-title">Zero-Rush Appointments</div>
+          <div class="exp-desc">Appointments are padded generously. We never rush the ritual.</div>
+        </div>
+      </div>
+      <div class="exp-point">
+        <span class="exp-marker">✦</span>
+        <div>
+          <div class="exp-title">Complimentary Beverages</div>
+          <div class="exp-desc">Tea, coffee, or sparkling water — your visit begins the moment you arrive.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STYLISTS -->
+<section class="stylists-section" id="stylists">
+  <div class="section-label reveal">/ Meet the Stylists</div>
+  <div class="section-title reveal">Artists at Heart.</div>
+  <div class="stylists-grid">
+    <div class="stylist-card reveal">
+      <div class="stylist-avatar" style="background: linear-gradient(135deg, #a05068, #e8b4bc);">NK</div>
+      <div class="stylist-name">Neha Kapoor</div>
+      <div class="stylist-role">Senior Stylist</div>
+      <div class="stylist-years">9 years experience</div>
+      <div class="stylist-technique">Signature: Hair Color &amp; Balayage</div>
+      <a href="#booking" class="stylist-btn">Book with Neha</a>
+    </div>
+    <div class="stylist-card reveal" style="transition-delay:0.12s">
+      <div class="stylist-avatar" style="background: linear-gradient(135deg, #c4748a, #2d1620);">RS</div>
+      <div class="stylist-name">Riya Sharma</div>
+      <div class="stylist-role">Skin Expert</div>
+      <div class="stylist-years">6 years experience</div>
+      <div class="stylist-technique">Signature: Korean Glass Skin Facials</div>
+      <a href="#booking" class="stylist-btn">Book with Riya</a>
+    </div>
+    <div class="stylist-card reveal" style="transition-delay:0.24s">
+      <div class="stylist-avatar" style="background: linear-gradient(135deg, #2d1620, #c4748a);">ZK</div>
+      <div class="stylist-name">Zara Khan</div>
+      <div class="stylist-role">Nail Artist</div>
+      <div class="stylist-years">4 years experience</div>
+      <div class="stylist-technique">Signature: Intricate Nail Art</div>
+      <a href="#booking" class="stylist-btn">Book with Zara</a>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="section-label reveal" style="color:var(--accent2); opacity:0.7;">/ Gallery</div>
+  <div class="section-title reveal">The Work Speaks.</div>
+  <div class="gallery-grid reveal">
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g1"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Balayage</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g2"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Bridal Makeup</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g3"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Glass Skin Facial</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g4"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Nail Art</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g5"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Keratin Treatment</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g6"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Threading</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g7"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Mani-Pedi</span></div>
+      </div>
+    </div>
+    <div class="gallery-item">
+      <div class="gallery-tile">
+        <div class="tile-art g8"></div>
+        <div class="gallery-overlay"><span class="gallery-label">Hair Spa</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GIFT CARDS -->
+<section class="gift-section" id="gift">
+  <div class="reveal">
+    <div class="gift-heading">Give the Gift of Petal.</div>
+    <p class="gift-sub">Available in</p>
+    <div class="gift-amounts">
+      <div class="gift-chip active">₹500</div>
+      <div class="gift-chip">₹1,000</div>
+      <div class="gift-chip">₹2,000</div>
+      <div class="gift-chip" style="font-style:italic; font-size:16px;">Custom Amount</div>
+    </div>
+    <a href="#" class="gift-cta">Purchase Gift Card</a>
+  </div>
+</section>
+
+<!-- BOOKING CTA -->
+<section class="booking-section" id="booking">
+  <div class="reveal">
+    <div class="booking-label">Start your ritual</div>
+    <div class="booking-heading">Ready for your ritual?</div>
+    <div class="booking-sub">Book online in 2 minutes.</div>
+    <a href="#" class="booking-btn">Book Now</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="#" class="footer-logo">
+        <span style="font-size:18px;">🌸</span>
+        <span style="color: var(--accent2);">PETAL</span>&nbsp;<span style="color: var(--accent); font-weight:300;">STUDIO</span>
+      </a>
+      <p class="footer-tagline">Beauty is a Ritual, Not a Rush.<br>Koregaon Park, Pune 411001<br>+91 98765 00123<br>hello@petalstudio.in</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Hair Styling</a>
+      <a href="#services">Hair Color</a>
+      <a href="#services">Keratin</a>
+      <a href="#services">Facials</a>
+      <a href="#services">Nail Art</a>
+      <a href="#services">Waxing</a>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <p>Mon – Sat</p>
+      <p>10:00 AM – 8:00 PM</p>
+      <p style="margin-top:12px; opacity:0.5;">Sundays by appointment</p>
+    </div>
+    <div class="footer-col">
+      <h4>Follow</h4>
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">Pinterest</a>
+      <a href="#">Book Online</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Petal Studio. All rights reserved.</p>
+    <p>Koregaon Park, Pune</p>
+  </div>
+</footer>
+
+<!-- BADGE -->
+<a href="/" style="position:fixed;bottom:20px;right:20px;background:#e8c547;color:#080808;font-size:10px;padding:7px 14px;font-family:monospace;font-weight:700;text-decoration:none;z-index:999;letter-spacing:0.06em;">Built by script.in ↗</a>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('open');
+    });
+  });
+
+  // Sticky nav (account for top bar scroll)
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('mainNav');
+    if (window.scrollY > 38) {
+      nav.style.top = '0';
+    } else {
+      nav.style.top = '38px';
+    }
+  });
+
+  // Gift chip selection
+  document.querySelectorAll('.gift-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.gift-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

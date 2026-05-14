@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khatri &amp; Associates — Advocates &amp; Legal Consultants, Pune</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d0800;
+      --surface: #160f06;
+      --surface2: #1e1408;
+      --text: #f5f0e8;
+      --text-dim: #a09070;
+      --accent: #c9a44e;
+      --accent-dim: rgba(201,164,78,0.12);
+      --radius: 4px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      cursor: default;
+      line-height: 1.72;
+      overflow-x: hidden;
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      border-top: 3px solid var(--accent);
+      background: var(--bg);
+      text-align: center;
+      padding: 8px 24px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      color: var(--accent);
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    /* ── NAV ── */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      background: var(--surface);
+      border-bottom: 1px solid rgba(201,164,78,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 68px;
+      transition: border-color 0.3s;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .navbar-logo .scales { font-size: 22px; }
+    .navbar-logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-dim);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      color: var(--accent) !important;
+      border: 1px solid var(--accent) !important;
+      padding: 9px 20px !important;
+      letter-spacing: 0.1em !important;
+      transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent) !important; color: var(--bg) !important; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    /* NAV SPACER — top-bar (29px) + navbar (68px) */
+    .nav-spacer { height: calc(68px + 29px); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 80px 48px 60px;
+      position: relative;
+      background-color: var(--bg);
+      overflow: hidden;
+    }
+    /* Subtle diagonal line pattern */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        rgba(201,164,78,0.03) 0px,
+        rgba(201,164,78,0.03) 1px,
+        transparent 1px,
+        transparent 48px
+      );
+      pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 860px; }
+    .hero-line-1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(4rem, 9vw, 8rem);
+      font-weight: 800;
+      font-style: italic;
+      color: var(--accent);
+      line-height: 1;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .hero-line-2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.1;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .hero-line-3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 400;
+      color: var(--text-dim);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .hero-line-4 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5.5vw, 5rem);
+      font-weight: 800;
+      font-style: italic;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 48px;
+    }
+    .hero-divider {
+      width: 180px;
+      height: 1px;
+      background: var(--accent);
+      margin: 0 auto 40px;
+      opacity: 0.4;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 18px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .btn-gold-outline {
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 13px 30px;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-gold-outline:hover { background: var(--accent); color: var(--bg); }
+    .btn-gold-solid {
+      background: var(--accent);
+      color: var(--bg);
+      padding: 13px 30px;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+    .btn-gold-solid:hover { background: #b8923e; }
+    .hero-rule {
+      width: 100%;
+      max-width: 600px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: 88px 64px; }
+    .section-label {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 48px;
+      line-height: 1.2;
+    }
+    .section-heading em { font-style: italic; color: var(--accent); }
+
+    /* ── PRACTICE AREAS ── */
+    #practice {
+      background: #f5f0e8;
+    }
+    #practice .section-label { color: #6b5a3e; }
+    #practice .section-heading { color: #1a0f00; }
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2px;
+      background: #e0d5c5;
+    }
+    .practice-card {
+      background: #f5f0e8;
+      padding: 36px 32px 32px 36px;
+      border-left: 3px solid var(--accent);
+      transition: background 0.2s;
+      opacity: 0;
+      transform: translateX(-16px);
+    }
+    .practice-card.visible {
+      opacity: 1;
+      transform: translateX(0);
+      transition: opacity 0.55s ease, transform 0.55s ease;
+    }
+    .practice-card:hover { background: #ede5d5; }
+    .practice-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a0f00;
+      margin-bottom: 10px;
+    }
+    .practice-card p {
+      font-size: 14px;
+      color: #6b5a3e;
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .practice-card a {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 1px;
+    }
+
+    /* ── PARTNERS ── */
+    #partners { background: var(--surface); }
+    .partners-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    .partner-card {
+      border: 1px solid rgba(201,164,78,0.2);
+      padding: 40px 28px 32px;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    .partner-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .partner-card:hover { border-color: rgba(201,164,78,0.5); background: var(--surface2); }
+    .partner-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 0 auto 22px;
+      background: var(--accent-dim);
+    }
+    .partner-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .partner-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .partner-meta {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.8;
+    }
+    .partner-meta strong { color: var(--text); font-weight: 700; }
+    .partner-landmark {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(201,164,78,0.15);
+      font-size: 12px;
+      font-style: italic;
+      color: var(--text-dim);
+    }
+    .partner-landmark span { color: var(--accent); font-style: normal; font-weight: 700; }
+
+    /* ── TRACK RECORD ── */
+    #track {
+      background: var(--accent);
+      padding: 64px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 24px 16px;
+      border-right: 1px solid rgba(13,8,0,0.2);
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 800;
+      color: var(--bg);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(13,8,0,0.65);
+    }
+
+    /* ── TESTIMONIALS ── */
+    #testimonials { background: var(--bg); }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+    }
+    .testimonial-card {
+      border: 1px solid rgba(201,164,78,0.18);
+      padding: 44px 40px;
+      position: relative;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .testimonial-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 80px;
+      color: var(--accent);
+      opacity: 0.25;
+      line-height: 0.6;
+      position: absolute;
+      top: 28px;
+      left: 32px;
+      font-weight: 900;
+    }
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.9;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+      padding-top: 20px;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border-top: 1px solid rgba(201,164,78,0.18);
+      padding-top: 22px;
+    }
+    .author-initial {
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 16px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .author-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .author-role { font-size: 12px; color: var(--text-dim); letter-spacing: 0.06em; }
+
+    /* ── CONSULTATION ── */
+    #consultation { background: var(--surface2); }
+    .consultation-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      border: 1px solid rgba(201,164,78,0.35);
+      padding: 56px 52px;
+    }
+    #consultation .section-heading { text-align: center; margin-bottom: 12px; }
+    .consultation-note {
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 40px;
+      letter-spacing: 0.04em;
+    }
+    .consultation-note span { color: var(--accent); font-weight: 700; }
+    .c-form-group { margin-bottom: 20px; }
+    .c-form-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+    .c-form-group input,
+    .c-form-group select,
+    .c-form-group textarea {
+      width: 100%;
+      padding: 13px 16px;
+      background: var(--bg);
+      border: 1px solid rgba(201,164,78,0.25);
+      color: var(--text);
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      border-radius: 0;
+      resize: vertical;
+    }
+    .c-form-group input:focus,
+    .c-form-group select:focus,
+    .c-form-group textarea:focus { border-color: var(--accent); }
+    .c-form-group select option { background: #1a0f00; }
+    .btn-submit {
+      width: 100%;
+      padding: 16px;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      font-family: 'Lato', sans-serif;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn-submit:hover { background: #b8923e; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .confidentiality-note {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-top: 18px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080500;
+      border-top: 1px solid rgba(201,164,78,0.2);
+      padding: 60px 64px 36px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 48px;
+    }
+    .footer-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .footer-brand p {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+    .footer-bar-reg {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      border-top: 1px solid rgba(201,164,78,0.15);
+      padding-top: 16px;
+    }
+    .footer-col h4 {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul li a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid rgba(201,164,78,0.12);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* ── REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .top-bar { font-size: 10px; padding: 7px 12px; }
+      .nav-spacer { height: calc(68px + 27px); }
+      .navbar { padding: 0 20px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 68px; left: 0; right: 0; background: var(--surface); padding: 24px 20px; gap: 18px; border-bottom: 1px solid rgba(201,164,78,0.2); }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+
+      .hero { padding: 48px 24px 48px; }
+      section { padding: 56px 24px; }
+      #track { padding: 48px 24px; }
+      .practice-grid { grid-template-columns: 1fr; }
+      .partners-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(13,8,0,0.15); }
+      .stat-item:nth-child(even) { border-right: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .consultation-inner { padding: 36px 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    Khatri &amp; Associates &nbsp;|&nbsp; Advocates &nbsp;|&nbsp; High Court, Pune &nbsp;|&nbsp; Since 1994
+  </div>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="navbar-logo">
+      <span class="scales">⚖</span>
+      <span class="navbar-logo-text">Khatri &amp; Associates</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#practice">Practice Areas</a></li>
+      <li><a href="#partners">Our Team</a></li>
+      <li><a href="#track">Case Studies</a></li>
+      <li><a href="#testimonials">Publications</a></li>
+      <li><a href="#consultation">Contact</a></li>
+      <li><a href="#consultation" class="nav-cta">Consultation</a></li>
+    </ul>
+  </nav>
+
+  <!-- NAV SPACER -->
+  <div class="nav-spacer"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+      <span class="hero-line-1">Thirty Years.</span>
+      <span class="hero-line-2">Five Thousand Cases.</span>
+      <span class="hero-line-3">One Standard:</span>
+      <span class="hero-line-4">Excellence.</span>
+      <div class="hero-divider"></div>
+      <div class="hero-btns">
+        <a href="#practice" class="btn-gold-outline">Our Practice Areas</a>
+        <a href="#partners" class="btn-gold-solid">Meet the Partners</a>
+      </div>
+      <div class="hero-rule"></div>
+    </div>
+  </section>
+
+  <!-- PRACTICE AREAS -->
+  <section id="practice">
+    <span class="section-label">Expertise</span>
+    <h2 class="section-heading" style="color:#1a0f00;">Our <em>Practice</em></h2>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <h3>Corporate &amp; Commercial Law</h3>
+        <p>Comprehensive advisory and litigation support for mergers, acquisitions, joint ventures, commercial contracts, and regulatory compliance across sectors.</p>
+        <a href="#consultation">Enquire →</a>
+      </div>
+      <div class="practice-card">
+        <h3>Property &amp; Real Estate</h3>
+        <p>Title due diligence, conveyancing, RERA disputes, landlord-tenant litigation, and complex commercial property transactions handled with precision.</p>
+        <a href="#consultation">Enquire →</a>
+      </div>
+      <div class="practice-card">
+        <h3>Criminal Defence</h3>
+        <p>Rigorous defence representation from bail applications to trial. Thirty years of High Court appearances and a record of landmark acquittals.</p>
+        <a href="#consultation">Enquire →</a>
+      </div>
+      <div class="practice-card">
+        <h3>Family &amp; Matrimonial</h3>
+        <p>Divorce proceedings, custody disputes, maintenance, adoption, and domestic matters handled with discretion, dignity, and unflinching advocacy.</p>
+        <a href="#consultation">Enquire →</a>
+      </div>
+      <div class="practice-card">
+        <h3>Intellectual Property</h3>
+        <p>Trademark registration, copyright protection, patent advisory, IP infringement litigation, and brand enforcement across Indian and international courts.</p>
+        <a href="#consultation">Enquire →</a>
+      </div>
+      <div class="practice-card">
+        <h3>Labour &amp; Employment</h3>
+        <p>Industrial disputes, service matters, wrongful termination, POSH compliance, and employment contract advisory for corporates and individuals alike.</p>
+        <a href="#consultation">Enquire →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SENIOR PARTNERS -->
+  <section id="partners">
+    <span class="section-label">The Firm</span>
+    <h2 class="section-heading">The <em>Partnership</em></h2>
+    <div class="partners-grid">
+      <div class="partner-card">
+        <div class="partner-avatar">RK</div>
+        <h3>Adv. Rajesh Khatri</h3>
+        <div class="partner-title">Senior Partner</div>
+        <div class="partner-meta">
+          <p>Bar Enrolled: <strong>1994</strong></p>
+          <p>Specialisation: <strong>Corporate &amp; Criminal Law</strong></p>
+          <p>Practice: <strong>Bombay High Court, Pune</strong></p>
+        </div>
+        <div class="partner-landmark">
+          Landmark: <span>State vs. Mehrotra, 2019</span> — acquittal upheld in Division Bench
+        </div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-avatar">SK</div>
+        <h3>Adv. Sunita Kapoor</h3>
+        <div class="partner-title">Partner</div>
+        <div class="partner-meta">
+          <p>Bar Enrolled: <strong>2001</strong></p>
+          <p>Specialisation: <strong>Family &amp; Intellectual Property</strong></p>
+          <p>Practice: <strong>Family Courts &amp; High Court, Pune</strong></p>
+        </div>
+        <div class="partner-landmark">
+          Notable: <span>200+ contested divorces</span> resolved; IP enforcement for 3 listed companies
+        </div>
+      </div>
+      <div class="partner-card">
+        <div class="partner-avatar">VS</div>
+        <h3>Adv. Vikram Sinha</h3>
+        <div class="partner-title">Partner</div>
+        <div class="partner-meta">
+          <p>Bar Enrolled: <strong>2008</strong></p>
+          <p>Specialisation: <strong>Property &amp; Labour Law</strong></p>
+          <p>Practice: <strong>Civil Courts &amp; Tribunals, Pune</strong></p>
+        </div>
+        <div class="partner-landmark">
+          Notable: <span>RERA precedent — Builder vs. Apex Housing</span>, 2022
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRACK RECORD -->
+  <section id="track">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Years Practice</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">5,000+</div>
+        <div class="stat-label">Cases Handled</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Success Rate</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">15</div>
+        <div class="stat-label">High Court Victories</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <span class="section-label">Client Counsel</span>
+    <h2 class="section-heading">From Our <em>Clients</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">Khatri &amp; Associates guided our company through a protracted acquisition dispute that two prior firms had failed to resolve. Adv. Khatri's command of corporate law, combined with his absolute composure in the High Court, produced an outcome that exceeded our board's expectations. The firm operates with a standard of precision one rarely encounters.</p>
+        <div class="testimonial-author">
+          <div class="author-initial">MV</div>
+          <div>
+            <div class="author-name">M. Verma</div>
+            <div class="author-role">Managing Director, Infrastructure Conglomerate, Pune</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="quote-mark">"</div>
+        <p class="testimonial-text">We retained Adv. Kapoor for a complex intellectual property dispute involving our flagship brand. Her knowledge of trademark jurisprudence was formidable, and her strategy — anticipating the opposing counsel's arguments before they were filed — was nothing short of masterful. Our injunction was granted within three hearings.</p>
+        <div class="testimonial-author">
+          <div class="author-initial">AR</div>
+          <div>
+            <div class="author-name">A. Rao</div>
+            <div class="author-role">CEO, Consumer Goods Brand, Pune &amp; Mumbai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONSULTATION -->
+  <section id="consultation">
+    <div class="consultation-inner reveal">
+      <span class="section-label" style="text-align:center;display:block;">Engage the Firm</span>
+      <h2 class="section-heading">Schedule a <em>Consultation</em></h2>
+      <p class="consultation-note">
+        Initial consultation <span>₹2,000</span> &nbsp;·&nbsp; Confidentiality guaranteed &nbsp;·&nbsp; Response within 24 hours
+      </p>
+      <div class="form-row">
+        <div class="c-form-group">
+          <label for="c-name">Full Name</label>
+          <input type="text" id="c-name" placeholder="Your full name" />
+        </div>
+        <div class="c-form-group">
+          <label for="c-phone">Contact Number</label>
+          <input type="tel" id="c-phone" placeholder="+91 98765 00000" />
+        </div>
+      </div>
+      <div class="c-form-group">
+        <label for="c-matter">Nature of Matter</label>
+        <select id="c-matter">
+          <option value="">— Select Practice Area —</option>
+          <option>Corporate &amp; Commercial Law</option>
+          <option>Property &amp; Real Estate</option>
+          <option>Criminal Defence</option>
+          <option>Family &amp; Matrimonial</option>
+          <option>Intellectual Property</option>
+          <option>Labour &amp; Employment</option>
+          <option>Other / Unspecified</option>
+        </select>
+      </div>
+      <div class="c-form-group">
+        <label for="c-brief">Brief Description</label>
+        <textarea id="c-brief" rows="4" placeholder="Briefly describe your legal matter (all communications are privileged and confidential)..."></textarea>
+      </div>
+      <button class="btn-submit">Submit Enquiry</button>
+      <p class="confidentiality-note">All submissions are treated as strictly confidential under advocate-client privilege.</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-brand-name"><span>⚖</span> Khatri &amp; Associates</div>
+        <p>Advocates &amp; Legal Consultants. Established 1994. Serving clients across the Bombay High Court, Pune District Courts, and Tribunals with thirty years of consistent, principled legal practice.</p>
+        <p><em style="color:var(--accent);font-family:'Playfair Display',serif;">"Justice. Experience. Results."</em></p>
+        <div class="footer-bar-reg">
+          Bar Council of Maharashtra &amp; Goa — Registration No. MH/12/94/1876<br />
+          Enrolled 1994 · High Court Designation: Advocate on Record
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Practice Areas</h4>
+        <ul>
+          <li><a href="#practice">Corporate Law</a></li>
+          <li><a href="#practice">Property &amp; Real Estate</a></li>
+          <li><a href="#practice">Criminal Defence</a></li>
+          <li><a href="#practice">Family Law</a></li>
+          <li><a href="#practice">Intellectual Property</a></li>
+          <li><a href="#practice">Labour Law</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Office</h4>
+        <ul>
+          <li><a href="#">Chamber No. 14, High Court Annexe</a></li>
+          <li><a href="#">Law College Road, Pune — 411 004</a></li>
+          <li><a href="tel:+912065432100">+91 20 6543 2100</a></li>
+          <li><a href="mailto:chambers@khatrilaw.in">chambers@khatrilaw.in</a></li>
+          <li><a href="#partners">Meet the Partners</a></li>
+          <li><a href="#consultation">Schedule Consultation</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 Khatri &amp; Associates. All rights reserved.</span>
+      <span style="font-style:italic;color:var(--text-dim);">Established 1994 · High Court, Pune</span>
+    </div>
+  </footer>
+
+  <!-- FIXED BADGE -->
+  <a href="/" style="position:fixed;bottom:20px;right:20px;background:#e8c547;color:#080808;font-size:10px;padding:7px 14px;font-family:monospace;font-weight:700;text-decoration:none;z-index:999;letter-spacing:0.06em;">Built by script.in ↗</a>
+
+  <script>
+    // Nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    // Close nav on link click (mobile)
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // Subtle nav border on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.borderBottomColor = window.scrollY > 10
+        ? 'rgba(201,164,78,0.4)'
+        : 'rgba(201,164,78,0.18)';
+    });
+
+    // IntersectionObserver scroll reveal
+    const revealEls = document.querySelectorAll(
+      '.practice-card, .partner-card, .stat-item, .testimonial-card, .reveal'
+    );
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const siblings = Array.from(entry.target.parentElement.children);
+          const idx = siblings.indexOf(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, idx * 90);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    revealEls.forEach(el => observer.observe(el));
+
+    // Hero lines entrance animation
+    const heroLines = document.querySelectorAll('.hero-line-1, .hero-line-2, .hero-line-3, .hero-line-4, .hero-divider, .hero-btns, .hero-rule');
+    heroLines.forEach((el, i) => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      setTimeout(() => {
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+      }, 200 + i * 160);
+    });
+  </script>
+</body>
+</html>

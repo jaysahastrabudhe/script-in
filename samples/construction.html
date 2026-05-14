@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BuildCore Construction – We Build What Others Dream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e0e;
+      --surface: #161616;
+      --border: #2a2a2a;
+      --text: #f5f5f5;
+      --text-dim: #888;
+      --accent: #f97316;
+      --accent2: #fb923c;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      cursor: default;
+      overflow-x: hidden;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(14,14,14,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: #0e0e0e;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 10px 22px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent2); transform: translateY(-1px); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 100px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(249,115,22,0.06) 0%, transparent 60%),
+        linear-gradient(rgba(42,42,42,0.4) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(42,42,42,0.4) 1px, transparent 1px);
+      background-size: 100% 100%, 48px 48px, 48px 48px;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      gap: 60px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-left { flex: 1; }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+    .hero-tag::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    .hero-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(64px, 8vw, 96px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      margin-bottom: 28px;
+    }
+    .hero-heading .orange { color: var(--accent); }
+
+    .hero-sub {
+      font-size: 15px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .hero-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0e0e0e;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-2px); }
+
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: border-color 0.2s, color 0.2s, transform 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+
+    .hero-right {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border-left: 2px solid var(--accent);
+      padding-left: 36px;
+      min-width: 200px;
+    }
+
+    .stat-item {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-bottom: none; }
+
+    .stat-number {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 44px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 100px 48px; }
+
+    .section-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .section-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 64px);
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 60px;
+    }
+
+    /* ── SERVICES ── */
+    #services { background: var(--bg); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+
+    .service-card {
+      background: var(--surface);
+      padding: 40px 32px;
+      border-top: 2px solid var(--border);
+      transition: border-color 0.3s, transform 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 0;
+      background: rgba(249,115,22,0.04);
+      transition: height 0.3s;
+    }
+    .service-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+    .service-card:hover::after { height: 100%; }
+
+    .service-icon {
+      font-size: 32px;
+      margin-bottom: 20px;
+      display: block;
+    }
+
+    .service-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .service-desc {
+      font-size: 14px;
+      color: var(--text-dim);
+      line-height: 1.7;
+    }
+
+    /* ── PROJECTS ── */
+    #projects { background: var(--surface); }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .project-card {
+      background: var(--bg);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid var(--border);
+    }
+    .project-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+    }
+
+    .project-image {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-image-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.4s;
+    }
+    .project-card:hover .project-image-inner { transform: scale(1.04); }
+
+    .project-img-1 {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d1a0a 40%, #1a0e05 100%);
+    }
+    .project-img-2 {
+      background: linear-gradient(135deg, #0a1a1a 0%, #0d2233 40%, #0a1520 100%);
+    }
+    .project-img-3 {
+      background: linear-gradient(135deg, #1a1a0a 0%, #2d2800 40%, #1a1a0a 100%);
+    }
+
+    .project-img-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 64px;
+      opacity: 0.25;
+    }
+
+    .project-type-tag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--accent);
+      color: #0e0e0e;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 5px 10px;
+    }
+
+    .project-info { padding: 24px; }
+
+    .project-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.03em;
+      margin-bottom: 10px;
+    }
+
+    .project-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+    .project-meta span::before {
+      content: '/ ';
+      color: var(--accent);
+    }
+
+    /* ── WHY US ── */
+    #why { background: var(--bg); }
+
+    .why-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .why-quote-wrap { position: relative; }
+
+    .why-quote-mark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 200px;
+      color: var(--accent);
+      opacity: 0.08;
+      line-height: 0.8;
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .why-quote {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.2;
+      letter-spacing: 0.03em;
+      color: var(--text);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 24px;
+    }
+    .why-quote .orange { color: var(--accent); }
+
+    .why-attribution {
+      font-size: 13px;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .why-attribution::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .trust-points {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+
+    .trust-point {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .trust-icon {
+      width: 40px;
+      height: 40px;
+      background: rgba(249,115,22,0.1);
+      border: 1px solid rgba(249,115,22,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .trust-title {
+      font-weight: 700;
+      font-size: 15px;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .trust-desc {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    /* ── CTA SECTION ── */
+    #cta-section {
+      background: var(--accent);
+      padding: 100px 48px;
+    }
+
+    .cta-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .cta-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(40px, 5vw, 72px);
+      color: #0e0e0e;
+      letter-spacing: 0.03em;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .cta-sub {
+      font-size: 16px;
+      color: rgba(14,14,14,0.7);
+      max-width: 420px;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .btn-dark {
+      background: #0e0e0e;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 14px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-dark:hover { background: #222; transform: translateY(-2px); }
+
+    .btn-wa {
+      background: transparent;
+      border: 2px solid #0e0e0e;
+      color: #0e0e0e;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      text-decoration: none;
+      display: inline-block;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-wa:hover { background: rgba(14,14,14,0.1); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #080808;
+      padding: 80px 48px 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      padding-bottom: 60px;
+    }
+
+    .footer-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .footer-logo span { color: var(--accent); }
+
+    .footer-tagline {
+      font-size: 13px;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 260px;
+    }
+
+    .footer-col-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-links a {
+      font-size: 14px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+
+      section { padding: 70px 20px; }
+      #hero { padding: 100px 20px 70px; }
+
+      .hero-inner { flex-direction: column; gap: 40px; }
+      .hero-right {
+        flex-direction: row;
+        border-left: none;
+        border-top: 2px solid var(--accent);
+        padding-left: 0;
+        padding-top: 28px;
+        gap: 24px;
+        width: 100%;
+      }
+      .stat-item { border-bottom: none; border-right: 1px solid var(--border); padding: 0 24px; flex: 1; }
+      .stat-item:last-child { border-right: none; }
+      .stat-number { font-size: 32px; }
+
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .why-inner { grid-template-columns: 1fr; gap: 48px; }
+
+      .cta-inner { flex-direction: column; }
+
+      .footer-top { grid-template-columns: 1fr 1fr; gap: 36px; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .services-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; }
+      .hero-right { flex-direction: column; border-top: none; border-left: 2px solid var(--accent); padding-left: 24px; padding-top: 0; }
+      .stat-item { border-right: none; border-bottom: 1px solid var(--border); padding: 20px 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">BUILD<span>CORE</span></a>
+    <ul class="nav-links">
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#why">About</a></li>
+      <li><a href="#cta-section">Contact</a></li>
+    </ul>
+    <a href="#cta-section" class="nav-cta">Get a Quote</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-grid-bg"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-tag">Pune, Maharashtra — Est. 2009</div>
+        <h1 class="hero-heading">
+          WE BUILD<br />
+          WHAT <span class="orange">OTHERS</span><br />
+          <span class="orange">DREAM</span>
+        </h1>
+        <p class="hero-sub">Residential &nbsp;·&nbsp; Commercial &nbsp;·&nbsp; Industrial<br />Craftsmanship you can trust. Timelines you can set your watch to.</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn-primary">View Projects</a>
+          <a href="#cta-section" class="btn-outline">Get Free Quote</a>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="stat-item">
+          <div class="stat-number">250+</div>
+          <div class="stat-label">Projects Delivered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">15</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">ISO</div>
+          <div class="stat-label">9001 Certified</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="section-inner">
+      <div class="section-tag reveal">/ What We Build</div>
+      <h2 class="section-heading reveal reveal-delay-1">Our Services</h2>
+      <div class="services-grid">
+        <div class="service-card reveal reveal-delay-1">
+          <span class="service-icon">🏠</span>
+          <div class="service-title">Residential Construction</div>
+          <p class="service-desc">Bungalows, row houses, apartment complexes. We build homes that are engineered for life — structurally sound and beautifully finished.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-2">
+          <span class="service-icon">🏢</span>
+          <div class="service-title">Commercial Spaces</div>
+          <p class="service-desc">Offices, retail outlets, IT parks, showrooms. We understand that your workspace is your brand — and we build to reflect that.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-3">
+          <span class="service-icon">🔨</span>
+          <div class="service-title">Interior & Renovation</div>
+          <p class="service-desc">From complete gut renovations to precision fit-outs, our interior team breathes new life into existing structures with zero disruption to operations.</p>
+        </div>
+        <div class="service-card reveal reveal-delay-4">
+          <span class="service-icon">🏗️</span>
+          <div class="service-title">Industrial Structures</div>
+          <p class="service-desc">Warehouses, factories, cold storage, logistics hubs. Heavy-duty construction with the safety compliance, load engineering, and speed you need.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <div class="section-tag reveal">/ Our Work</div>
+      <h2 class="section-heading reveal reveal-delay-1">Featured Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card reveal reveal-delay-1">
+          <div class="project-image">
+            <div class="project-image-inner project-img-1">
+              <div class="project-img-overlay">🏙️</div>
+            </div>
+            <div class="project-type-tag">Residential</div>
+          </div>
+          <div class="project-info">
+            <div class="project-name">Skyline Residency</div>
+            <div class="project-meta">
+              <span>Baner, Pune</span>
+              <span>1.2 Lakh sq.ft</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-2">
+          <div class="project-image">
+            <div class="project-image-inner project-img-2">
+              <div class="project-img-overlay">💼</div>
+            </div>
+            <div class="project-type-tag">Commercial</div>
+          </div>
+          <div class="project-info">
+            <div class="project-name">TechHub Office</div>
+            <div class="project-meta">
+              <span>Hinjewadi, Pune</span>
+              <span>48,000 sq.ft</span>
+            </div>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-3">
+          <div class="project-image">
+            <div class="project-image-inner project-img-3">
+              <div class="project-img-overlay">🏭</div>
+            </div>
+            <div class="project-type-tag">Industrial</div>
+          </div>
+          <div class="project-info">
+            <div class="project-name">Grand Warehouse</div>
+            <div class="project-meta">
+              <span>Chakan, Pune</span>
+              <span>2.8 Lakh sq.ft</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE US -->
+  <section id="why">
+    <div class="section-inner">
+      <div class="why-inner">
+        <div class="why-quote-wrap reveal">
+          <div class="why-quote-mark">"</div>
+          <blockquote class="why-quote">
+            Quality isn't a department. It's every <span class="orange">brick we lay.</span>
+          </blockquote>
+          <div class="why-attribution">Rajesh Kadam, Founder &amp; MD</div>
+        </div>
+        <div class="trust-points">
+          <div class="trust-point reveal reveal-delay-1">
+            <div class="trust-icon">✓</div>
+            <div>
+              <div class="trust-title">ISO 9001:2015 Certified</div>
+              <div class="trust-desc">Our processes are audited annually to ensure consistent quality at every project stage.</div>
+            </div>
+          </div>
+          <div class="trust-point reveal reveal-delay-2">
+            <div class="trust-icon">✓</div>
+            <div>
+              <div class="trust-title">15-Year Track Record</div>
+              <div class="trust-desc">Over 250 completed projects across residential, commercial, and industrial sectors.</div>
+            </div>
+          </div>
+          <div class="trust-point reveal reveal-delay-3">
+            <div class="trust-icon">✓</div>
+            <div>
+              <div class="trust-title">In-House Team, No Subcontractors</div>
+              <div class="trust-desc">Every worker on your site is a BuildCore employee. Accountability stays with us.</div>
+            </div>
+          </div>
+          <div class="trust-point reveal reveal-delay-4">
+            <div class="trust-icon">✓</div>
+            <div>
+              <div class="trust-title">On-Time Delivery Guarantee</div>
+              <div class="trust-desc">We put it in writing. Delays cost money — and our reputation matters too much to risk.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA SECTION -->
+  <section id="cta-section" style="padding: 0;">
+    <div id="cta-section" style="background: var(--accent); padding: 100px 48px;">
+      <div class="cta-inner">
+        <div>
+          <h2 class="cta-heading">Ready to Build?</h2>
+          <p class="cta-sub">Get your free site visit and detailed quote within 24 hours. No obligation, no pressure.</p>
+        </div>
+        <div class="cta-btns">
+          <a href="tel:+919876543210" class="btn-dark">📞 Call: +91 98765 43210</a>
+          <a href="https://wa.me/919876543210" class="btn-wa">WhatsApp Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">BUILD<span>CORE</span></div>
+          <p class="footer-tagline">Pune's most trusted construction partner since 2009. Building structures that outlast generations.</p>
+        </div>
+        <div>
+          <div class="footer-col-title">Services</div>
+          <ul class="footer-links">
+            <li><a href="#services">Residential</a></li>
+            <li><a href="#services">Commercial</a></li>
+            <li><a href="#services">Interior & Renovation</a></li>
+            <li><a href="#services">Industrial</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Locations</div>
+          <ul class="footer-links">
+            <li><a href="#">Pune</a></li>
+            <li><a href="#">Mumbai</a></li>
+            <li><a href="#">Nashik</a></li>
+            <li><a href="#">Aurangabad</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links">
+            <li><a href="tel:+919876543210">+91 98765 43210</a></li>
+            <li><a href="mailto:hello@buildcore.in">hello@buildcore.in</a></li>
+            <li><a href="#">Plot 42, Hadapsar MIDC<br />Pune – 411028</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 BuildCore Construction Pvt. Ltd. All rights reserved.</span>
+        <span>RERA Reg. No. P52100012345 &nbsp;|&nbsp; ISO 9001:2015 Certified</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BADGE -->
+  <a href="/" style="position:fixed;bottom:20px;right:20px;background:#e8c547;color:#080808;font-size:10px;padding:7px 14px;font-family:monospace;font-weight:700;text-decoration:none;z-index:999;letter-spacing:0.06em;">Built by script.in ↗</a>
+
+  <script>
+    // Scroll-reveal with IntersectionObserver
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Nav background on scroll
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        nav.style.background = 'rgba(14,14,14,0.98)';
+        nav.style.borderBottomColor = '#2a2a2a';
+      } else {
+        nav.style.background = 'rgba(14,14,14,0.92)';
+      }
+    }, { passive: true });
+  </script>
+</body>
+</html>
