@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClearMed Multi-Specialty Clinic — Your Health, Simply Handled</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f0f9ff;
+      --surface: #ffffff;
+      --surface-dark: #082f49;
+      --text: #082f49;
+      --text-dim: #64748b;
+      --accent: #0284c7;
+      --accent2: #059669;
+      --accent3: #f59e0b;
+      --radius: 14px;
+      --shadow: 0 4px 24px rgba(8,47,73,0.10);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      cursor: default;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ── EMERGENCY BAR ── */
+    .emergency-bar {
+      background: var(--surface-dark);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 24px;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .emergency-bar a {
+      color: var(--accent3);
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .emergency-bar a:hover { text-decoration: underline; }
+
+    /* ── NAV ── */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 900;
+      background: var(--surface);
+      box-shadow: 0 2px 16px rgba(8,47,73,0.10);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 64px;
+      transition: box-shadow 0.3s;
+    }
+    .navbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .navbar-logo span { font-size: 24px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 600;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      background: var(--accent2);
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: 8px;
+      font-weight: 700 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: #047857 !important; color: #fff !important; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+    }
+
+    /* Emergency bar offset for fixed nav */
+    .nav-spacer { height: calc(64px + 37px); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #e0f2fe 0%, #f0fdf4 100%);
+      padding: 72px 48px 64px;
+      display: grid;
+      grid-template-columns: 1fr 420px;
+      gap: 48px;
+      align-items: center;
+      min-height: 92vh;
+    }
+    .hero-left h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--surface-dark);
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+    .hero-left p {
+      font-size: 18px;
+      color: var(--text-dim);
+      font-weight: 500;
+      margin-bottom: 32px;
+      max-width: 480px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .btn-primary {
+      background: var(--accent2);
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: #047857; transform: translateY(-1px); }
+    .btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 2px solid var(--accent);
+      transition: background 0.2s, color 0.2s;
+      display: inline-block;
+    }
+    .btn-secondary:hover { background: var(--accent); color: #fff; }
+    .trust-badges {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent2);
+      background: rgba(5,150,105,0.08);
+      padding: 7px 14px;
+      border-radius: 99px;
+    }
+    .trust-badge span { font-size: 15px; }
+
+    /* Booking Widget */
+    .booking-widget {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 32px 28px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--accent3);
+    }
+    .booking-widget h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--surface-dark);
+      margin-bottom: 6px;
+    }
+    .booking-widget p {
+      font-size: 13px;
+      color: var(--text-dim);
+      margin-bottom: 22px;
+    }
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #f8fafc;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--accent); }
+    .btn-confirm {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent3);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn-confirm:hover { background: #d97706; }
+
+    /* ── SECTIONS SHARED ── */
+    section { padding: 80px 48px; }
+    .section-tag {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(2,132,199,0.08);
+      padding: 5px 14px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+    }
+    .section-heading {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: var(--surface-dark);
+      margin-bottom: 12px;
+    }
+    .section-sub {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-weight: 500;
+      max-width: 540px;
+      margin-bottom: 48px;
+    }
+
+    /* ── SPECIALITIES ── */
+    #specialities { background: var(--surface); }
+    .spec-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 22px;
+    }
+    .spec-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 28px 20px 24px;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .spec-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s, transform 0.5s; }
+    .spec-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .spec-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin: 0 auto 16px;
+    }
+    .spec-card h3 { font-size: 15px; font-weight: 800; margin-bottom: 4px; }
+    .spec-card p { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+
+    /* Icon bg colors */
+    .ic-red { background: #fee2e2; }
+    .ic-orange { background: #ffedd5; }
+    .ic-purple { background: #f3e8ff; }
+    .ic-sky { background: #e0f2fe; }
+    .ic-pink { background: #fce7f3; }
+    .ic-indigo { background: #e0e7ff; }
+    .ic-teal { background: #ccfbf1; }
+    .ic-green { background: #dcfce7; }
+
+    /* ── DOCTORS ── */
+    #doctors { background: #e0f2fe; }
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .doctor-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 32px 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    .doctor-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.55s, transform 0.55s; }
+    .doc-avatar {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 900;
+      color: #fff;
+      margin: 0 auto 18px;
+    }
+    .doc-avatar.av1 { background: linear-gradient(135deg, #0284c7, #0ea5e9); }
+    .doc-avatar.av2 { background: linear-gradient(135deg, #059669, #10b981); }
+    .doc-avatar.av3 { background: linear-gradient(135deg, #7c3aed, #a855f7); }
+    .doctor-card h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+    .doctor-card .designation { font-size: 13px; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+    .doctor-card .qual { font-size: 13px; color: var(--text-dim); font-weight: 600; margin-bottom: 4px; }
+    .doctor-card .exp {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--accent2);
+      background: rgba(5,150,105,0.08);
+      padding: 4px 12px;
+      border-radius: 99px;
+      display: inline-block;
+      margin-bottom: 18px;
+    }
+    .btn-doc {
+      display: block;
+      background: var(--accent);
+      color: #fff;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .btn-doc:hover { background: #0369a1; }
+
+    /* ── HOW IT WORKS ── */
+    #how { background: var(--surface-dark); }
+    #how .section-tag { color: var(--accent3); background: rgba(245,158,11,0.15); }
+    #how .section-heading { color: #fff; }
+    #how .section-sub { color: #94a3b8; }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 28px;
+      position: relative;
+    }
+    .step-card {
+      text-align: center;
+      padding: 32px 20px;
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.1);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .step-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s, transform 0.5s; }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent3);
+      color: #fff;
+      font-size: 18px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .step-icon { font-size: 32px; margin-bottom: 12px; }
+    .step-card h3 { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+    .step-card p { font-size: 13px; color: #94a3b8; font-weight: 500; }
+
+    /* ── REVIEWS ── */
+    #reviews { background: var(--surface); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .review-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      border-left: 4px solid var(--accent2);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    .review-card.visible { opacity: 1; transform: translateY(0); transition: opacity 0.5s, transform 0.5s; }
+    .stars { color: var(--accent3); font-size: 18px; margin-bottom: 12px; letter-spacing: 2px; }
+    .review-text { font-size: 15px; color: var(--text); font-weight: 500; font-style: italic; margin-bottom: 18px; line-height: 1.7; }
+    .reviewer { display: flex; align-items: center; gap: 12px; }
+    .reviewer-avatar {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800;
+    }
+    .reviewer-name { font-size: 14px; font-weight: 800; }
+    .reviewer-dept { font-size: 12px; color: var(--text-dim); font-weight: 600; }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--surface-dark);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    #contact .section-heading { color: #fff; }
+    #contact .section-tag { color: var(--accent3); background: rgba(245,158,11,0.15); margin-bottom: 18px; }
+    .contact-info { display: flex; flex-direction: column; gap: 20px; }
+    .contact-item { display: flex; gap: 14px; align-items: flex-start; }
+    .contact-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .contact-item h4 { font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 3px; }
+    .contact-item p { font-size: 13px; color: #94a3b8; font-weight: 500; }
+    .contact-item a { color: var(--accent3); text-decoration: none; font-weight: 700; }
+    .map-placeholder {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+    .map-placeholder span { font-size: 32px; }
+    .map-placeholder a {
+      color: var(--accent3);
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1.5px solid var(--accent3);
+      padding: 8px 20px;
+      border-radius: 8px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #051a2c;
+      color: #94a3b8;
+      padding: 56px 48px 32px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-brand h2 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .footer-brand p { font-size: 14px; line-height: 1.7; max-width: 280px; }
+    .footer-col h4 { font-size: 14px; font-weight: 800; color: #fff; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .footer-col ul li a { color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600; transition: color 0.2s; }
+    .footer-col ul li a:hover { color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 13px;
+    }
+    .nabh-badge {
+      background: var(--accent2);
+      color: #fff;
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    /* ── REVEAL ANIMATION ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .emergency-bar { font-size: 11px; padding: 7px 16px; }
+      .nav-spacer { height: calc(64px + 33px); }
+      .navbar { padding: 0 20px; }
+      .nav-links { display: none; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: #fff; padding: 20px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); gap: 16px; }
+      .nav-links.open { display: flex; }
+      .nav-toggle { display: flex; }
+
+      .hero { grid-template-columns: 1fr; padding: 40px 20px 48px; min-height: auto; gap: 36px; }
+      section { padding: 56px 20px; }
+      .spec-grid { grid-template-columns: repeat(2, 1fr); }
+      .doctors-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      #contact { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- EMERGENCY BAR -->
+  <div class="emergency-bar">
+    <span>🚨 24/7 Emergency: <strong>+91 98765 43210</strong> &nbsp;·&nbsp; Ambulance: <strong>108</strong></span>
+    <a href="#booking">Book Appointment →</a>
+  </div>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <a href="/" class="navbar-logo"><span>🩺</span> ClearMed</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#specialities">Specialities</a></li>
+      <li><a href="#doctors">Doctors</a></li>
+      <li><a href="#diagnostics">Diagnostics</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#booking" class="nav-cta">Book Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- NAV SPACER -->
+  <div class="nav-spacer"></div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-left">
+      <div class="section-tag">Multi-Specialty Clinic</div>
+      <h1>Healthcare Shouldn't Be Hard to Access</h1>
+      <p>Walk in or book online. Get seen in under 30 minutes. No referral needed.</p>
+      <div class="hero-btns">
+        <a href="#booking" class="btn-primary">Book Appointment</a>
+        <a href="#doctors" class="btn-secondary">View Doctors</a>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-badge"><span>✓</span> NABH Accredited</div>
+        <div class="trust-badge"><span>✓</span> 50+ Specialists</div>
+        <div class="trust-badge"><span>✓</span> Walk-ins Welcome</div>
+        <div class="trust-badge"><span>✓</span> Insurance Accepted</div>
+      </div>
+    </div>
+
+    <!-- Booking Widget -->
+    <div class="booking-widget" id="booking">
+      <h3>Book Your Slot</h3>
+      <p>Free for first-time patients · Confirmed in 2 mins</p>
+      <div class="form-group">
+        <label for="b-name">Full Name</label>
+        <input type="text" id="b-name" placeholder="Riya Sharma" />
+      </div>
+      <div class="form-group">
+        <label for="b-phone">Phone Number</label>
+        <input type="tel" id="b-phone" placeholder="+91 98765 00000" />
+      </div>
+      <div class="form-group">
+        <label for="b-spec">Speciality</label>
+        <select id="b-spec">
+          <option value="">Select Department</option>
+          <option>Cardiology</option>
+          <option>Orthopaedics</option>
+          <option>Dermatology</option>
+          <option>Paediatrics</option>
+          <option>Gynaecology</option>
+          <option>Neurology</option>
+          <option>ENT</option>
+          <option>General Medicine</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="b-date">Preferred Date</label>
+        <input type="date" id="b-date" />
+      </div>
+      <button class="btn-confirm">Confirm Slot ✓</button>
+    </div>
+  </section>
+
+  <!-- SPECIALITIES -->
+  <section id="specialities">
+    <div class="section-tag">Departments</div>
+    <h2 class="section-heading">Our Specialities</h2>
+    <p class="section-sub">Expert care across 8 specialities with 50+ experienced doctors attending thousands of patients every month.</p>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <div class="spec-icon ic-red">❤️</div>
+        <h3>Cardiology</h3>
+        <p>20+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-orange">🦴</div>
+        <h3>Orthopaedics</h3>
+        <p>18+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-purple">✨</div>
+        <h3>Dermatology</h3>
+        <p>25+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-sky">👶</div>
+        <h3>Paediatrics</h3>
+        <p>30+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-pink">🌸</div>
+        <h3>Gynaecology</h3>
+        <p>15+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-indigo">🧠</div>
+        <h3>Neurology</h3>
+        <p>12+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-teal">👂</div>
+        <h3>ENT</h3>
+        <p>22+ cases daily</p>
+      </div>
+      <div class="spec-card">
+        <div class="spec-icon ic-green">🩺</div>
+        <h3>General Medicine</h3>
+        <p>40+ cases daily</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section id="doctors">
+    <div class="section-tag">Our Team</div>
+    <h2 class="section-heading">Meet Our Doctors</h2>
+    <p class="section-sub">Board-certified specialists committed to delivering thoughtful, patient-first care.</p>
+    <div class="doctors-grid">
+      <div class="doctor-card">
+        <div class="doc-avatar av1">PS</div>
+        <h3>Dr. Priya Sharma</h3>
+        <div class="designation">Cardiologist</div>
+        <div class="qual">MBBS · MD (Cardiology)</div>
+        <div class="exp">12 Years Experience</div>
+        <a href="#booking" class="btn-doc">Book with Dr. Priya</a>
+      </div>
+      <div class="doctor-card">
+        <div class="doc-avatar av2">AM</div>
+        <h3>Dr. Arjun Mehta</h3>
+        <div class="designation">Orthopaedic Surgeon</div>
+        <div class="qual">MBBS · MS (Orthopaedics)</div>
+        <div class="exp">8 Years Experience</div>
+        <a href="#booking" class="btn-doc">Book with Dr. Arjun</a>
+      </div>
+      <div class="doctor-card">
+        <div class="doc-avatar av3">KN</div>
+        <h3>Dr. Kavya Nair</h3>
+        <div class="designation">Paediatrician</div>
+        <div class="qual">MBBS · DCH (Paediatrics)</div>
+        <div class="exp">10 Years Experience</div>
+        <a href="#booking" class="btn-doc">Book with Dr. Kavya</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how">
+    <div class="section-tag">Process</div>
+    <h2 class="section-heading">How It Works</h2>
+    <p class="section-sub">Four simple steps from booking to getting better. No paperwork maze, no long queues.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <div class="step-icon">📱</div>
+        <h3>Book Online</h3>
+        <p>Pick your speciality, choose a time slot. Confirmed in under 2 minutes.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <div class="step-icon">🏥</div>
+        <h3>Visit Clinic</h3>
+        <p>Check in at the reception. Our team will guide you seamlessly from there.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <div class="step-icon">👨‍⚕️</div>
+        <h3>Consult Doctor</h3>
+        <p>Seen in under 30 minutes by a specialist who actually listens to you.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <div class="step-icon">📋</div>
+        <h3>Get Prescription</h3>
+        <p>Digital prescription & follow-up reminders sent straight to your phone.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATIENT REVIEWS -->
+  <section id="reviews">
+    <div class="section-tag">Patient Stories</div>
+    <h2 class="section-heading">What Patients Say</h2>
+    <p class="section-sub">Real experiences from real patients. Names are abbreviated for privacy.</p>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"I walked in without an appointment and was seen within 20 minutes. Dr. Sharma explained everything clearly — no jargon. The clinic feels modern yet warm. I finally have a doctor I trust."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">RS</div>
+          <div>
+            <div class="reviewer-name">R. S.</div>
+            <div class="reviewer-dept">Cardiology Patient</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Took my 3-year-old to see Dr. Kavya. She was so gentle and patient with him — he actually smiled! The digital prescription came on WhatsApp in minutes. This is how paediatric care should be."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">MP</div>
+          <div>
+            <div class="reviewer-name">M. P.</div>
+            <div class="reviewer-dept">Paediatrics Patient</div>
+          </div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars">★★★★★</div>
+        <p class="review-text">"Insurance was accepted without any drama. The booking app worked perfectly, the waiting room was clean, and Dr. Mehta's diagnosis was spot-on. Best clinic in the city, period."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">AK</div>
+          <div>
+            <div class="reviewer-name">A. K.</div>
+            <div class="reviewer-dept">Orthopaedics Patient</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / MAP -->
+  <section id="contact" id="about">
+    <div>
+      <div class="section-tag">Find Us</div>
+      <h2 class="section-heading" style="color:#fff;">Get in Touch</h2>
+      <div class="contact-info" style="margin-top:28px;">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <h4>Address</h4>
+            <p>12, Wellness Avenue, Near City Mall,<br/>Baner, Pune — 411 045</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div>
+            <h4>Working Hours</h4>
+            <p>Mon–Sat: 8:00 AM – 9:00 PM<br/>Sunday: 9:00 AM – 2:00 PM</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <h4>Phone & Emergency</h4>
+            <p><a href="tel:+919876543210">+91 98765 43210</a> &nbsp;|&nbsp; Emergency: 108</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">💬</div>
+          <div>
+            <h4>WhatsApp</h4>
+            <p><a href="https://wa.me/919876543210">+91 98765 43210</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="map-placeholder">
+        <span>🗺️</span>
+        <p style="color:#94a3b8;font-size:14px;font-weight:600;">ClearMed Clinic, Baner, Pune</p>
+        <a href="https://maps.google.com" target="_blank">Find Us on Google Maps ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer id="diagnostics">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h2>🩺 ClearMed</h2>
+        <p>Your Health, Simply Handled. Accessible, transparent, and human healthcare — because every patient deserves clarity and care in equal measure.</p>
+        <div style="margin-top:16px;"><span class="nabh-badge">✓ NABH Accredited</span></div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#doctors">Our Doctors</a></li>
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#reviews">Patient Stories</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Specialities</h4>
+        <ul>
+          <li><a href="#specialities">Cardiology</a></li>
+          <li><a href="#specialities">Orthopaedics</a></li>
+          <li><a href="#specialities">Dermatology</a></li>
+          <li><a href="#specialities">Paediatrics</a></li>
+          <li><a href="#specialities">Gynaecology</a></li>
+          <li><a href="#specialities">Neurology</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 ClearMed Multi-Specialty Clinic. All rights reserved.</span>
+      <span class="nabh-badge">NABH Reg. No. MCH-2019-4821</span>
+    </div>
+  </footer>
+
+  <!-- FIXED BADGE -->
+  <a href="/" style="position:fixed;bottom:20px;right:20px;background:#e8c547;color:#080808;font-size:10px;padding:7px 14px;font-family:monospace;font-weight:700;text-decoration:none;z-index:999;letter-spacing:0.06em;">Built by script.in ↗</a>
+
+  <script>
+    // Nav toggle
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    // Smooth nav shadow on scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.style.boxShadow = window.scrollY > 10
+        ? '0 4px 24px rgba(8,47,73,0.16)'
+        : '0 2px 16px rgba(8,47,73,0.10)';
+    });
+
+    // IntersectionObserver scroll reveal
+    const revealEls = document.querySelectorAll('.spec-card, .doctor-card, .step-card, .review-card, .reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.classList.add('visible');
+          }, (Array.from(revealEls).indexOf(entry.target) % 4) * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Staggered reveal for grids
+    document.querySelectorAll('.spec-grid .spec-card, .steps-grid .step-card, .reviews-grid .review-card').forEach((el, i) => {
+      el.style.transitionDelay = (i % 4) * 80 + 'ms';
+    });
+  </script>
+</body>
+</html>

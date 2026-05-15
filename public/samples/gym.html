@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronFuel Performance Gym — Forged, Not Born.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #030303;
+      --surface: #0d0d0d;
+      --surface-red: #1a0000;
+      --text: #ffffff;
+      --text-dim: #666;
+      --accent: #ef4444;
+      --accent2: #dc2626;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      cursor: default;
+      overflow-x: hidden;
+    }
+
+    /* ── TICKER ── */
+    .ticker-wrap {
+      background: #000;
+      border-bottom: 1px solid #1a1a1a;
+      overflow: hidden;
+      height: 36px;
+      display: flex;
+      align-items: center;
+    }
+    .ticker-track {
+      display: flex;
+      white-space: nowrap;
+      animation: ticker 28s linear infinite;
+    }
+    .ticker-track span {
+      font-family: 'Roboto', sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #ccc;
+      padding: 0 10px;
+    }
+    .ticker-track .dot {
+      color: var(--accent);
+      font-size: 14px;
+      padding: 0 4px;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 36px;
+      left: 0; right: 0;
+      background: #000;
+      border-bottom: 1px solid #1a1a1a;
+      z-index: 100;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+    }
+    .nav-inner {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo .iron { color: #fff; }
+    .logo .fuel { color: var(--accent); }
+    .logo .icon { font-size: 20px; }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #999;
+      text-decoration: none;
+      font-family: 'Roboto', sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 9px 20px;
+      font-size: 11px !important;
+      letter-spacing: 0.12em !important;
+      font-weight: 500;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--accent2) !important; color: #fff; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: #fff; }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 100px;
+      left: 0; right: 0;
+      background: #000;
+      border-bottom: 1px solid #1a1a1a;
+      padding: 20px 40px;
+      z-index: 99;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: #999;
+      text-decoration: none;
+      font-size: 14px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* ── PAGE OFFSET ── */
+    .page-start { margin-top: 100px; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 40px 60px;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(239,68,68,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content {
+      flex: 1;
+      max-width: 660px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-headline {
+      font-family: 'Oswald', sans-serif;
+      line-height: 0.9;
+      margin-bottom: 28px;
+    }
+    .hero-headline .line-white {
+      font-size: clamp(72px, 12vw, 130px);
+      font-weight: 700;
+      color: #fff;
+      display: block;
+      letter-spacing: -0.01em;
+    }
+    .hero-headline .line-red {
+      font-size: clamp(80px, 14vw, 148px);
+      font-weight: 700;
+      color: var(--accent);
+      display: block;
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 60px rgba(239,68,68,0.4);
+    }
+    .hero-sub {
+      font-size: 15px;
+      color: #999;
+      letter-spacing: 0.04em;
+      line-height: 1.6;
+      margin-bottom: 40px;
+      max-width: 480px;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      padding: 14px 32px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+    .btn-outline {
+      border: 1px solid #444;
+      color: #ccc;
+      padding: 14px 32px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-disclaimer {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .hero-visual {
+      flex: 0 0 380px;
+      height: 480px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* CSS abstract figure */
+    .fig-wrap {
+      position: relative;
+      width: 280px;
+      height: 420px;
+    }
+    .fig-glow {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(239,68,68,0.35) 0%, transparent 70%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      filter: blur(20px);
+    }
+    .fig-head {
+      position: absolute;
+      width: 54px; height: 54px;
+      background: linear-gradient(135deg, #ef4444, #7f1d1d);
+      border-radius: 50%;
+      top: 20px; left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 30px rgba(239,68,68,0.5);
+    }
+    .fig-torso {
+      position: absolute;
+      width: 70px; height: 110px;
+      background: linear-gradient(180deg, #2a0000, #1a0000);
+      border: 1px solid rgba(239,68,68,0.3);
+      top: 84px; left: 50%;
+      transform: translateX(-50%);
+      clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+    }
+    .fig-arm-l {
+      position: absolute;
+      width: 28px; height: 90px;
+      background: linear-gradient(180deg, #3f0000, #1a0000);
+      border: 1px solid rgba(239,68,68,0.2);
+      top: 88px; left: 56px;
+      transform: rotate(30deg);
+      border-radius: 4px;
+    }
+    .fig-arm-r {
+      position: absolute;
+      width: 28px; height: 90px;
+      background: linear-gradient(180deg, #3f0000, #1a0000);
+      border: 1px solid rgba(239,68,68,0.2);
+      top: 88px; right: 56px;
+      transform: rotate(-30deg);
+      border-radius: 4px;
+    }
+    .fig-bar {
+      position: absolute;
+      width: 200px; height: 12px;
+      background: linear-gradient(90deg, #ef4444, #7f1d1d, #ef4444);
+      top: 96px; left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      box-shadow: 0 0 20px rgba(239,68,68,0.6), 0 0 40px rgba(239,68,68,0.3);
+    }
+    .fig-bar::before, .fig-bar::after {
+      content: '';
+      position: absolute;
+      width: 28px; height: 28px;
+      background: #ef4444;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 14px rgba(239,68,68,0.8);
+    }
+    .fig-bar::before { left: -10px; }
+    .fig-bar::after { right: -10px; }
+    .fig-leg-l {
+      position: absolute;
+      width: 30px; height: 110px;
+      background: linear-gradient(180deg, #2a0000, #0d0000);
+      border: 1px solid rgba(239,68,68,0.15);
+      top: 192px; left: 50%;
+      margin-left: -36px;
+      border-radius: 4px;
+    }
+    .fig-leg-r {
+      position: absolute;
+      width: 30px; height: 110px;
+      background: linear-gradient(180deg, #2a0000, #0d0000);
+      border: 1px solid rgba(239,68,68,0.15);
+      top: 192px; left: 50%;
+      margin-left: 6px;
+      border-radius: 4px;
+    }
+    .fig-line {
+      position: absolute;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(239,68,68,0.6), transparent);
+    }
+    .fig-line-1 { height: 300px; left: 30px; top: 60px; }
+    .fig-line-2 { height: 200px; right: 30px; top: 120px; }
+    .fig-diamond {
+      position: absolute;
+      width: 14px; height: 14px;
+      background: var(--accent);
+      transform: rotate(45deg);
+      opacity: 0.6;
+    }
+    .fig-diamond-1 { bottom: 60px; left: 20px; }
+    .fig-diamond-2 { top: 30px; right: 30px; width: 8px; height: 8px; }
+    .fig-ring {
+      position: absolute;
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 50%;
+    }
+    .fig-ring-1 { width: 260px; height: 260px; top: 50%; left: 50%; transform: translate(-50%, -45%); }
+    .fig-ring-2 { width: 320px; height: 320px; top: 50%; left: 50%; transform: translate(-50%, -42%); opacity: 0.4; }
+
+    /* ── SECTION COMMON ── */
+    section { padding: 90px 40px; }
+    .section-heading {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 48px;
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── SCHEDULE ── */
+    .schedule-section {
+      background: var(--surface-red);
+      border-top: 1px solid rgba(239,68,68,0.2);
+      border-bottom: 1px solid rgba(239,68,68,0.2);
+      overflow-x: auto;
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+      font-size: 13px;
+    }
+    .schedule-table thead th {
+      background: var(--accent2);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 14px 12px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .schedule-table thead th:first-child {
+      background: #0d0000;
+      color: var(--text-dim);
+    }
+    .schedule-table tbody tr:nth-child(even) { background: rgba(0,0,0,0.25); }
+    .schedule-table tbody td {
+      padding: 14px 12px;
+      border: 1px solid rgba(239,68,68,0.1);
+      text-align: center;
+      color: #ccc;
+      font-size: 12px;
+    }
+    .schedule-table tbody td:first-child {
+      font-family: 'Oswald', sans-serif;
+      font-weight: 600;
+      color: var(--accent);
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      background: rgba(0,0,0,0.4);
+    }
+    .class-cell strong {
+      display: block;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .class-cell small {
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+    }
+    .cell-empty { color: #333 !important; font-size: 11px !important; }
+
+    /* ── MEMBERSHIP ── */
+    .membership-section { background: var(--bg); }
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .plan-card {
+      background: var(--surface);
+      border: 1px solid #1f1f1f;
+      padding: 36px 28px;
+      position: relative;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .plan-card:hover { transform: translateY(-4px); }
+    .plan-card.featured {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(239,68,68,0.12);
+    }
+    .recommended-badge {
+      position: absolute;
+      top: -1px; right: 28px;
+      background: var(--accent);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+    }
+    .plan-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .plan-price {
+      font-family: 'Oswald', sans-serif;
+      font-size: 44px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .plan-price span {
+      font-size: 16px;
+      color: var(--text-dim);
+      font-weight: 400;
+    }
+    .plan-divider {
+      height: 1px;
+      background: #1f1f1f;
+      margin: 24px 0;
+    }
+    .plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .plan-features li {
+      font-size: 13px;
+      color: #bbb;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      line-height: 1.4;
+    }
+    .plan-features li::before {
+      content: '✓';
+      color: var(--accent);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .plan-btn {
+      display: block;
+      text-align: center;
+      padding: 13px 20px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .plan-btn-outline {
+      border: 1px solid #333;
+      color: #ccc;
+    }
+    .plan-btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+    .plan-btn-filled {
+      background: var(--accent);
+      color: #fff;
+    }
+    .plan-btn-filled:hover { background: var(--accent2); }
+
+    /* ── TRANSFORMATIONS ── */
+    .transform-section { background: var(--surface); }
+    .transform-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    .transform-card {
+      border: 1px solid #1f1f1f;
+      overflow: hidden;
+    }
+    .transform-halves {
+      display: flex;
+      height: 160px;
+    }
+    .transform-before {
+      flex: 1;
+      background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: #444;
+      text-transform: uppercase;
+      position: relative;
+      border-right: 1px solid #333;
+    }
+    .transform-after {
+      flex: 1;
+      background: linear-gradient(180deg, #2a0800 0%, #1a0400 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: rgba(239,68,68,0.5);
+      text-transform: uppercase;
+    }
+    .transform-body {
+      padding: 16px;
+      background: #0d0d0d;
+    }
+    .transform-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .transform-stat {
+      font-size: 22px;
+      font-family: 'Oswald', sans-serif;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 2px;
+    }
+    .transform-duration {
+      font-size: 11px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .transform-before-icon, .transform-after-icon {
+      width: 44px;
+      height: 70px;
+      position: relative;
+    }
+    .t-head {
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+    }
+    .t-body {
+      width: 22px; height: 32px;
+      position: absolute;
+      top: 22px; left: 50%; transform: translateX(-50%);
+    }
+    .transform-before-icon .t-head { background: #333; }
+    .transform-before-icon .t-body { background: #2a2a2a; clip-path: polygon(20% 0%,80% 0%,100% 100%,0% 100%); }
+    .transform-after-icon .t-head { background: var(--accent); box-shadow: 0 0 10px rgba(239,68,68,0.5); }
+    .transform-after-icon .t-body { background: var(--accent2); clip-path: polygon(30% 0%,70% 0%,90% 100%,10% 100%); box-shadow: 0 0 10px rgba(239,68,68,0.3); }
+
+    /* ── TRAINERS ── */
+    .trainers-section { background: var(--bg); }
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .trainer-card {
+      background: var(--surface);
+      border: 1px solid #1a1a1a;
+      padding: 36px 28px;
+      text-align: center;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .trainer-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .trainer-avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 28px;
+      font-weight: 700;
+      color: #fff;
+      border: 2px solid rgba(239,68,68,0.3);
+    }
+    .trainer-name {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      margin-bottom: 4px;
+    }
+    .trainer-role {
+      font-size: 12px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .trainer-cert {
+      font-size: 12px;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .trainer-link {
+      display: inline-block;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 9px 22px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .trainer-link:hover { background: var(--accent); color: #fff; }
+
+    /* ── FREE TRIAL CTA ── */
+    .trial-section {
+      background: var(--accent);
+      text-align: center;
+      padding: 80px 40px;
+    }
+    .trial-section .trial-heading {
+      font-family: 'Oswald', sans-serif;
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .trial-section .trial-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .trial-btn {
+      display: inline-block;
+      background: #000;
+      color: #fff;
+      padding: 16px 48px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .trial-btn:hover { background: #1a1a1a; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #000;
+      border-top: 1px solid #1a1a1a;
+      padding: 60px 40px 36px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+    .footer-logo {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+    .footer-tagline {
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1.7;
+    }
+    .footer-integrity {
+      margin-top: 14px;
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.06em;
+    }
+    .footer-col h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: 16px;
+    }
+    .footer-col p, .footer-col a {
+      font-size: 13px;
+      color: var(--text-dim);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 8px;
+      transition: color 0.2s;
+      line-height: 1.5;
+    }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-socials { display: flex; gap: 12px; margin-top: 4px; }
+    .footer-socials a {
+      width: 34px; height: 34px;
+      border: 1px solid #2a2a2a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+      margin-bottom: 0;
+    }
+    .footer-socials a:hover { border-color: var(--accent); color: var(--accent); }
+    .footer-bottom {
+      border-top: 1px solid #1a1a1a;
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p {
+      font-size: 11px;
+      color: #333;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      section { padding: 60px 20px; }
+      .hero { padding: 60px 20px 50px; flex-direction: column; align-items: flex-start; }
+      .hero-visual { display: none; }
+      .plans-grid { grid-template-columns: 1fr; }
+      .transform-grid { grid-template-columns: 1fr 1fr; }
+      .trainers-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      .trial-section { padding: 60px 20px; }
+    }
+    @media (max-width: 480px) {
+      .transform-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span>OPEN 6AM–11PM MON–SAT</span><span class="dot">●</span>
+    <span>SUNDAYS 8AM–8PM</span><span class="dot">●</span>
+    <span>FIRST WEEK FREE</span><span class="dot">●</span>
+    <span>NO CONTRACTS. CANCEL ANYTIME.</span><span class="dot">●</span>
+    <span>OPEN 6AM–11PM MON–SAT</span><span class="dot">●</span>
+    <span>SUNDAYS 8AM–8PM</span><span class="dot">●</span>
+    <span>FIRST WEEK FREE</span><span class="dot">●</span>
+    <span>NO CONTRACTS. CANCEL ANYTIME.</span><span class="dot">●</span>
+    <span>OPEN 6AM–11PM MON–SAT</span><span class="dot">●</span>
+    <span>SUNDAYS 8AM–8PM</span><span class="dot">●</span>
+    <span>FIRST WEEK FREE</span><span class="dot">●</span>
+    <span>NO CONTRACTS. CANCEL ANYTIME.</span><span class="dot">●</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <span class="icon">🏋️</span>
+      <span class="iron">IRON</span><span class="fuel">FUEL</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#schedule">Classes</a></li>
+      <li><a href="#membership">Membership</a></li>
+      <li><a href="#trainers">Trainers</a></li>
+      <li><a href="#transformations">Gallery</a></li>
+      <li><a href="#trial" class="nav-cta">Free Trial</a></li>
+    </ul>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#schedule">Classes</a>
+  <a href="#membership">Membership</a>
+  <a href="#trainers">Trainers</a>
+  <a href="#transformations">Gallery</a>
+  <a href="#trial" style="color:var(--accent);">Free Trial →</a>
+</div>
+
+<!-- HERO -->
+<section class="hero page-start" id="home">
+  <div class="hero-content reveal">
+    <div class="hero-headline">
+      <span class="line-white">FORGED</span>
+      <span class="line-white">NOT</span>
+      <span class="line-red">BORN.</span>
+    </div>
+    <p class="hero-sub">Results don't care about your excuses. Neither do we.</p>
+    <div class="hero-ctas">
+      <a href="#trial" class="btn-primary">Start Free Trial</a>
+      <a href="#membership" class="btn-outline">View Membership Plans</a>
+    </div>
+    <p class="hero-disclaimer">No contracts. Cancel anytime.</p>
+  </div>
+  <div class="hero-visual">
+    <div class="fig-wrap">
+      <div class="fig-glow"></div>
+      <div class="fig-ring fig-ring-1"></div>
+      <div class="fig-ring fig-ring-2"></div>
+      <div class="fig-head"></div>
+      <div class="fig-bar"></div>
+      <div class="fig-arm-l"></div>
+      <div class="fig-arm-r"></div>
+      <div class="fig-torso"></div>
+      <div class="fig-leg-l"></div>
+      <div class="fig-leg-r"></div>
+      <div class="fig-line fig-line-1"></div>
+      <div class="fig-line fig-line-2"></div>
+      <div class="fig-diamond fig-diamond-1"></div>
+      <div class="fig-diamond fig-diamond-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SCHEDULE -->
+<section class="schedule-section" id="schedule">
+  <div class="section-heading reveal">/ Weekly Classes</div>
+  <div class="section-title reveal">Train Every Day.</div>
+  <div class="reveal" style="overflow-x:auto;">
+    <table class="schedule-table">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Monday</th>
+          <th>Tuesday</th>
+          <th>Wednesday</th>
+          <th>Thursday</th>
+          <th>Friday</th>
+          <th>Saturday</th>
+          <th>Sunday</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>6:00 AM</td>
+          <td><div class="class-cell"><strong>CrossFit</strong><small>Arjun C.</small></div></td>
+          <td><div class="class-cell"><strong>Strength</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>CrossFit</strong><small>Arjun C.</small></div></td>
+          <td><div class="class-cell"><strong>HIIT</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>CrossFit</strong><small>Arjun C.</small></div></td>
+          <td><div class="class-cell"><strong>Boxing</strong><small>Dev R.</small></div></td>
+          <td class="cell-empty">—</td>
+        </tr>
+        <tr>
+          <td>8:00 AM</td>
+          <td><div class="class-cell"><strong>HIIT</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>Yoga</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>Zumba</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>Strength</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>HIIT</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>CrossFit</strong><small>Arjun C.</small></div></td>
+          <td><div class="class-cell"><strong>Yoga</strong><small>Nisha M.</small></div></td>
+        </tr>
+        <tr>
+          <td>6:00 PM</td>
+          <td><div class="class-cell"><strong>Boxing</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>CrossFit</strong><small>Arjun C.</small></div></td>
+          <td><div class="class-cell"><strong>Strength</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>Boxing</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>Zumba</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>HIIT</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>Strength</strong><small>Dev R.</small></div></td>
+        </tr>
+        <tr>
+          <td>8:00 PM</td>
+          <td><div class="class-cell"><strong>Strength</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>HIIT</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>CrossFit</strong><small>Arjun C.</small></div></td>
+          <td><div class="class-cell"><strong>Yoga</strong><small>Nisha M.</small></div></td>
+          <td><div class="class-cell"><strong>Boxing</strong><small>Dev R.</small></div></td>
+          <td><div class="class-cell"><strong>Zumba</strong><small>Nisha M.</small></div></td>
+          <td class="cell-empty">—</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- MEMBERSHIP -->
+<section class="membership-section" id="membership">
+  <div class="section-heading reveal">/ Choose Your Plan</div>
+  <div class="section-title reveal">No Fluff. Just Results.</div>
+  <div class="plans-grid">
+    <div class="plan-card reveal">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">₹799<span>/month</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Full gym floor access</li>
+        <li>Personal locker</li>
+        <li>Basic equipment usage</li>
+        <li>Open from 6AM daily</li>
+        <li>Fitness assessment (1x)</li>
+      </ul>
+      <a href="#trial" class="plan-btn plan-btn-outline">Get Started</a>
+    </div>
+    <div class="plan-card featured reveal" style="transition-delay:0.1s">
+      <div class="recommended-badge">Most Popular</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">₹1,299<span>/month</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Starter</li>
+        <li>All group classes</li>
+        <li>2 PT sessions/month</li>
+        <li>Towel service</li>
+        <li>App workout tracking</li>
+        <li>Guest pass (1/month)</li>
+      </ul>
+      <a href="#trial" class="plan-btn plan-btn-filled">Join Pro</a>
+    </div>
+    <div class="plan-card reveal" style="transition-delay:0.2s">
+      <div class="plan-name">Elite</div>
+      <div class="plan-price">₹1,999<span>/month</span></div>
+      <div class="plan-divider"></div>
+      <ul class="plan-features">
+        <li>Everything in Pro</li>
+        <li>Unlimited PT sessions</li>
+        <li>Custom nutrition plan</li>
+        <li>Priority class booking</li>
+        <li>Body composition scans</li>
+        <li>VIP locker room access</li>
+      </ul>
+      <a href="#trial" class="plan-btn plan-btn-outline">Go Elite</a>
+    </div>
+  </div>
+</section>
+
+<!-- TRANSFORMATIONS -->
+<section class="transform-section" id="transformations">
+  <div class="section-heading reveal">/ Real Results. Real People.</div>
+  <div class="section-title reveal">No Filters. No Excuses.</div>
+  <div class="transform-grid">
+    <div class="transform-card reveal">
+      <div class="transform-halves">
+        <div class="transform-before">
+          <div class="transform-before-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+        <div class="transform-after">
+          <div class="transform-after-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="transform-body">
+        <div class="transform-name">Rohan M.</div>
+        <div class="transform-stat">−18 kg</div>
+        <div class="transform-duration">90 Days · CrossFit + HIIT</div>
+      </div>
+    </div>
+    <div class="transform-card reveal" style="transition-delay:0.1s">
+      <div class="transform-halves">
+        <div class="transform-before">
+          <div class="transform-before-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+        <div class="transform-after">
+          <div class="transform-after-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="transform-body">
+        <div class="transform-name">Priya S.</div>
+        <div class="transform-stat">+8 kg muscle</div>
+        <div class="transform-duration">6 Months · Strength Program</div>
+      </div>
+    </div>
+    <div class="transform-card reveal" style="transition-delay:0.2s">
+      <div class="transform-halves">
+        <div class="transform-before">
+          <div class="transform-before-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+        <div class="transform-after">
+          <div class="transform-after-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="transform-body">
+        <div class="transform-name">Karan T.</div>
+        <div class="transform-stat">−24 kg</div>
+        <div class="transform-duration">5 Months · Elite Program</div>
+      </div>
+    </div>
+    <div class="transform-card reveal" style="transition-delay:0.3s">
+      <div class="transform-halves">
+        <div class="transform-before">
+          <div class="transform-before-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+        <div class="transform-after">
+          <div class="transform-after-icon">
+            <div class="t-head"></div>
+            <div class="t-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="transform-body">
+        <div class="transform-name">Ananya R.</div>
+        <div class="transform-stat">+12 kg muscle</div>
+        <div class="transform-duration">8 Months · Strength + Nutrition</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRAINERS -->
+<section class="trainers-section" id="trainers">
+  <div class="section-heading reveal">/ Our Coaches</div>
+  <div class="section-title reveal">Trained. Certified. Committed.</div>
+  <div class="trainers-grid">
+    <div class="trainer-card reveal">
+      <div class="trainer-avatar" style="background: linear-gradient(135deg,#7f1d1d,#ef4444);">AC</div>
+      <div class="trainer-name">Arjun Chauhan</div>
+      <div class="trainer-role">Head Coach</div>
+      <div class="trainer-cert">CrossFit L2 Certified · ACE Personal Trainer<br>10+ years of coaching experience</div>
+      <a href="#trial" class="trainer-link">Book Session</a>
+    </div>
+    <div class="trainer-card reveal" style="transition-delay:0.1s">
+      <div class="trainer-avatar" style="background: linear-gradient(135deg,#1a0000,#7f1d1d);">NM</div>
+      <div class="trainer-name">Nisha Malhotra</div>
+      <div class="trainer-role">Nutrition & HIIT</div>
+      <div class="trainer-cert">ISSA Nutritionist · HIIT Specialist<br>7 years · 300+ clients transformed</div>
+      <a href="#trial" class="trainer-link">Book Session</a>
+    </div>
+    <div class="trainer-card reveal" style="transition-delay:0.2s">
+      <div class="trainer-avatar" style="background: linear-gradient(135deg,#450a0a,#b91c1c);">DR</div>
+      <div class="trainer-name">Dev Rajput</div>
+      <div class="trainer-role">Strength & Conditioning</div>
+      <div class="trainer-cert">NSCA-CSCS Certified · Boxing Coach<br>Former national powerlifting athlete</div>
+      <a href="#trial" class="trainer-link">Book Session</a>
+    </div>
+  </div>
+</section>
+
+<!-- FREE TRIAL CTA -->
+<section class="trial-section" id="trial">
+  <div class="reveal">
+    <div class="trial-heading">Your First Week is On Us.</div>
+    <p class="trial-sub">Walk in any day, any class. No commitment, no card required. Just show up.</p>
+    <a href="#" class="trial-btn">Claim Free Trial</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="#" class="footer-logo">
+        <span style="font-size:18px;">🏋️</span>
+        <span class="iron" style="color:#fff;">IRON</span><span style="color:var(--accent);">FUEL</span>
+      </a>
+      <p class="footer-tagline">Forged, Not Born.<br>IronFuel Performance Gym<br>Koregaon Park, Pune 411001</p>
+      <p class="footer-integrity">No contracts. Integrity guaranteed.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Classes</h4>
+      <a href="#schedule">CrossFit</a>
+      <a href="#schedule">HIIT</a>
+      <a href="#schedule">Boxing</a>
+      <a href="#schedule">Strength</a>
+      <a href="#schedule">Zumba</a>
+      <a href="#schedule">Yoga</a>
+    </div>
+    <div class="footer-col">
+      <h4>Hours</h4>
+      <p>Mon–Sat: 6AM–11PM</p>
+      <p>Sunday: 8AM–8PM</p>
+      <p style="margin-top:16px; color: var(--accent); font-size:12px;">OPEN 365 DAYS</p>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="#">+91 98765 43210</a>
+      <a href="#">info@ironfuel.in</a>
+      <div class="footer-socials" style="margin-top:10px;">
+        <a href="#">IG</a>
+        <a href="#">YT</a>
+        <a href="#">FB</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 IronFuel Performance Gym. All rights reserved.</p>
+    <p>Koregaon Park, Pune 411001</p>
+  </div>
+</footer>
+
+<!-- BADGE -->
+<a href="/" style="position:fixed;bottom:20px;right:20px;background:#e8c547;color:#080808;font-size:10px;padding:7px 14px;font-family:monospace;font-weight:700;text-decoration:none;z-index:999;letter-spacing:0.06em;">Built by script.in ↗</a>
+
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Mobile menu close on link click
+  document.querySelectorAll('.mobile-menu a').forEach(link => {
+    link.addEventListener('click', () => {
+      document.getElementById('mobileMenu').classList.remove('open');
+    });
+  });
+
+  // Sticky nav top offset adjustment on scroll (ticker disappears from view on scroll)
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 36) {
+      nav.style.top = '0';
+    } else {
+      nav.style.top = '36px';
+    }
+  });
+</script>
+</body>
+</html>

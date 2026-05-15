@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Voltage Creative – We Don't Make Ads. We Make Culture.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #050505;
+      --surface: #0f0f0f;
+      --text: #f0f0f0;
+      --text-dim: #555;
+      --accent: #ff2d55;
+      --accent2: #f5e642;
+      --accent3: #00f5d4;
+    }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      cursor: default;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 64px;
+      background: transparent;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(5,5,5,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .nav-logo .v { color: var(--accent); }
+    .nav-logo .c { color: var(--accent2); }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(240,240,240,0.5);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid rgba(255,45,85,0.4);
+      padding: 8px 18px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--accent); color: var(--bg); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 100px 48px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+    }
+    .hero-blob-1 {
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(255,45,85,0.18) 0%, transparent 70%);
+      top: -100px; right: -100px;
+      animation: blobFloat1 8s ease-in-out infinite;
+    }
+    .hero-blob-2 {
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(245,230,66,0.1) 0%, transparent 70%);
+      bottom: 0; left: 100px;
+      animation: blobFloat2 11s ease-in-out infinite;
+    }
+    .hero-blob-3 {
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(0,245,212,0.08) 0%, transparent 70%);
+      top: 40%; left: 40%;
+      animation: blobFloat3 14s ease-in-out infinite;
+    }
+
+    @keyframes blobFloat1 {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(-40px, 30px) scale(1.08); }
+    }
+    @keyframes blobFloat2 {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(30px, -40px) scale(1.05); }
+    }
+    @keyframes blobFloat3 {
+      0%, 100% { transform: translate(0,0); }
+      33% { transform: translate(20px, -20px); }
+      66% { transform: translate(-20px, 20px); }
+    }
+
+    .hero-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-pre {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-pre::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero-line1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(56px, 9vw, 120px);
+      line-height: 0.88;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      display: block;
+    }
+
+    .hero-line2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(80px, 14vw, 180px);
+      line-height: 0.82;
+      letter-spacing: -0.03em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 40px;
+    }
+
+    .hero-sub {
+      font-size: clamp(15px, 2vw, 20px);
+      color: rgba(240,240,240,0.55);
+      max-width: 560px;
+      line-height: 1.6;
+      font-weight: 300;
+      margin-bottom: 60px;
+    }
+    .hero-sub em { color: var(--accent2); font-style: normal; font-weight: 600; }
+
+    .hero-accent-line {
+      width: 80px;
+      height: 3px;
+      background: var(--accent2);
+      margin-bottom: 32px;
+    }
+
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .scroll-line {
+      width: 40px;
+      height: 1px;
+      background: var(--text-dim);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { width: 40px; opacity: 0.4; }
+      50% { width: 60px; opacity: 1; }
+    }
+
+    /* ── WORK ── */
+    #work {
+      padding: 100px 48px;
+      background: var(--bg);
+    }
+
+    .work-inner { max-width: 1280px; margin: 0 auto; }
+
+    .section-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 16px;
+    }
+
+    .work-heading {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 4vw, 52px);
+      letter-spacing: -0.02em;
+      margin-bottom: 56px;
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 280px;
+      gap: 12px;
+    }
+
+    .campaign-card {
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+      transition: transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .campaign-card:hover { transform: scale(0.98); }
+
+    .campaign-card:nth-child(1) { grid-column: span 7; background: linear-gradient(135deg, #1a0010 0%, #3d0020 100%); }
+    .campaign-card:nth-child(2) { grid-column: span 5; background: linear-gradient(135deg, #0a0a00 0%, #2d2800 100%); }
+    .campaign-card:nth-child(3) { grid-column: span 4; background: linear-gradient(135deg, #000a10 0%, #001a30 100%); }
+    .campaign-card:nth-child(4) { grid-column: span 4; background: linear-gradient(135deg, #050010 0%, #0f0030 100%); }
+    .campaign-card:nth-child(5) { grid-column: span 4; background: linear-gradient(135deg, #001010 0%, #002020 100%); }
+    .campaign-card:nth-child(6) { grid-column: span 12; background: linear-gradient(135deg, #0a0505 0%, #1a0a10 40%, #0a050a 100%); }
+
+    .campaign-card:nth-child(6) {
+      grid-auto-rows: initial;
+      height: 200px;
+    }
+
+    .card-bg-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(60px, 8vw, 120px);
+      color: rgba(255,255,255,0.03);
+      white-space: nowrap;
+      letter-spacing: -0.03em;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .card-hover-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(255,45,85,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .campaign-card:hover .card-hover-overlay { opacity: 1; }
+
+    .card-content { position: relative; z-index: 1; }
+
+    .card-brand {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(240,240,240,0.45);
+      margin-bottom: 6px;
+    }
+
+    .card-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(18px, 2.5vw, 26px);
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    .card-type {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      display: inline-block;
+    }
+    .campaign-card:nth-child(1) .card-type { background: var(--accent); color: #fff; }
+    .campaign-card:nth-child(2) .card-type { background: var(--accent2); color: #050505; }
+    .campaign-card:nth-child(3) .card-type { background: var(--accent3); color: #050505; }
+    .campaign-card:nth-child(4) .card-type { background: #a855f7; color: #fff; }
+    .campaign-card:nth-child(5) .card-type { background: var(--accent2); color: #050505; }
+    .campaign-card:nth-child(6) .card-type { background: var(--accent); color: #fff; }
+
+    /* ── SERVICES ── */
+    #services {
+      background: #f0f0f0;
+      padding: 100px 48px;
+    }
+
+    .services-inner { max-width: 1280px; margin: 0 auto; }
+
+    .services-top {
+      margin-bottom: 72px;
+    }
+
+    .services-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(5,5,5,0.4);
+      margin-bottom: 16px;
+    }
+
+    .services-heading {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 400;
+      color: #050505;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .services-heading em { font-style: italic; color: #333; }
+
+    .services-blocks {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid rgba(5,5,5,0.12);
+    }
+
+    .service-block {
+      padding: 48px 40px 48px 0;
+      border-right: 1px solid rgba(5,5,5,0.12);
+      position: relative;
+    }
+    .service-block:last-child { border-right: none; padding-right: 0; padding-left: 40px; }
+    .service-block:nth-child(2) { padding-left: 40px; }
+
+    .service-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(5,5,5,0.25);
+      letter-spacing: 0.1em;
+      margin-bottom: 20px;
+    }
+
+    .service-title-light {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(20px, 2.5vw, 28px);
+      color: #050505;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      line-height: 1.1;
+    }
+    .service-title-light .accent-y { color: #c9a800; }
+    .service-title-light .accent-p { color: var(--accent); }
+
+    .service-desc-light {
+      font-size: 15px;
+      color: rgba(5,5,5,0.55);
+      line-height: 1.7;
+    }
+
+    /* ── STUDIO ── */
+    #studio {
+      background: var(--bg);
+      padding: 100px 48px;
+    }
+
+    .studio-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .studio-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 20px;
+    }
+
+    .studio-heading {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 4vw, 52px);
+      letter-spacing: -0.02em;
+      margin-bottom: 28px;
+      line-height: 1.05;
+    }
+    .studio-heading span { color: var(--accent); }
+
+    .studio-para {
+      font-size: 16px;
+      color: rgba(240,240,240,0.55);
+      line-height: 1.75;
+      margin-bottom: 20px;
+    }
+
+    .studio-stat-row {
+      display: flex;
+      gap: 40px;
+      margin-top: 36px;
+      padding-top: 36px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .studio-stat { }
+    .studio-stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      color: var(--accent2);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .studio-stat-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .word-cloud {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+    }
+
+    .wc-word {
+      position: absolute;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      animation: wordFloat linear infinite;
+      white-space: nowrap;
+      opacity: 0.85;
+    }
+
+    @keyframes wordFloat {
+      0% { transform: translateY(0px) rotate(var(--rot)); opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { transform: translateY(var(--travel)) rotate(var(--rot)); opacity: 0.6; }
+    }
+
+    /* ── TICKER ── */
+    #ticker {
+      background: var(--surface);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      padding: 20px 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .ticker-track {
+      display: inline-flex;
+      gap: 0;
+      animation: ticker 22s linear infinite;
+    }
+
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      padding: 0 32px;
+    }
+
+    .ticker-dot {
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-left: 32px;
+    }
+
+    /* ── CLOSING CTA ── */
+    #closing {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 100px 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .closing-blob {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 80% 20%, rgba(245,230,66,0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 20% 80%, rgba(255,45,85,0.07) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .closing-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .closing-line1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(52px, 9vw, 120px);
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      display: block;
+    }
+    .closing-line2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(52px, 9vw, 120px);
+      line-height: 0.88;
+      letter-spacing: -0.03em;
+      color: var(--accent2);
+      display: block;
+    }
+    .closing-line3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(36px, 6vw, 80px);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 64px;
+    }
+
+    .closing-contact {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .closing-email {
+      font-family: 'Space Grotesk', monospace;
+      font-size: clamp(14px, 2vw, 18px);
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+      border-bottom: 1px solid rgba(240,240,240,0.2);
+      padding-bottom: 4px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .closing-email:hover { color: var(--accent2); border-color: var(--accent2); }
+
+    .closing-wa {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent3);
+      text-decoration: none;
+      border: 1px solid rgba(0,245,212,0.3);
+      padding: 12px 24px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .closing-wa:hover { background: var(--accent3); color: var(--bg); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #020202;
+      padding: 40px 48px;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      text-decoration: none;
+    }
+    .footer-logo .v { color: var(--accent); }
+    .footer-logo .c { color: var(--accent2); }
+
+    .footer-locs {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+
+    /* ── REVEAL ANIMATIONS ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+    .reveal-left.visible { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.3s; }
+    .reveal-d4 { transition-delay: 0.4s; }
+    .reveal-d5 { transition-delay: 0.5s; }
+    .reveal-d6 { transition-delay: 0.6s; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+
+      #hero, #work, #services, #studio, #closing, footer { padding-left: 20px; padding-right: 20px; }
+
+      .hero-line2 { font-size: clamp(72px, 18vw, 120px); }
+
+      .work-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-auto-rows: 220px;
+      }
+      .campaign-card:nth-child(1) { grid-column: span 2; }
+      .campaign-card:nth-child(2) { grid-column: span 2; }
+      .campaign-card:nth-child(6) { grid-column: span 2; }
+
+      .services-blocks { grid-template-columns: 1fr; }
+      .service-block { border-right: none; border-bottom: 1px solid rgba(5,5,5,0.12); padding: 36px 0; }
+      .service-block:last-child { padding-left: 0; }
+      .service-block:nth-child(2) { padding-left: 0; }
+
+      .studio-inner { grid-template-columns: 1fr; gap: 48px; }
+      .word-cloud { height: 280px; }
+
+      .footer-inner { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="mainNav">
+    <a href="/" class="nav-logo"><span class="v">VOLTAGE</span> <span class="c">CREATIVE</span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#studio">Studio</a></li>
+      <li><a href="#closing">Contact</a></li>
+    </ul>
+    <a href="#closing" class="nav-cta">Let's Talk</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-blob hero-blob-1"></div>
+    <div class="hero-blob hero-blob-2"></div>
+    <div class="hero-blob hero-blob-3"></div>
+    <div class="hero-inner">
+      <div class="hero-pre">Boutique Creative Agency &nbsp;·&nbsp; Pune</div>
+      <span class="hero-line1">WE DON'T MAKE</span>
+      <span class="hero-line2">ADS.</span>
+      <div class="hero-accent-line"></div>
+      <p class="hero-sub">We make culture. We make memories. We make you <em>impossible to ignore.</em></p>
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        Scroll to explore
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTED WORK -->
+  <section id="work">
+    <div class="work-inner">
+      <div class="section-tag reveal">/ Selected Work 2024</div>
+      <h2 class="work-heading reveal reveal-d1">Campaigns that <em style="color:var(--accent);font-style:normal;">moved</em> people.</h2>
+      <div class="work-grid">
+        <div class="campaign-card reveal reveal-d1">
+          <div class="card-bg-text">HUNGER</div>
+          <div class="card-hover-overlay">View →</div>
+          <div class="card-content">
+            <div class="card-brand">Zomato</div>
+            <div class="card-name">The Hunger Games</div>
+            <span class="card-type">Brand Rebrand</span>
+          </div>
+        </div>
+        <div class="campaign-card reveal reveal-d2">
+          <div class="card-bg-text">UNTAMED</div>
+          <div class="card-hover-overlay">View →</div>
+          <div class="card-content">
+            <div class="card-brand">Forest Essentials</div>
+            <div class="card-name">Untamed</div>
+            <span class="card-type">Campaign Film</span>
+          </div>
+        </div>
+        <div class="campaign-card reveal reveal-d3">
+          <div class="card-bg-text">FREQ</div>
+          <div class="card-hover-overlay">View →</div>
+          <div class="card-content">
+            <div class="card-brand">JBL India</div>
+            <div class="card-name">Frequency</div>
+            <span class="card-type">Product Launch</span>
+          </div>
+        </div>
+        <div class="campaign-card reveal reveal-d4">
+          <div class="card-bg-text">CLARITY</div>
+          <div class="card-hover-overlay">View →</div>
+          <div class="card-content">
+            <div class="card-brand">HDFC Bank</div>
+            <div class="card-name">Clarity</div>
+            <span class="card-type">Brand Strategy</span>
+          </div>
+        </div>
+        <div class="campaign-card reveal reveal-d5">
+          <div class="card-bg-text">NEON</div>
+          <div class="card-hover-overlay">View →</div>
+          <div class="card-content">
+            <div class="card-brand">H&amp;M India</div>
+            <div class="card-name">Neon Jungle</div>
+            <span class="card-type">Social Campaign</span>
+          </div>
+        </div>
+        <div class="campaign-card reveal reveal-d6" style="grid-column: span 12; height: 200px;">
+          <div class="card-bg-text">THE GREAT INDIAN SALE</div>
+          <div class="card-hover-overlay">View →</div>
+          <div class="card-content">
+            <div class="card-brand">Flipkart</div>
+            <div class="card-name">The Great Indian Sale</div>
+            <span class="card-type">Integrated Campaign</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <div class="services-inner">
+      <div class="services-top reveal">
+        <div class="services-label">/ What We Do</div>
+        <h2 class="services-heading">What We <em>Do</em></h2>
+      </div>
+      <div class="services-blocks">
+        <div class="service-block reveal reveal-d1">
+          <div class="service-num">01</div>
+          <div class="service-title-light"><span class="accent-p">Brand</span> Strategy &amp; Identity</div>
+          <p class="service-desc-light">We build brands from the inside out. Name, voice, visual system, positioning — crafted to own a space in culture, not just a shelf at retail.</p>
+        </div>
+        <div class="service-block reveal reveal-d2">
+          <div class="service-num">02</div>
+          <div class="service-title-light">Campaigns &amp; <span class="accent-y">Content</span></div>
+          <p class="service-desc-light">TV, digital, print, OOH, social-first — ideas that work across every medium because the idea itself is bulletproof before we pick a channel.</p>
+        </div>
+        <div class="service-block reveal reveal-d3">
+          <div class="service-num">03</div>
+          <div class="service-title-light">Digital &amp; <span class="accent-p">Performance</span></div>
+          <p class="service-desc-light">Scroll-stopping creative for Meta, Google, YouTube, and beyond. We're not just pretty — every pixel is engineered to convert and scale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STUDIO -->
+  <section id="studio">
+    <div class="studio-inner">
+      <div>
+        <div class="studio-tag reveal">/ About the Studio</div>
+        <h2 class="studio-heading reveal reveal-d1">12 people.<br /><span>Zero</span> fluff.</h2>
+        <p class="studio-para reveal reveal-d2">Voltage Creative is a boutique creative studio based in Pune. We're 12 people obsessively focused on one thing: making work that matters. No account managers playing telephone. No death by committee. Just smart strategists and fearless creatives, working directly with you.</p>
+        <p class="studio-para reveal reveal-d3">We've partnered with some of India's most recognizable brands and a handful of brave startups who bet on creativity. Every project, big or small, gets our full attention.</p>
+        <div class="studio-stat-row reveal reveal-d4">
+          <div class="studio-stat">
+            <div class="studio-stat-num">12</div>
+            <div class="studio-stat-label">Creatives</div>
+          </div>
+          <div class="studio-stat">
+            <div class="studio-stat-num">9yr</div>
+            <div class="studio-stat-label">In Business</div>
+          </div>
+          <div class="studio-stat">
+            <div class="studio-stat-num">60+</div>
+            <div class="studio-stat-label">Brands Served</div>
+          </div>
+        </div>
+      </div>
+      <div class="word-cloud reveal reveal-d2" id="wordCloud" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div id="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item">Zomato<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Flipkart<span class="ticker-dot"></span></span>
+      <span class="ticker-item">HDFC Bank<span class="ticker-dot"></span></span>
+      <span class="ticker-item">JBL India<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Forest Essentials<span class="ticker-dot"></span></span>
+      <span class="ticker-item">H&amp;M India<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Ola<span class="ticker-dot"></span></span>
+      <span class="ticker-item">CRED<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Razorpay<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Swiggy<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Zomato<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Flipkart<span class="ticker-dot"></span></span>
+      <span class="ticker-item">HDFC Bank<span class="ticker-dot"></span></span>
+      <span class="ticker-item">JBL India<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Forest Essentials<span class="ticker-dot"></span></span>
+      <span class="ticker-item">H&amp;M India<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Ola<span class="ticker-dot"></span></span>
+      <span class="ticker-item">CRED<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Razorpay<span class="ticker-dot"></span></span>
+      <span class="ticker-item">Swiggy<span class="ticker-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- CLOSING CTA -->
+  <section id="closing">
+    <div class="closing-blob"></div>
+    <div class="closing-inner">
+      <span class="closing-line1 reveal">LET'S MAKE</span>
+      <span class="closing-line2 reveal reveal-d1">SOMETHING</span>
+      <span class="closing-line3 reveal reveal-d2">WORTH TALKING ABOUT.</span>
+      <div class="closing-contact reveal reveal-d3">
+        <a href="mailto:hello@voltagecreative.in" class="closing-email">hello@voltagecreative.in</a>
+        <a href="https://wa.me/919876543210" class="closing-wa">WhatsApp ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <a href="/" class="footer-logo"><span class="v">VOLTAGE</span> <span class="c">CREATIVE</span></a>
+      <div class="footer-locs">Mumbai &nbsp;·&nbsp; Pune &nbsp;·&nbsp; Remote</div>
+      <div class="footer-copy">© 2024 Voltage Creative. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <!-- BADGE -->
+  <a href="/" style="position:fixed;bottom:20px;right:20px;background:#e8c547;color:#080808;font-size:10px;padding:7px 14px;font-family:monospace;font-weight:700;text-decoration:none;z-index:999;letter-spacing:0.06em;">Built by script.in ↗</a>
+
+  <script>
+    // ── Scroll-reveal ──
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObs.observe(el));
+
+    // ── Nav scroll class ──
+    const nav = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── Word cloud ──
+    const words = [
+      { text: 'Branding',  size: 32, color: '#ff2d55', x: 8,  y: 5  },
+      { text: 'Strategy',  size: 22, color: '#f5e642', x: 52, y: 2  },
+      { text: 'Copy',      size: 44, color: '#f0f0f0', x: 5,  y: 32 },
+      { text: 'Design',    size: 28, color: '#00f5d4', x: 55, y: 28 },
+      { text: 'Film',      size: 52, color: '#ff2d55', x: 20, y: 52 },
+      { text: 'Social',    size: 20, color: '#f5e642', x: 62, y: 55 },
+      { text: 'Identity',  size: 18, color: 'rgba(240,240,240,0.35)', x: 5, y: 70 },
+      { text: 'OOH',       size: 40, color: '#00f5d4', x: 48, y: 70 },
+      { text: 'Campaigns', size: 16, color: 'rgba(240,240,240,0.25)', x: 15, y: 88 },
+      { text: 'Digital',   size: 24, color: '#ff2d55', x: 60, y: 86 },
+    ];
+
+    const cloud = document.getElementById('wordCloud');
+    words.forEach((w, i) => {
+      const el = document.createElement('span');
+      el.className = 'wc-word';
+      el.textContent = w.text;
+      const travel = (i % 2 === 0) ? '-12px' : '12px';
+      const rot = (i % 3 === 0) ? '-2deg' : (i % 3 === 1 ? '1.5deg' : '0deg');
+      const dur = 3 + (i * 0.7) + 's';
+      el.style.cssText = `
+        left: ${w.x}%;
+        top: ${w.y}%;
+        font-size: ${w.size}px;
+        color: ${w.color};
+        --travel: ${travel};
+        --rot: ${rot};
+        animation-duration: ${dur};
+        animation-direction: ${i % 2 === 0 ? 'alternate' : 'alternate-reverse'};
+      `;
+      cloud.appendChild(el);
+    });
+  </script>
+</body>
+</html>
